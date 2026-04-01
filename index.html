@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roberto Florendo — IT Service Delivery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0f;
+      --surface:   #111118;
+      --card:      #16161f;
+      --border:    #ffffff0f;
+      --accent:    #00e5ff;
+      --accent2:   #7c6af7;
+      --text:      #e8e8f0;
+      --muted:     #6b6b80;
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── Noise overlay ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* ─── Grid lines ─── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 100px 0 80px;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.1s;
+    }
+
+    .hero-eyebrow::before {
+      content: '// ';
+      color: var(--muted);
+    }
+
+    .hero-name {
+      font-family: var(--font-head);
+      font-size: clamp(48px, 8vw, 82px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+
+    .hero-name span {
+      display: block;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(18px, 3vw, 24px);
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.3s;
+    }
+
+    .hero-summary {
+      font-size: 15px;
+      color: #c0c0d0;
+      max-width: 600px;
+      line-height: 1.85;
+      border-left: 2px solid var(--accent2);
+      padding-left: 20px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.4s;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.5s;
+    }
+
+    .hero-meta a {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .hero-meta a:hover { color: var(--accent); border-color: var(--accent); }
+
+    .years-badge {
+      position: absolute;
+      top: 110px;
+      right: 0;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--card);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      opacity: 0;
+      animation: fadeIn 0.8s ease forwards 0.7s;
+    }
+
+    .years-badge .num {
+      font-family: var(--font-head);
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .years-badge .label {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent2) 40%, var(--accent) 60%, transparent);
+      margin: 0 0 70px;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 0.6s;
+    }
+
+    /* ─── SECTION ─── */
+    section {
+      margin-bottom: 80px;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── SKILLS ─── */
+    .skills-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .skill-group {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 22px;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 12px;
+      align-items: start;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .skill-group:hover {
+      border-color: var(--accent2);
+      background: #1a1a26;
+    }
+
+    .skill-cat {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      padding-top: 2px;
+    }
+
+    .skill-items {
+      font-size: 13px;
+      color: #a0a0b8;
+      line-height: 1.6;
+    }
+
+    /* ─── CAREER ─── */
+    .career-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .career-item {
+      display: grid;
+      grid-template-columns: 1fr;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      padding-left: 22px;
+    }
+
+    .career-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 30px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .career-item:last-child { border-bottom: none; }
+
+    .career-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .career-role {
+      font-family: var(--font-head);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .career-period {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .career-company {
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .career-bullets {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .career-bullets li {
+      font-size: 13px;
+      color: #8888a0;
+      padding-left: 16px;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .career-bullets li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent2);
+    }
+
+    /* ─── CERTS ─── */
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 12px;
+    }
+
+    .cert-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cert-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .cert-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .cert-card:hover::before { opacity: 1; }
+
+    .cert-year {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      margin-bottom: 8px;
+    }
+
+    .cert-name {
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0 48px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1s;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 600px) {
+      .skill-group { grid-template-columns: 1fr; }
+      .years-badge { display: none; }
+      .hero { padding: 70px 0 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <p class="hero-eyebrow">IT Service Delivery Professional</p>
+    <h1 class="hero-name"><span>Roberto<br>Florendo</span></h1>
+    <p class="hero-title">Service Delivery Lead &amp; MSP Specialist</p>
+    <p class="hero-summary">
+      Experienced IT Service Delivery professional with 13 years across MSP, enterprise
+      and managed services environments. I've built service desks from scratch, owned SLAs
+      end to end, and led teams through significant operational change. I'm looking for a
+      role where there's genuine complexity to work through and room to grow.
+    </p>
+    <div class="hero-meta">
+      <a href="mailto:roberto.florendo@gmail.com">roberto.florendo@gmail.com</a>
+      <a href="tel:+61401262107">+61 401 262 107</a>
+    </div>
+    <div class="years-badge">
+      <span class="num">13</span>
+      <span class="label">years<br>experience</span>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label">Technical Skills</p>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <span class="skill-cat">Service Management</span>
+        <span class="skill-items">ServiceNow (extensive), FrontRange ITSM, Zendesk (incl. config &amp; workflow dev), HaloPSA</span>
+      </div>
+      <div class="skill-group">
+        <span class="skill-cat">RMM &amp; Endpoint</span>
+        <span class="skill-items">N-Able RMM, Microsoft Defender for Endpoint, Adlumin EDR</span>
+      </div>
+      <div class="skill-group">
+        <span class="skill-cat">Microsoft Stack</span>
+        <span class="skill-items">Microsoft 365, Defender for Endpoint, Conditional Access Policies, Intune, Windows OS</span>
+      </div>
+      <div class="skill-group">
+        <span class="skill-cat">Networking</span>
+        <span class="skill-items">Ubiquiti — firewall, switch &amp; access point setup, configuration and deployment</span>
+      </div>
+      <div class="skill-group">
+        <span class="skill-cat">Backup &amp; Recovery</span>
+        <span class="skill-items">Cove Backup, Synology (in progress)</span>
+      </div>
+      <div class="skill-group">
+        <span class="skill-cat">Communications</span>
+        <span class="skill-items">3CX — tenancy setup, call flow configuration, L1/L2 support</span>
+      </div>
+      <div class="skill-group">
+        <span class="skill-cat">General</span>
+        <span class="skill-items">Microsoft Office Suite, Active Directory, Microsoft Exchange</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAREER -->
+  <section id="career">
+    <p class="section-label">Career Highlights</p>
+    <div class="career-list">
+
+      <div class="career-item">
+        <div class="career-header">
+          <span class="career-role">Service Delivery Lead</span>
+          <span class="career-period">Jan 2026 – Present</span>
+        </div>
+        <div class="career-company">Conekt Australia</div>
+        <ul class="career-bullets">
+          <li>Proposed and built an in-house MSP service desk from zero — tool selection, process design, documentation, client onboarding and team recruitment.</li>
+          <li>Onboarded 3 managed services clients within the first 3 months of operation.</li>
+          <li>Implemented full tech stack: N-Able RMM, Adlumin EDR, Cove Backup, Zendesk, M365 security baselines and Conditional Access Policies.</li>
+          <li>Led recruitment and structured onboarding for new service desk staff.</li>
+        </ul>
+      </div>
+
+      <div class="career-item">
+        <div class="career-header">
+          <span class="career-role">Service Delivery Coordinator</span>
+          <span class="career-period">Jul 2024 – Jan 2026</span>
+        </div>
+        <div class="career-company">Conekt Australia</div>
+        <ul class="career-bullets">
+          <li>Expanded scope to include helpdesk strategy, QA and direct client support.</li>
+          <li>Managed MACs, IT hardware quotes, and collaborated with Sales and Directors on order compliance.</li>
+          <li>Drove continuous improvement with a focus on customer satisfaction and process efficiency.</li>
+        </ul>
+      </div>
+
+      <div class="career-item">
+        <div class="career-header">
+          <span class="career-role">Service Delivery Coordinator</span>
+          <span class="career-period">Oct 2023 – Jul 2024</span>
+        </div>
+        <div class="career-company">Conekt Australia</div>
+        <ul class="career-bullets">
+          <li>Managed end-to-end procurement of ICT, Managed Print and Automation solutions.</li>
+          <li>Led project planning and delivery including milestone tracking and stakeholder communication.</li>
+        </ul>
+      </div>
+
+      <div class="career-item">
+        <div class="career-header">
+          <span class="career-role">Service Delivery Coordinator</span>
+          <span class="career-period">Jul 2021 – Apr 2022</span>
+        </div>
+        <div class="career-company">DXC Technology</div>
+        <ul class="career-bullets">
+          <li>Managed onsite technical teams across multiple locations as technical and customer-facing escalation point.</li>
+          <li>Oversaw daily queue management and weekly SLA and financial performance reviews.</li>
+        </ul>
+      </div>
+
+      <div class="career-item">
+        <div class="career-header">
+          <span class="career-role">Service Delivery Manager</span>
+          <span class="career-period">Jul 2020 – Jul 2021</span>
+        </div>
+        <div class="career-company">DXC Technology</div>
+        <ul class="career-bullets">
+          <li>Held single service owner accountability for contractual SLA delivery across multiple delivery towers.</li>
+          <li>Managed labour and technology costs against Plan of Record to achieve target margin.</li>
+        </ul>
+      </div>
+
+      <div class="career-item">
+        <div class="career-header">
+          <span class="career-role">Service Desk Team Leader</span>
+          <span class="career-period">Feb 2015 – Jun 2020</span>
+        </div>
+        <div class="career-company">DXC Technology</div>
+        <ul class="career-bullets">
+          <li>Scaled the team from 5 to 25 analysts during a significant client expansion period.</li>
+          <li>Managed the transition from leveraged to dedicated service desk model.</li>
+          <li>Ran regular 1-on-1 coaching sessions focused on performance and career development.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CERTS -->
+  <section id="certifications">
+    <p class="section-label">Certifications &amp; Education</p>
+    <div class="certs-grid">
+      <div class="cert-card">
+        <div class="cert-year">2025</div>
+        <div class="cert-name">Microsoft Certified: Azure Fundamentals</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-year">2025</div>
+        <div class="cert-name">3CX Basic Certification</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-year">2013</div>
+        <div class="cert-name">EXIN ITIL V3 Foundation Certificate</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-year">2008–2009</div>
+        <div class="cert-name">Cert IV in Information Technology — Hornsby TAFE</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Roberto Florendo &nbsp;·&nbsp; Sydney, Australia &nbsp;·&nbsp; roberto.florendo@gmail.com</p>
+  </footer>
+
+</div>
+
+<script>
+  // Scroll-triggered section reveals
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('section').forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
