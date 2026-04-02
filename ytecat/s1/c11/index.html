@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — XI: Kira</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 11: Kira — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 11: Kira">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c11">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0806;
+      --card:    #1a1410;
+      --border:  #8b3a2a33;
+      --ember:   #c0392b;
+      --gold:    #c9a84c;
+      --ash:     #a09080;
+      --text:    #e8ddd0;
+      --muted:   #6b5a4e;
+      --font-title: 'Cinzel', serif;
+      --font-body:  'Crimson Pro', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 1.9;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,8,6,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .top-bar-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+    }
+
+    .top-bar-logo {
+      font-family: var(--font-title);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--ember);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .top-bar-logo:hover { color: var(--gold); }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-pill {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+
+    /* ── CONTENT ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 28px 80px;
+    }
+
+    .chapter-eyebrow {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .chapter-number {
+      font-family: var(--font-title);
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .chapter-title {
+      font-family: var(--font-title);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 400;
+      text-align: center;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .chapter-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent);
+      margin-bottom: 52px;
+    }
+
+    /* ── PROSE ── */
+    .chapter-body p {
+      margin-bottom: 1.4em;
+      color: #d0c4b8;
+      font-size: 20px;
+      line-height: 1.9;
+    }
+
+    .chapter-body p:first-child::first-letter {
+      font-family: var(--font-title);
+      font-size: 3.8em;
+      font-weight: 700;
+      float: left;
+      line-height: 0.78;
+      margin: 6px 10px 0 0;
+      color: var(--ember);
+    }
+
+    .scene-break {
+      text-align: center;
+      color: var(--ember);
+      font-size: 20px;
+      margin: 40px 0;
+      opacity: 0.5;
+      letter-spacing: 0.5em;
+    }
+
+    .chapter-subhead {
+      font-family: var(--font-title);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 40px 0 20px;
+    }
+
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+
+    /* ── BOTTOM NAV ── */
+    .chapter-footer {
+      margin-top: 70px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .ch-nav-btn {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    .ch-footer-title {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nav-pills { gap: 3px; }
+      .nav-pill { font-size: 9px; padding: 3px 6px; }
+      .wrap { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill active" title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 11</p>
+  <div class="chapter-number">XI</div>
+  <h1 class="chapter-title">Kira</h1>
+  <div class="chapter-divider"></div>
+
+  <div class="chapter-body">
+    <p>The two figures stopped a few metres away.</p>
+<p>For a moment nobody moved. Then Kira was off the bench and running, crossing the grass at full sprint, and the taller of the two figures caught him in a hug that suggested this was not an unusual occurrence.</p>
+<p>"Rask!" Kira's voice was muffled against the figure's cloak.</p>
+<p>The figure --- Rask --- held him for a moment, then stepped back and looked him over in the way of someone checking for damage. Satisfied, he straightened up.</p>
+<p>"I apologise for being late" he said. His voice was low and measured, each word placed with care. "We were held up."</p>
+<p>Kira accepted this with a nod, then turned and looked back at Hayate with the expression of someone who had something to report.</p>
+<p>Rask followed his gaze.</p>
+<p>"What was happening here?" he asked. Not unfriendly. Not entirely neutral either --- the question of someone who wanted a complete answer and would notice if they didn't get one.</p>
+<p>"He was keeping me company" Kira said. "And he explained how magic works. All the elements, and the affinities, and how everyone has at most two." He paused. "He showed me his. Dark and Wind."</p>
+<p>Rask looked at Hayate.</p>
+<p>Hayate could see the doubt moving through the eyes visible beneath the hood --- the reasonable, considered doubt of someone who had learned not to take things at face value, running the available information against what he was seeing and finding no obvious reason for alarm but not quite clearing it either. A moment passed. The doubt did not disappear but it settled.</p>
+<p>"Thank you" Rask said. "For keeping him company. And for keeping him safe."</p>
+<p>"He seemed like he needed the company" Hayate said. "I didn't do much."</p>
+<p>"You did more than you think." Rask glanced at Kira, then back at Hayate. "My name is Rask. This is my companion---" he gestured to the second hooded figure "---Freyja."</p>
+<p>The second figure inclined their head.</p>
+<p>"Hayate" said Hayate.</p>
+<p>Rask nodded once. "I apologise, but we have somewhere to be." He looked at Kira. "Is there anything you want to say?"</p>
+<p>Kira turned to Hayate. He stood up very straight, the way children do when they are being deliberate about something, and bowed his head.</p>
+<p>"Thank you! My name is Kira!"</p>
+<p>Hayate looked at him --- this kid who had spent the first twenty minutes of their acquaintance trying to end the conversation and had spent the rest of it completely absorbed in everything Hayate had to say, who had shown him his Wind affinity with the careful pride of someone sharing something important, who was now bowing with his whole small body like the manners mattered very much.</p>
+<p>Hayate smiled.</p>
+<p>He wasn't aware of it. It arrived without consulting him --- wide and genuine and entirely involuntary, the kind of smile that had nothing behind it except the simple fact of the moment.</p>
+<p>"It was a pleasure, Kira" he said.</p>
+<p>Kira straightened up, satisfied. Rask placed a hand briefly on the child's shoulder and guided him toward the park exit. The hooded figure called Freyja followed. At the entrance Kira looked back once and raised a hand.</p>
+<p>Hayate raised his back.</p>
+<p>They were gone.</p>
+<p>He sat on the bench for a moment longer. The park was quiet again. He noticed, belatedly, that he was still smiling, and had been for some time without knowing it.</p>
+<p>He got up and kept walking.</p>
+<p>He didn't intend to end up back at the weapons shop.</p>
+<p>He had been walking without a destination for the better part of an hour, moving through streets he hadn't seen yet, looking at things without any particular purpose, when the nondescript door presented itself between two market stalls with its small high window and its hand-lettered sign.</p>
+<p>wepons</p>
+<p>He went in.</p>
+<p>The shopkeeper was behind the counter this time without the panic --- looked up when the door opened, registered the face, and settled into something considerably more relaxed than their first meeting.</p>
+<p>"You again" he said. Not unfriendly. "Break it already?"</p>
+<p>"No" Hayate said. "Just exploring. Ended up here."</p>
+<p>The shopkeeper looked at him for a moment with mild curiosity. He set down what he was working on and extended a broad hand across the counter.</p>
+<p>"Well, welcome back. My name is Gerd."</p>
+<p>Hayate shook it. "Hayate."</p>
+<p>"Hayate." Gerd nodded as if filing it away. "Looking for anything in particular or just looking?"</p>
+<p>"Just looking" Hayate said. Then, after a moment --- "Actually --- your rapier section. Can I try some of them?"</p>
+<p>Gerd raised an eyebrow. "Thought you were the greatsword type."</p>
+<p>"I am. It's for someone else."</p>
+<p>Gerd gestured at the section along the left wall. "Help yourself."</p>
+<p>Hayate moved to the rapiers and started working through them --- pulling each one, checking the weight, running it through a slow deliberate pass the way Haruki did during training. He didn't know rapiers well enough to assess the quality of the steel or the craft of the balance. What he knew was the feel of Haruki's weapon --- the specific weight of it, the length, the way it moved in a hand when the person holding it knew what they were doing. He was looking for that feeling in another blade.</p>
+<p>He tried six. Put five back.</p>
+<p>The sixth he held a moment longer, moving it through the same slow pass a second time, then a third.</p>
+<p>"How much for this one?" he asked.</p>
+<p>Gerd looked at it. "For you --- twenty silver."</p>
+<p>Hayate set it back on the rack carefully. "I'll come back for it."</p>
+<p>Gerd nodded. No questions. Hayate thanked him and headed for the door.</p>
+<p>"Tell your brother to come in himself next time" Gerd called after him. "Save you the guesswork."</p>
+<p>Hayate stopped. Looked back.</p>
+<p>Gerd had already picked up what he was working on before, expression neutral, the picture of a man who had said nothing of particular significance.</p>
+<p>Hayate walked out.</p>
+<p>The light was going by the time he turned back toward the inn.</p>
+<p>He heard them before he saw them --- Haruki's voice, then Lyra's, coming from the street ahead. He rounded the corner and found them walking toward him, both of them considerably less clean than they had been that morning. Soot on Haruki's jacket. Something that might have been scorched earth on Lyra's sleeve. The particular dishevelled quality of people who had been doing something physical and were ready to stop doing it.</p>
+<p>Haruki looked at him. "How are you feeling?"</p>
+<p>"Fine" Hayate said. "What happened to you?"</p>
+<p>"Job" Haruki said simply.</p>
+<p>"Was it a fire job?"</p>
+<p>"There was fire involved, yes."</p>
+<p>Lyra looked at her sleeve and said nothing.</p>
+<p>They went back to the inn, cleaned up, and went to find dinner --- the three of them, moving through Akebono's evening streets with the easy quiet of people who had run out of the need to fill silence.</p>
+  </div>
+
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c10" class="ch-nav-btn">&#8592; X: Light Duty</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c12" class="ch-nav-btn">&#8594; XII: The Raid</a>
+  </div>
+</div>
+
+</body>
+</html>

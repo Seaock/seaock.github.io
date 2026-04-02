@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — XXX: Sorry</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 30: Sorry — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 30: Sorry">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c30">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0806; --card: #1a1410; --border: #8b3a2a33;
+      --ember: #c0392b; --gold: #c9a84c; --ash: #a09080;
+      --text: #e8ddd0; --muted: #6b5a4e;
+      --font-title: 'Cinzel', serif; --font-body: 'Crimson Pro', serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 20px; line-height: 1.9; min-height: 100vh; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; opacity: 0.6; }
+    .top-bar { position: sticky; top: 0; z-index: 100; background: rgba(13,8,6,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+    .top-bar-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; gap: 16px; padding: 12px 0; }
+    .top-bar-logo { font-family: var(--font-title); font-size: 12px; letter-spacing: 0.2em; color: var(--ember); text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+    .top-bar-logo:hover { color: var(--gold); }
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; }
+    .nav-pill { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.1em; color: var(--muted); text-decoration: none; padding: 4px 8px; border-radius: 2px; border: 1px solid transparent; transition: all 0.15s; white-space: nowrap; }
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+    .wrap { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 60px 28px 80px; }
+    .chapter-eyebrow { font-family: var(--font-title); font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--ember); margin-bottom: 16px; text-align: center; }
+    .chapter-number { font-family: var(--font-title); font-size: clamp(48px, 8vw, 80px); font-weight: 700; text-align: center; color: var(--text); line-height: 1; margin-bottom: 12px; letter-spacing: 0.1em; }
+    .chapter-title { font-family: var(--font-title); font-size: clamp(18px, 3vw, 26px); font-weight: 400; text-align: center; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 48px; }
+    .chapter-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent); margin-bottom: 52px; }
+    .chapter-body p { margin-bottom: 1.4em; color: #d0c4b8; font-size: 20px; line-height: 1.9; }
+    .chapter-body p:first-child::first-letter { font-family: var(--font-title); font-size: 3.8em; font-weight: 700; float: left; line-height: 0.78; margin: 6px 10px 0 0; color: var(--ember); }
+    .scene-break { text-align: center; color: var(--ember); font-size: 20px; margin: 40px 0; opacity: 0.5; letter-spacing: 0.5em; }
+    .chapter-subhead { font-family: var(--font-title); font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin: 40px 0 20px; }
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+    .chapter-footer { margin-top: 70px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .ch-nav-btn { font-family: var(--font-title); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: 10px 20px; border-radius: 2px; transition: all 0.2s; }
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+    .ch-footer-title { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-align: center; }
+    @media (max-width: 600px) { .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; } .nav-pills { gap: 3px; } .nav-pill { font-size: 9px; padding: 3px 6px; } .wrap { padding: 40px 20px 60px; } }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill active" title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 30</p>
+  <div class="chapter-number">XXX</div>
+  <h1 class="chapter-title">Sorry</h1>
+  <div class="chapter-divider"></div>
+  <div class="chapter-body">
+    <p>Haruki runs to Hayate. "You okay?"</p>
+<p>"Yeah, I'm good."</p>
+<p>Haruki extends his hand to heal the shoulder. Hayate grabs it before he can cast. "I'm good. Save your mana for when we need it."</p>
+<p>Haruki pauses. Drops his arm. Raises the other to offer his rapier. "We still need you in the fight and this is better than nothing."</p>
+<p>Hayate reluctantly takes the rapier in his left hand.</p>
+<p>Haruki bends down and picks up the greatsword.</p>
+<p>Haruki gripped the greatsword by the handle and felt the weight of it pull through his whole arm.</p>
+<p>Not because it was too heavy --- he had held it before, during training, during the sessions where Lyra had made them swap to understand each other's range. He knew the weight. But knowing a weight and taking it mid-fight, with a bleeding shoulder and forty demons still standing between him and the tree line, were different things entirely.</p>
+<p>He adjusted his grip. Found his footing. Swung it once experimentally and felt the arc pull through his whole body in a way the rapier never did.</p>
+<p><em>This is what he carries.</em></p>
+<p>Not just the sword. The aggression that lived inside the way it moved --- the commitment required, the decision made before the swing started that there was no taking it back, no adjustment, no second thought. You chose your target and you went. Every single time. Haruki had always understood that about Hayate intellectually, had watched it from beside him in a hundred fights, had accounted for it in every plan he made.</p>
+<p>He had not understood until now what it cost.</p>
+<p>The grief underneath it. The rage that was not really rage but something rawer --- the feeling of a ten year old boy standing in the ruins of everything he had ever loved, with nothing left to do but pick up a weapon and make sure it never happened again. Charging first because hesitating meant thinking, and thinking meant remembering, and remembering meant the ground coming up to meet you and not being able to get back up.</p>
+<p>Haruki gripped the greatsword tighter.</p>
+<p>He thought of Hayate at eleven years old, shaking so badly he could barely stand, looking at Haruki with eyes that were asking a question Haruki hadn't known how to answer. <em>What do we do now?</em></p>
+<p>He swung the greatsword and cleared three grunts in one arc and understood, for the first time, that his brother had never stopped asking that question. He had just learned to ask it louder.</p>
+<p>Across the field, Hayate held the rapier like it might break.</p>
+<p>He knew it wouldn't. He had watched that blade turn away strikes that should have broken it --- demon claws, a goblin chief's sword, the flat of the skeleton king's longsword. Time and again it had held. Haruki had chosen well, as he always did. Hayate knew this weapon the way you know something you have watched save someone you love, over and over, without fail.</p>
+<p>It felt nothing like his greatsword.</p>
+<p>It was light in a way that felt almost wrong, precise in a way that demanded something from him he wasn't sure he had --- patience in the swing, commitment to the point rather than the arc, the understanding that you did not clear space with this weapon, you found a specific gap and you put the blade through it and nowhere else.</p>
+<p><em>This is what he carries.</em></p>
+<p>The responsibility of it settled over him slowly, the way cold water did. Every decision made twice --- once for himself, once for the person standing next to him. Every situation assessed before acted on. Every reaction held behind the teeth until it had been examined and found useful. The question running underneath all of it, constant and quiet, the thing that kept the calm in place when everything was falling apart ---</p>
+<p><em>What would father do?</em></p>
+<p>Hayate's throat tightened.</p>
+<p>He had not thought about his father in months. He had not let himself. Thinking about his father meant thinking about the morning of the attack, meant thinking about what they had come home to find, meant the specific and unbearable memory of Haruki's face in the aftermath --- not grief, not yet, because there wasn't time for grief, because someone had to hold it together and Haruki had looked at Hayate and made a decision so quietly that Hayate hadn't even seen him make it.</p>
+<p>He had just become steady. Overnight. Because someone had to be.</p>
+<p>Hayate drove the rapier through a gap in a grunt's guard --- precise, controlled, exactly where it needed to go --- and felt something shift in his chest that he didn't have a word for.</p>
+<p>He glanced across at Haruki, who was moving through the grunts with the greatsword in wide, unfamiliar arcs that were nevertheless working, and thought --- *he has been doing this since we were children. He has never once put it down.*</p>
+<p>He looked back at the fight in front of him.</p>
+<p>He said nothing. There was nothing to say that the weapons hadn't already said.</p>
+<p>But when Haruki called a position a moment later, Hayate was already moving to it before the words finished, and the gap between where one of them ended and the other began had never been smaller.</p>
+<p>Lyra watches in amazement. They had swapped weapons --- she could see that much --- and neither of them had slowed. The greatsword in Haruki's hands moved differently than it did in Hayate's, more measured, less brutal, but it was working. The rapier in Hayate's hands found gaps it had no business finding given who was holding it. They moved around each other like they were sharing a single thought.</p>
+<p>She had never seen anything like it. She wasn't sure she ever would again.</p>
+<p>Lyra, distracted by the brothers' dance, drops her guard for a brief moment and catches an arrow to her left thigh. She winces and kneels. Haruki stops and checks. She gets up. "It's nothing, just a flesh wound."</p>
+<p>Haruki pauses in thought. He considers their available options, then whispers something to Lyra. Hayate cannot hear. Neither can the reader. It will be revealed later.</p>
+<p>Lyra: "Are you sure?"</p>
+<p>Haruki: "We don't have time for me to explain. You'll just need to trust me."</p>
+<p>Lyra nods.</p>
+<p>Haruki yells to Hayate: "Follow Lyra. She knows the plan. Do not go off on your own again."</p>
+<p>Hayate agrees.</p>
+<p>Haruki casts Flame Wave --- a conical wall of fire that pushes enemies back --- to create distance. Then turns and creates another Flame Wall to connect the split party.</p>
+<p>"GO! Proceed as planned. Hayate, stick with Lyra --- that's an order."</p>
+<p>Lyra grabs Hayate's hand and pulls him. They run through the Flame Wall. It collapses section by section behind them --- Haruki conserving mana.</p>
+<p>Haruki turns back toward the demons. He smiles.</p>
+<p>Gallu: "We've been through this. None of you are getting out alive."</p>
+<p>Zaqaru and the remaining demons laugh.</p>
+<p>Haruki begins to glow with light. Embers snap outward from his body.</p>
+<p>"You won't have a choice in it."</p>
+<p>As soon as Hayate and Lyra reach the rest of the party, Lyra yells: "Make for the treeline. Haruki has a plan!"</p>
+<p>Rask casts Wildfire --- a powerful beam of fire enhanced by wind --- to clear a path. "Let's go!" The party sprints.</p>
+<p>Back to Haruki. The light intensifies. Flames pour from him. The demons are blinded --- light passing through their eyelids. The front rank begins to catch fire.</p>
+<p>The party reaches the treeline. Lyra yells to keep running, back to Kibou, full speed. Hayate and Freyja protest --- they need to go back. Lyra says it's part of his plan. He intends to meet them at the inn. She'll explain on the move.</p>
+<p>Hayate hesitates. Remembers: <em>"Proceed as planned. Stick with Lyra."</em> He puts his hand on Freyja's shoulder. "Haruki has a plan. He always does."</p>
+<p>Freyja nods. They sprint.</p>
+<p>Back to Haruki. Gallu, blinded, walks forward anyway. Swings the hammer aimlessly --- takes out his own men. Gets closer. His body begins to sear from the light.</p>
+<p>"I'm sorry, Hayate. Live on and carry my will."</p>
+<p>Haruki activates Supernova --- Light and Fire mixed with his own life energy. A devastating explosion, akin to its namesake.</p>
+<p>The explosion engulfs the entire village and most of the demon army. It expands. Then collapses. A giant crater remains.</p>
+<p>Back to the party, running at full speed. They hear the explosion. Then silence. They want to turn back. They keep running. They've gotten this far because of him.</p>
+  </div>
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c29" class="ch-nav-btn">&#8592; XXIX: Overwhelmed</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c31" class="ch-nav-btn">XXXI: Okay &#8594;</a>
+  </div>
+</div>
+</body>
+</html>

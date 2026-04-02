@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — XXIX: Overwhelmed</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 29: Overwhelmed — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 29: Overwhelmed">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c29">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0806; --card: #1a1410; --border: #8b3a2a33;
+      --ember: #c0392b; --gold: #c9a84c; --ash: #a09080;
+      --text: #e8ddd0; --muted: #6b5a4e;
+      --font-title: 'Cinzel', serif; --font-body: 'Crimson Pro', serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 20px; line-height: 1.9; min-height: 100vh; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; opacity: 0.6; }
+    .top-bar { position: sticky; top: 0; z-index: 100; background: rgba(13,8,6,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+    .top-bar-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; gap: 16px; padding: 12px 0; }
+    .top-bar-logo { font-family: var(--font-title); font-size: 12px; letter-spacing: 0.2em; color: var(--ember); text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+    .top-bar-logo:hover { color: var(--gold); }
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; }
+    .nav-pill { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.1em; color: var(--muted); text-decoration: none; padding: 4px 8px; border-radius: 2px; border: 1px solid transparent; transition: all 0.15s; white-space: nowrap; }
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+    .wrap { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 60px 28px 80px; }
+    .chapter-eyebrow { font-family: var(--font-title); font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--ember); margin-bottom: 16px; text-align: center; }
+    .chapter-number { font-family: var(--font-title); font-size: clamp(48px, 8vw, 80px); font-weight: 700; text-align: center; color: var(--text); line-height: 1; margin-bottom: 12px; letter-spacing: 0.1em; }
+    .chapter-title { font-family: var(--font-title); font-size: clamp(18px, 3vw, 26px); font-weight: 400; text-align: center; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 48px; }
+    .chapter-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent); margin-bottom: 52px; }
+    .chapter-body p { margin-bottom: 1.4em; color: #d0c4b8; font-size: 20px; line-height: 1.9; }
+    .chapter-body p:first-child::first-letter { font-family: var(--font-title); font-size: 3.8em; font-weight: 700; float: left; line-height: 0.78; margin: 6px 10px 0 0; color: var(--ember); }
+    .scene-break { text-align: center; color: var(--ember); font-size: 20px; margin: 40px 0; opacity: 0.5; letter-spacing: 0.5em; }
+    .chapter-subhead { font-family: var(--font-title); font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin: 40px 0 20px; }
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+    .chapter-footer { margin-top: 70px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .ch-nav-btn { font-family: var(--font-title); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: 10px 20px; border-radius: 2px; transition: all 0.2s; }
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+    .ch-footer-title { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-align: center; }
+    @media (max-width: 600px) { .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; } .nav-pills { gap: 3px; } .nav-pill { font-size: 9px; padding: 3px 6px; } .wrap { padding: 40px 20px 60px; } }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill active" title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 29</p>
+  <div class="chapter-number">XXIX</div>
+  <h1 class="chapter-title">Overwhelmed</h1>
+  <div class="chapter-divider"></div>
+  <div class="chapter-body">
+    <p>Scene starts off with the main party, continuing to fight, holding the line. Haruki keeps an eye on both Gallu and Zaqaru. He can see that they are slowly thinning the numbers. He suspects that once the numbers get smaller, Zaqaru and Gallu will likely join the fight.</p>
+<p>Hayate looks around to assess how many more demons they have left to kill, and notices that Lyra is not within sight. He looks to his right and sees a small group of demons about 40 meters away, all clumped up and facing away from them. Instinctively he knew --- Lyra had been separated. Without hesitation, he tries to use Shadow Step. Too far. He uses Tailwind instead --- a gust of wind that propels him upward and diagonally toward Lyra's location --- and leaps over the blocking demons.</p>
+<p>He lands on the demon closest to Lyra, crushing its skull with his fist. A small crater where he lands. He swings, cleanly takes out two, clips a third. Jumps back and lands beside her.</p>
+<p>"You okay?"</p>
+<p>Lyra breathes a sigh of relief. "Yeah, got lost looking for the bathroom."</p>
+<p>Hayate smiles. "Let's make our way back."</p>
+<p>Lyra puts the bow away and draws the dagger in reverse grip. She considers Dawnbless but decides to conserve mana. Zaqaru and Gallu are still on the field.</p>
+<p>Gallu sees them on the outskirts and misreads --- thinks they're fleeing. He teleports ten metres behind them. "Trying to escape? I haven't had my fill yet." Zaqaru follows. Gallu extends his left hand --- dark mist erupts. When it clears: another hundred demon grunts.</p>
+<p>Hayate and Lyra stand back to back, surrounded. Hayate, broken voice: "Heh. Bring more." Everyone sees through it.</p>
+<p>Haruki can't see this --- too many demons in the way. But Gallu and Zaqaru disappearing tells him enough. He tells the party to hold the line.</p>
+<p>He casts Flame Wall --- connecting the two locations --- and runs through it. He arrives and sees the second horde of one hundred.</p>
+<p>"Welcome to the party."</p>
+<p>"Next time, let me know Lyra has been separated. Reckless. Broke the formation."</p>
+<p>"Sorry."</p>
+<p>Scenarios run through Haruki's mind. Half the first hundred still standing, now another hundred. Gallu and Zaqaru watching, ready to strike at any moment. Complete advantage.</p>
+<p>The fight breaks out on Hayate's end. He kills some but gets overwhelmed. Takes several cuts. Lyra is focused on defence, holding their back --- exhausted. One wrong parry and a demon breaks through.</p>
+<p>The Flame Wall dissipates.</p>
+<p>Haruki joins in. The three together hold, somewhat, but are still being pressured.</p>
+<p>Gallu: "This is wonderful! First demon to take a life gets a promotion!" The demons cheer. Their attacks become more relentless.</p>
+<p>An arrow hits Hayate in the right shoulder. He flinches but keeps fighting. Two more arrows, same spot. His shoulder drops. Zaqaru fires a Shadow Ball --- same location. It connects and explodes.</p>
+<p>Hayate releases his grip on the greatsword. His right arm --- unusable.</p>
+  </div>
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c28" class="ch-nav-btn">&#8592; XXVIII: Separated</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c30" class="ch-nav-btn">XXX: Sorry &#8594;</a>
+  </div>
+</div>
+</body>
+</html>

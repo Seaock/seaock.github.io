@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — XXIV: Threads</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 24: Threads — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 24: Threads">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c24">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0806; --card: #1a1410; --border: #8b3a2a33;
+      --ember: #c0392b; --gold: #c9a84c; --ash: #a09080;
+      --text: #e8ddd0; --muted: #6b5a4e;
+      --font-title: 'Cinzel', serif; --font-body: 'Crimson Pro', serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 20px; line-height: 1.9; min-height: 100vh; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; opacity: 0.6; }
+    .top-bar { position: sticky; top: 0; z-index: 100; background: rgba(13,8,6,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+    .top-bar-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; gap: 16px; padding: 12px 0; }
+    .top-bar-logo { font-family: var(--font-title); font-size: 12px; letter-spacing: 0.2em; color: var(--ember); text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+    .top-bar-logo:hover { color: var(--gold); }
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; }
+    .nav-pill { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.1em; color: var(--muted); text-decoration: none; padding: 4px 8px; border-radius: 2px; border: 1px solid transparent; transition: all 0.15s; white-space: nowrap; }
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+    .wrap { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 60px 28px 80px; }
+    .chapter-eyebrow { font-family: var(--font-title); font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--ember); margin-bottom: 16px; text-align: center; }
+    .chapter-number { font-family: var(--font-title); font-size: clamp(48px, 8vw, 80px); font-weight: 700; text-align: center; color: var(--text); line-height: 1; margin-bottom: 12px; letter-spacing: 0.1em; }
+    .chapter-title { font-family: var(--font-title); font-size: clamp(18px, 3vw, 26px); font-weight: 400; text-align: center; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 48px; }
+    .chapter-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent); margin-bottom: 52px; }
+    .chapter-body p { margin-bottom: 1.4em; color: #d0c4b8; font-size: 20px; line-height: 1.9; }
+    .chapter-body p:first-child::first-letter { font-family: var(--font-title); font-size: 3.8em; font-weight: 700; float: left; line-height: 0.78; margin: 6px 10px 0 0; color: var(--ember); }
+    .scene-break { text-align: center; color: var(--ember); font-size: 20px; margin: 40px 0; opacity: 0.5; letter-spacing: 0.5em; }
+    .chapter-subhead { font-family: var(--font-title); font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin: 40px 0 20px; }
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+    .chapter-footer { margin-top: 70px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .ch-nav-btn { font-family: var(--font-title); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: 10px 20px; border-radius: 2px; transition: all 0.2s; }
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+    .ch-footer-title { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-align: center; }
+    @media (max-width: 600px) { .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; } .nav-pills { gap: 3px; } .nav-pill { font-size: 9px; padding: 3px 6px; } .wrap { padding: 40px 20px 60px; } }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill active" title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 24</p>
+  <div class="chapter-number">XXIV</div>
+  <h1 class="chapter-title">Threads</h1>
+  <div class="chapter-divider"></div>
+  <div class="chapter-body">
+    <p>They walked into Kibou together and made it perhaps thirty metres before Rask stopped.</p>
+<p>"I would like to set out to retrieve the heirloom as quickly as possible" he said. "So we can get Kira back."</p>
+<p>"I agree with you" Haruki said. "But I think this is a trap."</p>
+<p>Rask looked at him.</p>
+<p>"Lyra said it herself in that room --- there are stronger parties in Kibou, larger ones, better equipped for this kind of job. He chose us specifically. And he didn't decide that when we arrived here --- he planned it before we left Akebono. The tomb job, Kira, all of it was already in motion." Haruki looked at the street around them. "There's more going on than we know."</p>
+<p>"Even if it's a trap" Hayate said, "we still need to go. Kira is still there."</p>
+<p>"Agreed. But we're not having this conversation here." Haruki kept his voice low. "One of the guards back there called him Lord Dagan. That's not a title you earn from merchants and adventurers --- his influence reaches town officials. We find an inn, get off the street, then plan."</p>
+<p>They found one two blocks from the gate. They rented three rooms and reconvened in one of them.</p>
+<p>"What do you think Dagan is actually after?" Izel asked, once they were settled.</p>
+<p>"Irrelevant right now" Rask said. "The immediate priority is the heirloom. We get it, we get Kira back."</p>
+<p>Haruki said nothing. He was somewhere else --- the inward stillness that meant he was running through something and hadn't finished yet.</p>
+<p>Hayate looked at his brother, then reached over and pulled the scroll from Haruki's bag. Haruki didn't notice. Hayate unrolled it across the bed and studied the map.</p>
+<p>"Lyra. How long to the marked location?"</p>
+<p>Lyra leaned over to look. "Assuming we avoid demon parties --- four days."</p>
+<p>Haruki came back. He looked at the scroll, then at the room, then straightened up.</p>
+<p>"Okay. Here's the plan."</p>
+<p>He looked at Rask first. "Take flight and scout the route to the marked location. Get as close to the village as you safely can and survey the area. If it looks too dangerous, don't push it --- come back immediately. What we need is information. Mark anything on the map that matters --- potential ambush points, viable camp sites, terrain we can use or they can use against us. High cliffs, dense bush, long tree lines. Take the full day if you need it."</p>
+<p>Rask nodded once.</p>
+<p>Haruki looked at Lyra. "You and Freyja get supplies. Four days assumes a clean journey --- plan for five. Ten days total, there and back."</p>
+<p>Lyra nodded.</p>
+<p>"Hayate --- you and Izel go to Gerd's shop. Take all the weapons and ask him to service them, sharpen them, full maintenance. While you're there, ask him what he knows about the town and about Dagan. Keep it casual --- you ran into him here after Akebono, you're curious. Don't tell him anything, don't pull him into this."</p>
+<p>Hayate was already nodding.</p>
+<p>"I'll take the job board and the tavern. I want to know what people here know about the kidnappings, about Dagan, where he operates from. If anyone asks why I'm interested in him, I admire him. That's all." He looked around the room. "Keep your ears open out there. One thing on its own might mean nothing. Everything together might mean something. We meet back here mid-afternoon, share what we've learned, and head out at sunset. We travel at night --- less chance of being seen."</p>
+<p>The nods came, one by one. Nobody argued.</p>
+<p>"We all know what we need to do" Haruki said. "Go. Be safe. Don't take any risks."</p>
+<p>Hayate rolled the scroll back up and threw it at Rask. Rask caught it without looking and tucked it away.</p>
+<p>They went.</p>
+<p>Hayate spotted the sign from halfway down the street.</p>
+<p>wepons</p>
+<p>He and Izel pushed through the door to find Gerd still unpacking. He startled at the sound of the door.</p>
+<p>"Cleared by the guards, I hope?"</p>
+<p>"Of course" said Izel.</p>
+<p>Hayate and Izel walked to the counter and set down their weapons alongside a bag of silver. "Think you can service these by mid-afternoon? We'll pay extra --- need it done quickly."</p>
+<p>Gerd left what he was doing and walked over. He looked at the weapons, then at the silver, then back at Hayate.</p>
+<p>"Don't worry about paying. I still owe your lot for the escort job --- never got to pay you after you were taken in." He picked up the nearest blade, already assessing. "I'll get these done urgently and we'll call it even."</p>
+<p>While Gerd worked, they stayed and talked --- asking about the town, about Dagan, all of it wrapped in the casual curiosity Haruki had prescribed. Gerd confirmed what they already knew. Dagan was influential. Dagan had money. Beyond that, nothing.</p>
+<p>The job board at Kibou's administrative building was larger than Akebono's and considerably more grim in its contents.</p>
+<p>Haruki stood in front of it and read. Of every ten listings, nine were hunt quests. Imps, mostly. A handful of contracts for demon stragglers. In Akebono the board had been bandits, goblins, occasional tomb work. Here it was almost entirely demons. He stood there for a while and let that settle.</p>
+<p>High above the town, Rask moved slowly and methodically, marking the map. He was calmer than he had been in days. Rushing this would not help Kira. The only thing that would help Kira was good information, and good information required patience. He understood his role. He did it.</p>
+<p>Lyra and Freyja worked through the supply list at the market. At one stall Freyja stopped at a display of small glass vials.</p>
+<p>"Holy water" the shopkeeper said. "Blessed with light magic."</p>
+<p>Freyja thought about what light magic had done to Zaqaru. She looked at Lyra. Lyra was sceptical but trusted the logic. They bought several vials.</p>
+<p>As Lyra closed her bag, something caught her ear --- two stalls away, a conversation between two shopkeepers not meant to carry.</p>
+<p>"More of those robed figures at the north gate again last night."</p>
+<p>"Guards let them straight through, I suppose."</p>
+<p>"Straight through. Didn't touch the sacks."</p>
+<p>"Nobody wants legitimate wares anymore. They all want those."</p>
+<p>"Maybe it's time to move on."</p>
+<p>"Where would we go? An orc town?"</p>
+<p>They laughed and moved on. Lyra told Freyja quietly as they walked away.</p>
+<p>The tavern was warm and busy. Haruki took a stool at the bar and ordered something mild. The bartender noted he was new. They talked about the town. Nothing Haruki didn't already know --- until the bartender mentioned that Kibou was the largest weapons market for the seven races, positioned at the centre of the frontline. Armies came through here to restock. Haruki filed it away.</p>
+<p>A group came through the door a few minutes later, loud and already arguing.</p>
+<p>"The only reason you're pulling anything is that sword you bought from Dagan" one said. "Without that you're nothing special."</p>
+<p>"Maybe if you woke up before noon you'd get to his shop before the good stock sells out."</p>
+<p>Haruki finished his drink and headed back to the inn.</p>
+  </div>
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c23" class="ch-nav-btn">&#8592; XXIII: Chained</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c25" class="ch-nav-btn">XXV: Raven &#8594;</a>
+  </div>
+</div>
+</body>
+</html>

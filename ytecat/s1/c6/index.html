@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — VI: Outnumbered</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 6: Outnumbered — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 6: Outnumbered">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c6">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0806;
+      --card:    #1a1410;
+      --border:  #8b3a2a33;
+      --ember:   #c0392b;
+      --gold:    #c9a84c;
+      --ash:     #a09080;
+      --text:    #e8ddd0;
+      --muted:   #6b5a4e;
+      --font-title: 'Cinzel', serif;
+      --font-body:  'Crimson Pro', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 1.9;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,8,6,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .top-bar-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+    }
+
+    .top-bar-logo {
+      font-family: var(--font-title);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--ember);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .top-bar-logo:hover { color: var(--gold); }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-pill {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+
+    /* ── CONTENT ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 28px 80px;
+    }
+
+    .chapter-eyebrow {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .chapter-number {
+      font-family: var(--font-title);
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .chapter-title {
+      font-family: var(--font-title);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 400;
+      text-align: center;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .chapter-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent);
+      margin-bottom: 52px;
+    }
+
+    /* ── PROSE ── */
+    .chapter-body p {
+      margin-bottom: 1.4em;
+      color: #d0c4b8;
+      font-size: 20px;
+      line-height: 1.9;
+    }
+
+    .chapter-body p:first-child::first-letter {
+      font-family: var(--font-title);
+      font-size: 3.8em;
+      font-weight: 700;
+      float: left;
+      line-height: 0.78;
+      margin: 6px 10px 0 0;
+      color: var(--ember);
+    }
+
+    .scene-break {
+      text-align: center;
+      color: var(--ember);
+      font-size: 20px;
+      margin: 40px 0;
+      opacity: 0.5;
+      letter-spacing: 0.5em;
+    }
+
+    .chapter-subhead {
+      font-family: var(--font-title);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 40px 0 20px;
+    }
+
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+
+    /* ── BOTTOM NAV ── */
+    .chapter-footer {
+      margin-top: 70px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .ch-nav-btn {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    .ch-footer-title {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nav-pills { gap: 3px; }
+      .nav-pill { font-size: 9px; padding: 3px 6px; }
+      .wrap { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill active" title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 6</p>
+  <div class="chapter-number">VI</div>
+  <h1 class="chapter-title">Outnumbered</h1>
+  <div class="chapter-divider"></div>
+
+  <div class="chapter-body">
+    <p>Lyra moved before the thought formed.</p>
+<p>Two steps back, three, four --- creating distance, her hand already at the quiver, fingers closing around an arrow with the automatic precision of someone who had done this ten thousand times. She notched it and brought the bow up in one motion and assessed what was coming at her.</p>
+<p>The chief. The shaman. Five goblins spreading wide to cut off her angles.</p>
+<p>She had fought worse. The angles were bad and getting worse and the shaman's staff was already beginning to crackle, which meant she had seconds before it added magic to the problem.</p>
+<p>Movement to her left.</p>
+<p>Hayate was already gone.</p>
+<p>She had not seen him decide. One moment he was at his brother's side, the next he was crossing the open ground between them and her position at a dead sprint, greatsword up, driving directly into the goblins closest to her rather than turning back to help Haruki with the group bearing down on them.</p>
+<p>She registered it without letting it distract her. He had looked at the situation --- archer, dagger offhand, no real melee capability against a chief and a shaman simultaneously --- and moved to address it before anyone had asked him to. The decision had taken no time at all.</p>
+<p>She pulled the bowstring back and kept her eyes on the chief.</p>
+<p>Haruki did not move.</p>
+<p>Not immediately. He stood at the edge of the cleared camp with his rapier half-drawn and looked at what was in front of him and let his mind do the thing it did --- the rapid, involuntary process of pulling a situation apart and looking at what was underneath.</p>
+<p>The first camp had been straightforward. Goblins in position, no coordination, no awareness of tactical advantage. You went in and you cleared them and the difficulty was physical, not intellectual.</p>
+<p>This was different.</p>
+<p>Fifteen goblins as bait --- visible, countable, just threatening enough to draw them in. The real force held back in the treeline until the party was committed and split. Attack the moment the guard came down. Focus the strongest threat --- Lyra, with her range --- and screen the others from regrouping. It was not sophisticated by any military standard. For goblins it was extraordinary.</p>
+<p>The last camp had a shaman and it had still been manageable. A shaman added magic, not strategy. Strategy came from somewhere else. Strategy came from the chief --- the one variable this camp had that the last one hadn't. Under the chief these were not mindless creatures operating on instinct. They were a coordinated unit following a plan.</p>
+<p>Which meant the rules had changed.</p>
+<p>He looked at the numbers. Twenty goblins, two shamans, one chief against three fighters --- one of whom was already engaged, one of whom was an archer in melee range of a chief. They were outnumbered, they had been outmanoeuvred before the fight started, and they had been caught with their formation already broken. If the goblins pressed the advantage they had right now the outcome was not good.</p>
+<p>He needed to do something that changed the shape of it. Something that gave them a problem to solve instead of a wall to run into.</p>
+<p>The sound of Hayate's greatsword connecting with something snapped him back.</p>
+<p>The lines had met. Hayate was already deep in it --- greatsword moving, goblins scattering and regrouping around him --- and Haruki had been standing here thinking while his brother fought. He moved.</p>
+<p>Not forward. The goblins screening the brothers' side had pushed up expecting him to either engage or retreat, and he did neither. He bent his knees and jumped --- clearing the front rank entirely, two metres of air, landing clean on the other side in the gap between the screening party and the chief's group.</p>
+<p>Both groups of goblins stopped.</p>
+<p>He had put himself between them. If the chief's group continued pressing toward Lyra, their flank was open to him. If the screening party turned to deal with him, their flank was open to Hayate. They could not ignore either problem without creating a worse one.</p>
+<p>The lines redistributed.</p>
+<p>The chief split from its group and continued toward Lyra alone --- steady, deliberate, sword raised. The two shamans and seven goblins turned and drove toward Hayate. The remaining thirteen goblins from the screening party swung around to face Haruki.</p>
+<p>Lyra and the chief. Hayate and the shamans and seven goblins. Haruki and thirteen.</p>
+<p>Haruki raised the rapier.</p>
+<p>"All right" he said, to no one in particular.</p>
+<p>Lyra had not stopped watching Hayate.</p>
+<p>She tracked the chief in her sightline and kept the bow trained and waited for the angle she needed, and with the rest of her attention she watched the younger brother fight.</p>
+<p>The technique was poor. Raw and unrefined, the greatsword moving in arcs that were wider than they needed to be, footwork that relied on momentum rather than positioning. A trained fighter would have found gaps in it inside the first minute.</p>
+<p>But the instincts were something else entirely.</p>
+<p>He had moved to protect her before the ambush had fully registered. He had read the situation --- archer, exposed, wrong weapons for close quarters against a chief --- and responded to it before she had asked for help, before his brother had directed him, before anyone had said a word. And then just now, watching him against seven goblins and two shamans, she had seen it again --- the way he angled himself to keep the shamans in his sightline without being told to, the way he used the greatsword's reach to manage space rather than just to strike, small unconscious adjustments that a fighter learned after years of nearly dying.</p>
+<p>He was eleven years old. He had trained all afternoon yesterday. She had seen battle-hardened veterans with less situational awareness.</p>
+<p>She filed it away next to everything else she had filed about the brothers since the goblin camp yesterday and pulled the bowstring back another fraction and waited for the chief to make its move.</p>
+  </div>
+
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c5" class="ch-nav-btn">&#8592; V: The Chief</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c7" class="ch-nav-btn">&#8594; VII: Fireball</a>
+  </div>
+</div>
+
+</body>
+</html>

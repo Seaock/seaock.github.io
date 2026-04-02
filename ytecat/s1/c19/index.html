@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — XIX: The Crown</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 19: The Crown — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 19: The Crown">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c19">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0806;
+      --card:    #1a1410;
+      --border:  #8b3a2a33;
+      --ember:   #c0392b;
+      --gold:    #c9a84c;
+      --ash:     #a09080;
+      --text:    #e8ddd0;
+      --muted:   #6b5a4e;
+      --font-title: 'Cinzel', serif;
+      --font-body:  'Crimson Pro', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 1.9;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,8,6,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .top-bar-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+    }
+
+    .top-bar-logo {
+      font-family: var(--font-title);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--ember);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .top-bar-logo:hover { color: var(--gold); }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-pill {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+
+    /* ── CONTENT ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 28px 80px;
+    }
+
+    .chapter-eyebrow {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .chapter-number {
+      font-family: var(--font-title);
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .chapter-title {
+      font-family: var(--font-title);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 400;
+      text-align: center;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .chapter-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent);
+      margin-bottom: 52px;
+    }
+
+    /* ── PROSE ── */
+    .chapter-body p {
+      margin-bottom: 1.4em;
+      color: #d0c4b8;
+      font-size: 20px;
+      line-height: 1.9;
+    }
+
+    .chapter-body p:first-child::first-letter {
+      font-family: var(--font-title);
+      font-size: 3.8em;
+      font-weight: 700;
+      float: left;
+      line-height: 0.78;
+      margin: 6px 10px 0 0;
+      color: var(--ember);
+    }
+
+    .scene-break {
+      text-align: center;
+      color: var(--ember);
+      font-size: 20px;
+      margin: 40px 0;
+      opacity: 0.5;
+      letter-spacing: 0.5em;
+    }
+
+    .chapter-subhead {
+      font-family: var(--font-title);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 40px 0 20px;
+    }
+
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+
+    /* ── BOTTOM NAV ── */
+    .chapter-footer {
+      margin-top: 70px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .ch-nav-btn {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    .ch-footer-title {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nav-pills { gap: 3px; }
+      .nav-pill { font-size: 9px; padding: 3px 6px; }
+      .wrap { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill active" title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 19</p>
+  <div class="chapter-number">XIX</div>
+  <h1 class="chapter-title">The Crown</h1>
+  <div class="chapter-divider"></div>
+
+  <div class="chapter-body">
+    <p>The road back to Akebono felt shorter than the road out had.</p>
+<p>It always did, Lyra had found --- the return journey carrying less weight than the outward one, the uncertainty resolved, the body running on the particular fuel of having survived something it wasn't sure it would survive. The group moved at an easy pace, nobody pushing, the silence between them comfortable in a way the silence at the town square had not been.</p>
+<p>Haruki looked around at the group as they walked.</p>
+<p>"We should go to the tavern" he said. "Properly celebrate."</p>
+<p>Freyja's response was immediate and total. "Yes."</p>
+<p>Rask looked at her. He sighed --- brief, resigned, the sigh of a man who had known what her answer would be before he looked. He nodded.</p>
+<p>Izel agreed without hesitation. Gordo shook his head --- he had matters to attend to, errands he had put off. He would come by the tavern once he was done, if they were still there. Lyra said yes. Hayate did not say anything so much as produce a sound of pure uncomplicated joy.</p>
+<p>They were still a few hundred metres from the gate when Haruki saw the figure.</p>
+<p>A large man, standing just outside the entrance --- not moving, not doing anything in particular, just waiting with the patient stillness of someone expecting a specific outcome. Haruki placed him before they had closed half the distance. One of the scarred man's bodyguards from the town square.</p>
+<p>The bodyguard stepped forward as they approached.</p>
+<p>"Is it done?"</p>
+<p>"It's done" Haruki said.</p>
+<p>He glanced at Lyra. She read it, reached into her bag, and produced the skeleton king's crown --- large, ornate, the metal dull from centuries in the tomb. She held it out.</p>
+<p>"Is this what you were looking for?"</p>
+<p>The bodyguard's eyes moved to the crown.</p>
+<p>Something happened in his face --- a widening, small and fast, there and gone before most people would have registered it. His expression returned to neutral in under a second.</p>
+<p>Nobody noticed.</p>
+<p>Lyra noticed.</p>
+<p>"That's what we were looking for" the bodyguard said. He reached into his coat and produced a collection of smaller bags --- coin, one per survivor --- and began distributing them. He moved along the group without ceremony, dropping a bag into each extended hand.</p>
+<p>When he reached Haruki, Haruki took the bag. As he did, his eyes caught the bodyguard's wrist --- the sleeve riding up slightly with the motion of the handoff. A symbol, seared into the skin. Not a brand exactly --- more deliberate than that, more specific. He had never seen it before. He did not know what it meant.</p>
+<p>He said nothing. He took the coin and stepped back.</p>
+<p>The bodyguard looked at the group. "Who had the most kills? There's a bonus for the highest count."</p>
+<p>Rask spoke before anyone else. "We all killed equal amounts. Distribute it evenly between us."</p>
+<p>The bodyguard looked at him. A short sound that might have been a laugh. "That's not how this works." He turned, walked back through the gate, and disappeared behind one of the buildings before anyone had decided whether to respond.</p>
+<p>The group stood at the entrance for a moment.</p>
+<p>Haruki was watching the space where the bodyguard had been.</p>
+<p>Gordo parted ways just inside the gate --- a brief nod to the group, a word to Izel, then off in a different direction with the purposeful walk of a man who had somewhere to be. Rask stopped shortly after.</p>
+<p>"I need to check on Kira" he said. "I'll join you at the tavern."</p>
+<p>"Bring Kira" Hayate said immediately.</p>
+<p>Rask looked at him. Then at the group --- at the cuts and the dried blood and the general state of seven people who had spent several hours in a tomb fighting things that wanted them dead. "It's best not to. He'd only worry."</p>
+<p>Hayate opened his mouth.</p>
+<p>"He'd worry" Rask said again, with the finality of a man who had made the decision and was not revisiting it.</p>
+<p>Hayate closed his mouth. Considered. "Fine. But bring him next time."</p>
+<p>Rask looked at him for a moment with an expression that was not quite a smile and not quite not a smile. He turned and walked.</p>
+<p>Freyja went with him --- she would clean up at their inn and meet the others at the tavern.</p>
+<p>The remaining three --- Haruki, Hayate, Lyra --- walked together through Akebono's evening streets toward their own inn.</p>
+<p>"Did anyone else find it strange?" Haruki said, after a while.</p>
+<p>"The bodyguard" Lyra said. Not a question.</p>
+<p>"He never asked about the missing party members. Four dwarves went in. None came out. He didn't ask."</p>
+<p>They walked.</p>
+<p>"He was surprised when I showed him the crown" Lyra said. "His face --- just for a moment. Like he wasn't expecting us to come back with it." A pause. "Or to come back at all."</p>
+<p>Hayate had been quiet, which was unusual enough that both of them had been waiting for it to end. "He was standing at the gate" he said. "We packed for days. We thought we'd be wandering around that tomb for days. Instead we found the skeleton king and finished it in hours." He looked at Haruki. "Was he planning to stand there for days until we came back? Or did he know it would be quick?"</p>
+<p>Haruki said nothing for a moment. Then --- "There was a symbol on his wrist. Seared in. I've never seen it before." He glanced at them both. "I'll draw it for you at the inn."</p>
+<p>They reached the inn entrance. Hayate slowed, then looked at Lyra.</p>
+<p>"Are you heading back to where you're staying, or---"</p>
+<p>"I was thinking" Lyra said, with careful deliberateness, "of renting a room here. Given we're party members now." She did not say anything else. She did not need to. What had started as a temporary arrangement had become something that neither of them had formally acknowledged and all of them had stopped treating as temporary.</p>
+<p>"THAT'S A GREAT IDEA!" Hayate's voice bounced off the buildings on either side of the street.</p>
+<p>Haruki looked at his brother. At the expression on his face --- the giddy, unconcealed, completely unguarded delight of someone who had forgotten to hide what he was feeling.</p>
+<p>He said nothing. He smiled, small and private, and held the door open.</p>
+<p>They went inside, healed each other, washed the tomb off their skin, and headed for the tavern.</p>
+  </div>
+
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c18" class="ch-nav-btn">&#8592; XVIII: Together</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c20" class="ch-nav-btn">&#8594; XX: Kibou</a>
+  </div>
+</div>
+
+</body>
+</html>

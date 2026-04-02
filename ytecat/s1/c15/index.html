@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — XV: Eleven</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 15: Eleven — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 15: Eleven">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c15">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0806;
+      --card:    #1a1410;
+      --border:  #8b3a2a33;
+      --ember:   #c0392b;
+      --gold:    #c9a84c;
+      --ash:     #a09080;
+      --text:    #e8ddd0;
+      --muted:   #6b5a4e;
+      --font-title: 'Cinzel', serif;
+      --font-body:  'Crimson Pro', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 1.9;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,8,6,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .top-bar-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+    }
+
+    .top-bar-logo {
+      font-family: var(--font-title);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--ember);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .top-bar-logo:hover { color: var(--gold); }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-pill {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+
+    /* ── CONTENT ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 28px 80px;
+    }
+
+    .chapter-eyebrow {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .chapter-number {
+      font-family: var(--font-title);
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .chapter-title {
+      font-family: var(--font-title);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 400;
+      text-align: center;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .chapter-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent);
+      margin-bottom: 52px;
+    }
+
+    /* ── PROSE ── */
+    .chapter-body p {
+      margin-bottom: 1.4em;
+      color: #d0c4b8;
+      font-size: 20px;
+      line-height: 1.9;
+    }
+
+    .chapter-body p:first-child::first-letter {
+      font-family: var(--font-title);
+      font-size: 3.8em;
+      font-weight: 700;
+      float: left;
+      line-height: 0.78;
+      margin: 6px 10px 0 0;
+      color: var(--ember);
+    }
+
+    .scene-break {
+      text-align: center;
+      color: var(--ember);
+      font-size: 20px;
+      margin: 40px 0;
+      opacity: 0.5;
+      letter-spacing: 0.5em;
+    }
+
+    .chapter-subhead {
+      font-family: var(--font-title);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 40px 0 20px;
+    }
+
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+
+    /* ── BOTTOM NAV ── */
+    .chapter-footer {
+      margin-top: 70px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .ch-nav-btn {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    .ch-footer-title {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nav-pills { gap: 3px; }
+      .nav-pill { font-size: 9px; padding: 3px 6px; }
+      .wrap { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill active" title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 15</p>
+  <div class="chapter-number">XV</div>
+  <h1 class="chapter-title">Eleven</h1>
+  <div class="chapter-divider"></div>
+
+  <div class="chapter-body">
+    <p>The skeleton king did not wait.</p>
+<p>It came forward with the kind of speed that didn't belong in something that old and that large, sword sweeping low in an arc that forced everyone to scatter. Three orcs threw themselves backwards. The two fighting dwarves split left and right. Rask launched upward on his wings and Freyja planted her feet and drove her trident into the stone floor, bracing. Haruki and Lyra broke in opposite directions. Hayate jumped back and landed in a crouch.</p>
+<p>The blade caught nothing but air and the edge of a dwarf's pauldron, sending him spinning but standing.</p>
+<p>Twelve people in the room. No formation. No signal. No idea what each other could do.</p>
+<p>Hayate went first, because Hayate always went first.</p>
+<p>He came in from the right --- a heavy diagonal slash that the king caught on its forearm without flinching, the bone taking the greatsword's edge and not breaking. Hayate felt the impact travel up both arms and swore under his breath. The king's free hand came down like a hammer. Hayate rolled, barely, and the fist cratered the stone floor where he'd been standing.</p>
+<p>Haruki came in from the left a half-second later. His rapier found the gap between two vertebrae in the king's neck --- a precise, controlled strike that should have severed something important. The king turned its head and looked at him. The strike hadn't reached anything vital. Its eyes, empty and dark, fixed on him.</p>
+<p>Haruki took three steps back. Reassessing.</p>
+<p>The orc caster --- standing behind his three companions --- raised his staff and sent a bolt of fire at the king's spine. It hit. It scorched bone black. The king lurched forward a half-step from the impact but kept moving toward Haruki.</p>
+<p>The three orc warriors fanned out without being asked, positioning themselves between the caster and the king on instinct. They didn't look at anyone else. They were working with themselves, not the group --- but they were working.</p>
+<p>Lyra, from her broken pillar, had been watching all of it.</p>
+<p>She fired two arrows in quick succession --- both at the king's left knee joint, both landing true. The king's leg buckled. Not much. Enough.</p>
+<p>Freyja saw the buckle and moved. She surged forward with her trident levelled, driving it into the back of the knee as the joint was compromised, and the king went down on one leg with a sound like cracking stone. She twisted the trident, widened the gap in the joint, then pulled back before the king's hand could close around her.</p>
+<p>Half a second of stillness.</p>
+<p>Then the king pushed itself back upright.</p>
+<p>Rask, watching from above, had seen enough. He folded his wings and dropped --- straight down onto the king's crown, daggers first, driving both blades into the eye sockets. The king reached up and grabbed him before he could disengage. Rask went with the momentum, twisted in the grip, and drove a knee into the king's jaw hard enough to snap its head back. When it released him he was already in the air again, wings catching before he hit the ground.</p>
+<p>The king shook its head. Reset. Turned slowly. Looked at all of them.</p>
+<p>Something was changing in how it moved.</p>
+<p>Hayate noticed it first. The king had been reactive --- responding to attacks as they came. Now it was still for a fraction of a second longer before each move. Waiting. Watching. Whatever controlled it was adjusting.</p>
+<p>"It's learning us," he said.</p>
+<p>He didn't shout it. Somehow everyone heard it anyway.</p>
+<p>Haruki heard it and understood what it meant. They had a window --- the same window the king was using to read them --- and they needed to stop fighting like twelve strangers and start fighting like something else.</p>
+<p>He looked at the orc caster across the room. The orc looked back.</p>
+<p>Haruki held up two fingers, pointed at the king's left side. The orc's eyes narrowed. Then he nodded once.</p>
+<p>Haruki circled right. The orc prepared a spell.</p>
+<p>The king tracked Haruki --- the mobile blade was the obvious threat. Its weight shifted left. It raised the jagged sword.</p>
+<p>The fireball hit it from the left. Haruki came in from the right in the same instant, rapier driving into the gap between ribs that Freyja had found earlier in the fight. The king staggered --- both impacts registering simultaneously, no way to brace for both.</p>
+<p>Hayate came up from underneath, wind-enhanced, driving his greatsword upward at an angle that forced the king's arm back and the jagged sword wide. It was too heavy to recover quickly at that angle. The arm stayed back for a half-second too long.</p>
+<p>Lyra put an arrow in the exposed armpit joint.</p>
+<p>The king's sword arm dropped. Not permanently. Not without the shoulder working against it.</p>
+<p>For the first time in the fight, the skeleton king stepped backward.</p>
+<p>The third dwarf --- still crouched near his fallen companion, hands on the stone floor --- finally looked up. He watched Haruki reload for another strike. He watched the orcs move without being told. He watched two humans, an elf, a beastman, and a cecaelian operate like they'd been doing this for years.</p>
+<p>He stood up slowly. Picked up his axe.</p>
+<p>He didn't look at anyone else. He just moved forward and took a position on the far left of the line.</p>
+<p>Twelve still standing. The king in the centre.</p>
+<p>Not allies. Not yet. But something had shifted in the room --- the kind of shift that doesn't need a name to be real.</p>
+<p>Then a voice came from the king's shadow. Low. Unhurried. Almost bored.</p>
+<p>"This bores me."</p>
+<p>Something rose from the darkness pooling at the skeleton king's feet. It stepped forward --- through the king, not around it --- and the shadow peeled away like smoke.</p>
+<p>One hand.</p>
+<p>The skeleton king --- ten feet of ancient bone that had just pushed twelve fighters to their limit --- flew sideways into a pillar with a crack that shook the ceiling.</p>
+<p>It did not get up.</p>
+<p>The figure stood where the king had been, looking at all of them with the mild curiosity of someone who had just knocked over a glass.</p>
+  </div>
+
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c14" class="ch-nav-btn">&#8592; XIV: The King</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c16" class="ch-nav-btn">&#8594; XVI: Zaqaru</a>
+  </div>
+</div>
+
+</body>
+</html>

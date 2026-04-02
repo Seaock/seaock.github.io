@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — XVI: Zaqaru</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 16: Zaqaru — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 16: Zaqaru">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c16">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0806;
+      --card:    #1a1410;
+      --border:  #8b3a2a33;
+      --ember:   #c0392b;
+      --gold:    #c9a84c;
+      --ash:     #a09080;
+      --text:    #e8ddd0;
+      --muted:   #6b5a4e;
+      --font-title: 'Cinzel', serif;
+      --font-body:  'Crimson Pro', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 1.9;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,8,6,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .top-bar-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+    }
+
+    .top-bar-logo {
+      font-family: var(--font-title);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--ember);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .top-bar-logo:hover { color: var(--gold); }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-pill {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+
+    /* ── CONTENT ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 28px 80px;
+    }
+
+    .chapter-eyebrow {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .chapter-number {
+      font-family: var(--font-title);
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .chapter-title {
+      font-family: var(--font-title);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 400;
+      text-align: center;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .chapter-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent);
+      margin-bottom: 52px;
+    }
+
+    /* ── PROSE ── */
+    .chapter-body p {
+      margin-bottom: 1.4em;
+      color: #d0c4b8;
+      font-size: 20px;
+      line-height: 1.9;
+    }
+
+    .chapter-body p:first-child::first-letter {
+      font-family: var(--font-title);
+      font-size: 3.8em;
+      font-weight: 700;
+      float: left;
+      line-height: 0.78;
+      margin: 6px 10px 0 0;
+      color: var(--ember);
+    }
+
+    .scene-break {
+      text-align: center;
+      color: var(--ember);
+      font-size: 20px;
+      margin: 40px 0;
+      opacity: 0.5;
+      letter-spacing: 0.5em;
+    }
+
+    .chapter-subhead {
+      font-family: var(--font-title);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 40px 0 20px;
+    }
+
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+
+    /* ── BOTTOM NAV ── */
+    .chapter-footer {
+      margin-top: 70px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .ch-nav-btn {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    .ch-footer-title {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nav-pills { gap: 3px; }
+      .nav-pill { font-size: 9px; padding: 3px 6px; }
+      .wrap { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill active" title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 16</p>
+  <div class="chapter-number">XVI</div>
+  <h1 class="chapter-title">Zaqaru</h1>
+  <div class="chapter-divider"></div>
+
+  <div class="chapter-body">
+    <p>Haruki and Hayate knew what it was before it had fully emerged from the shadow.</p>
+<p>They had seen this before. Not this specific creature --- but the shape of it, the proportion, the quality of wrongness. Kasumi had burned it into them at a level below thought, below memory, somewhere in the body itself. The smell, the particular darkness, the way light seemed to behave differently around it. They knew.</p>
+<p>Everyone else in the room did not.</p>
+<p>The other parties had heard of demons. Had grown up in a world defined by the demon invasion, had taken jobs to clear the creatures that bled through the frontlines, had understood in the abstract that somewhere beyond the defensive line something terrible had taken eighty-three percent of the world and was still holding it. But hearing of a thing and standing in a room with one were separated by a distance that no amount of description could close.</p>
+<p>The dwarves had gone rigid. The orcs had taken a collective step backward. Lyra, Freyja, Rask --- all of them still, all of them processing something that their experience had not prepared them for.</p>
+<p>Hayate was already moving.</p>
+<p>"DEMONNNN!"</p>
+<p>He crossed the distance at a dead sprint, greatsword up, every part of him committed to the swing before the word had finished leaving his mouth. Simultaneously, without coordination, without a signal passing between them, Haruki's hand came up and the fireball left his palm --- Fire affinity channelled and released in the same motion, aimed at the demon's centre.</p>
+<p>The demon looked at both attacks coming.</p>
+<p>It raised its left hand and extended one finger.</p>
+<p>The greatsword stopped. Not deflected --- stopped, the blade pressing against a single finger and going no further, Hayate's full momentum and weight and the force of the swing absorbed by one extended digit without the hand behind it moving at all.</p>
+<p>The right hand came up. One finger. The fireball changed direction and dissipated against the ceiling.</p>
+<p>"Now, now" the demon said. "Settle down, children."</p>
+<p>Hayate jumped back and landed in a crouch, greatsword still raised, breathing hard. He looked at his sword. Looked at the demon's finger. Said nothing.</p>
+<p>The demon straightened up and looked at all of them with the attention of someone who had nowhere else to be.</p>
+<p>"My name is Zaqaru" it said. The voice was pleasant in a way that made the pleasantness worse --- measured, conversational, carrying no urgency because urgency implied the outcome was uncertain. "I am a Lieutenant from the army of the great Aszag." A pause. "I need not know your names. You will be dead soon enough." The mild interest in its expression shifted into something that might have been satisfaction. "Take pride in the fact that you have mildly entertained me for the past twenty minutes."</p>
+<p>It disappeared.</p>
+<p>Not moved --- disappeared, the space it had occupied simply empty, no transition between presence and absence. The room had no time to respond before it reappeared --- behind the dwarf who had been last to stand, the one who had finally pushed himself up from the floor beside his fallen companion and taken his position on the line.</p>
+<p>The grin that appeared on Zaqaru's face was not the expression of something that felt joy. It was the expression of something that had learned what joy looked like and was using the shape of it.</p>
+<p>One hand came forward and drove through the dwarf's chest from behind.</p>
+<p>Zaqaru lifted him. The dwarf's feet left the ground. Zaqaru leaned in close and brought his mouth to the dwarf's ear.</p>
+<p>"Scream for me."</p>
+<p>A pause. Long enough to be deliberate.</p>
+<p>Then Zaqaru laughed --- a sound that had no warmth in it anywhere --- and threw the dwarf sideways. The impact with the wall was total. Stone cracked. Blood hit the surface and spread. The sound of bones was audible across the chamber.</p>
+<p>Zaqaru looked at what remained with mild disappointment. "Well. He was no fun." His eyes moved across the room until they found the original dwarf --- the one the skeleton king had killed before they arrived. He pointed at it. "Let's hope at least one of you screams like that first one."</p>
+<p>Haruki walked forward.</p>
+<p>He moved with the careful deliberateness of someone managing something that wanted very badly to be something else. His fists were closed at his sides. His jaw was tight. The rage was there --- visible to anyone who knew his face, burning in his eyes with the particular heat of someone who had seen this before, in a different room, on a different night, and had been living with it ever since.</p>
+<p>He stopped at the front.</p>
+<p>"What do you want?" he asked.</p>
+<p>His voice was level. It cost him something to make it level and he paid it anyway, because he had assessed the situation in the seconds since the dwarf had hit the wall and arrived at the same conclusion every time --- they were not going to fight their way out of this. Not yet. Not without more information, more preparation, more of something they did not currently have. Diplomacy was not a preference. It was the only tool that bought time.</p>
+<p>Zaqaru tilted his body into a slow arch, spine curving backward in a way that suggested the bones inside were arranged differently than expected. He considered the question as if it were genuinely interesting.</p>
+<p>"Oh? Was it not obvious enough?" He straightened. "I want to hear you scream. I want to see you suffer." A pause, each word placed with care. "I want to taste your pain."</p>
+<p>He raised his right hand and looked at it --- the dwarf's blood dark across the fingers --- and drew his tongue slowly along one of them. He looked at Haruki. He winked.</p>
+<p>Rask had not landed since the king went down.</p>
+<p>He had been in the air throughout, circling the upper reaches of the chamber where the torchlight didn't fully reach, wings folded to reduce his profile against the shadows. He was moving now --- slowly, without sound, angling toward the demon's back. Haruki saw it in his peripheral vision and understood immediately.</p>
+<p>He kept talking. He kept Zaqaru's attention on him and kept talking and made sure nothing in his face or his posture suggested that anything was happening behind the demon's back.</p>
+<p>Hayate had seen it too. He had seen something else as well --- the way Zaqaru had moved, the shadow peeling away from him and closing back around him, the dark energy of it. He reached for his own Dark affinity and felt for the shadows at the edges of his feet. Trying to find what Zaqaru had found. Trying to understand it by feel.</p>
+<p>Freyja's hands were already moving. Enhance Earth building between her palms --- she cast it outward in two directions, toward Rask's daggers above and toward Hayate's greatsword beside her. The metal of both weapons responded, darkening slightly, the edges finding a new quality.</p>
+<p>Lyra cast from the pillar --- Bubble Shield, twice in quick succession. The water bloomed around Rask first, then around Hayate, catching the torchlight in moving patterns across the stone floor.</p>
+<p>The remaining orcs and dwarves saw the shields go up. The shock was still in their faces but something underneath it had shifted --- the practical instinct of fighters who recognised a preparation when they saw one. They looked at each other. They started buffing without being asked, hands moving, whatever they had available.</p>
+<p>Zaqaru watched all of it.</p>
+<p>He looked at the Bubble Shields. At Freyja's enhancement. At the orcs and dwarves moving. At all of it, taking it in with the same mild interest he had brought to everything since he had stepped out of the shadow.</p>
+<p>Then he laughed.</p>
+<p>"While a futile attempt---" he said, and the laughter was still in his voice underneath the words "---I respect and appreciate your willingness to charge into death."</p>
+<p>He raised both arms out to his sides. Wide, open, welcoming.</p>
+<p>"Now come." The grin. "Entertain me some more."</p>
+<p>Rask folded his wings and dropped.</p>
+<p>He had been still for the fraction of a second it took to align everything --- position, angle, the Enhance Earth on both daggers, the Piercing Flames building between his palms and along the blades, Fire and Wind combining into something that punched through resistance rather than burning across it. The nape of the neck. The gap between the base of the skull and the top of the spine. A fraction of a second to cross the distance and everything committed to the strike before he moved.</p>
+<p>He moved.</p>
+  </div>
+
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c15" class="ch-nav-btn">&#8592; XV: Eleven</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c17" class="ch-nav-btn">&#8594; XVII: True Despair</a>
+  </div>
+</div>
+
+</body>
+</html>

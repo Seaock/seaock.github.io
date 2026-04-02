@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — II: Akebono</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 2: Akebono — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 2: Akebono">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c2">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0806;
+      --card:    #1a1410;
+      --border:  #8b3a2a33;
+      --ember:   #c0392b;
+      --gold:    #c9a84c;
+      --ash:     #a09080;
+      --text:    #e8ddd0;
+      --muted:   #6b5a4e;
+      --font-title: 'Cinzel', serif;
+      --font-body:  'Crimson Pro', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 1.9;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,8,6,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .top-bar-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+    }
+
+    .top-bar-logo {
+      font-family: var(--font-title);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--ember);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .top-bar-logo:hover { color: var(--gold); }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-pill {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+
+    /* ── CONTENT ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 28px 80px;
+    }
+
+    .chapter-eyebrow {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .chapter-number {
+      font-family: var(--font-title);
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .chapter-title {
+      font-family: var(--font-title);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 400;
+      text-align: center;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .chapter-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent);
+      margin-bottom: 52px;
+    }
+
+    /* ── PROSE ── */
+    .chapter-body p {
+      margin-bottom: 1.4em;
+      color: #d0c4b8;
+      font-size: 20px;
+      line-height: 1.9;
+    }
+
+    .chapter-body p:first-child::first-letter {
+      font-family: var(--font-title);
+      font-size: 3.8em;
+      font-weight: 700;
+      float: left;
+      line-height: 0.78;
+      margin: 6px 10px 0 0;
+      color: var(--ember);
+    }
+
+    .scene-break {
+      text-align: center;
+      color: var(--ember);
+      font-size: 20px;
+      margin: 40px 0;
+      opacity: 0.5;
+      letter-spacing: 0.5em;
+    }
+
+    .chapter-subhead {
+      font-family: var(--font-title);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 40px 0 20px;
+    }
+
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+
+    /* ── BOTTOM NAV ── */
+    .chapter-footer {
+      margin-top: 70px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .ch-nav-btn {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    .ch-footer-title {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nav-pills { gap: 3px; }
+      .nav-pill { font-size: 9px; padding: 3px 6px; }
+      .wrap { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill active" title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 2</p>
+  <div class="chapter-number">II</div>
+  <h1 class="chapter-title">Akebono</h1>
+  <div class="chapter-divider"></div>
+
+  <div class="chapter-body">
+    <p>They walked for three days before they saw the town.</p>
+<p>The road was unpaved and long and the brothers did not talk much on it. There was nothing to say that wouldn't make things worse and they had both worked that out quickly, so they walked in the particular silence of people who understand each other well enough to know when words are useless. Haruki set the pace. Hayate matched it without being asked.</p>
+<p>They were armed with what their hands had found during the fight in Kasumi --- a carving knife, a demon's blade, and nothing else worth mentioning. Not weapons exactly. Close enough.</p>
+<p>The road gave them two days of nothing and then, on the third morning, bandits.</p>
+<p>There were four of them. They came out of the treeline on both sides in the way that suggested they had done this before and expected it to work, which it probably usually did. Two swords, one axe, one club. They were bigger than the brothers and there were more of them and they were not wrong to be confident.</p>
+<p>They had not seen what Haruki and Hayate had seen several days ago. They did not know what that does to a person.</p>
+<p>The fight was not clean. It was not the precise, controlled thing that the demon fight had been --- this was messier, fuelled by exhaustion and grief and the kind of desperate recklessness that comes from having very little left to lose. But something had changed in both of them since Kasumi, some instinct that the demon attack had unlocked and left running, and it showed. Haruki moved like he was solving a problem rather than fighting a person --- reading angles, finding openings, always two steps ahead of where his body needed to be. Hayate moved like a force of nature with bad intentions, overwhelming and relentless, drawing the attention of two bandits at once and somehow making that work in his favour.</p>
+<p>The weapons from Kasumi did not survive it. The carving knife snapped on the third block. The demon's blade lasted longer, which surprised nobody, but by the end neither of them were fighting with what they had started with.</p>
+<p>By the end Haruki was fighting with a bandit's sword he had picked up off the ground beside a bandit who no longer needed it. Hayate had acquired an axe by similar means. Both of them were bleeding from places that were inconvenient rather than serious and breathing harder than they should have been.</p>
+<p>The bandits that could still move decided they had somewhere else to be.</p>
+<p>Haruki and Hayate stood in the road and looked at each other.</p>
+<p>"Better than the knife" Hayate said, looking at the sword in his hand.</p>
+<p>"Low bar" said Haruki.</p>
+<p>They kept walking.</p>
+<p>Akebono announced itself gradually --- first a smell of cookfires and people, then the sound of a town doing its daily business, then the buildings themselves rising over the last hill on the road. It was medium-sized, larger than Kasumi by more than Hayate had words for, built around a central road that widened into a market square near the middle. The name meant dawn. Looking at it through the late afternoon light, exhausted and hungry and carrying borrowed swords, it felt like exactly that --- not a destination, but a beginning. A place where a person might stop running and figure out what came next.</p>
+<p>They entered through the main gate with their heads down and their wounds visible and nothing to their names except the clothes on their backs and the weapons in their hands.</p>
+<p>They had been walking for perhaps ten minutes, following the flow of people toward what looked like the centre of town, when Hayate stopped.</p>
+<p>Not because of anything he saw. Because of something he smelled.</p>
+<p>It was there and gone in a moment --- carried on the foot traffic moving past them in the other direction, something warm and clean and completely out of place among the cookfire smoke and the animal smell of a busy street. He turned his head without thinking about it. His eyes found her automatically, the way they would find a sound in a quiet room.</p>
+<p>She was tall, with golden-blonde hair that moved with her in long waves, wearing practical travelling clothes in earthy tones with a bow across her back and a dagger at her hip. Hazel eyes, slightly upturned at the corners, carrying an expression of mild focus --- a woman who knew where she was going and was going there. She had a folded piece of paper in one hand that she glanced at briefly as she walked, then tucked away.</p>
+<p>She passed them without looking up. Whatever she was thinking about, it was not them.</p>
+<p>Hayate watched her go for exactly two seconds before Haruki's hand closed around his collar and redirected him forward.</p>
+<p>"Job board" Haruki said.</p>
+<p>"I know" said Hayate.</p>
+<p>"Now."</p>
+<p>"I know."</p>
+<p>The job board was a large wooden frame mounted to the wall of what appeared to be Akebono's administrative building, covered in listings of varying age and urgency. Haruki stood in front of it and read methodically from the top left. Hayate stood beside him and read the numbers on the payouts.</p>
+<p>"Escort job" Hayate said. "Three days, decent pay."</p>
+<p>"We don't have horses."</p>
+<p>"Delivery run---"</p>
+<p>"Two days on foot each way, we'd starve before we got paid."</p>
+<p>Hayate squinted at the board. "Goblin camp clearance. Multiple listings." He pointed at the payout figure. "That's not bad."</p>
+<p>Haruki read the listing. Goblin camp, estimated eight to twelve occupants, possibility of a shaman. The pay was better than the escort work and the job was immediate. He looked at the figure again, then at Hayate, then at his own hands --- the borrowed sword, the dried blood on his knuckles from the road.</p>
+<p>"We're exhausted" he said.</p>
+<p>"We're also out of money and haven't eaten since we left Kasumi."</p>
+<p>Haruki was quiet for a moment. He was doing the thing he did --- running through scenarios, checking the outcomes, weighing the options against each other with the patience of someone who had learned early that decisions made quickly were usually decisions you paid for later.</p>
+<p>"Fine" he said. "Goblins."</p>
+<p>Hayate was already pulling the listing off the board.</p>
+<p>The camp was half an hour's walk from the eastern gate, tucked into a shallow depression in the treeline where the goblins had made a rough settlement of stolen materials and bad decisions. Eight of them, as advertised --- small, green, armed with crude weapons, and not particularly intelligent individually. As a group they were slightly more dangerous, which was not saying much.</p>
+<p>The brothers cleared them in under ten minutes.</p>
+<p>It was not elegant. Haruki was running on fumes and Hayate's shoulder was still stiff from the bandit fight and neither of them had eaten a proper meal in several days. But the instincts that had woken up on the road were still there, still running, and eight goblins were not four demons. They went down with considerably less drama.</p>
+<p>The shaman was a different matter.</p>
+<p>It emerged from the largest structure in the camp --- a hunched figure in ragged robes, staff already raised, the air around it crackling with something that smelled like ozone and bad intent. It was faster than the grunts and smarter and it had been watching them clear the camp, which meant it had information they didn't.</p>
+<p>It used that information effectively for about three minutes. Haruki took a glancing hit from a force bolt that spun him sideways. Hayate charged twice and got redirected both times by bursts of wind that weren't aimed at killing him, just slowing him down while the shaman positioned itself.</p>
+<p>On the third charge Haruki feinted left, drew the shaman's attention, and Hayate came in low from the right with the axe.</p>
+<p>The shaman went down.</p>
+<p>Both brothers stood over it breathing hard, and for a long moment neither of them moved.</p>
+<p>Then Hayate's nose found something.</p>
+<p>He turned. Near the centre of the camp, on a flat rock that served as a makeshift table, was a clay pot sitting over a small fire. Inside the pot, something was bubbling. It smelled like meat and roots and the kind of warmth that the body goes toward without the mind's involvement.</p>
+<p>Hayate was sitting on the ground next to it before Haruki had finished turning around.</p>
+<p>"That's goblin food" Haruki said.</p>
+<p>"I know" said Hayate, already eating.</p>
+<p>Haruki looked at it. Looked at his brother. Sat down on the ground beside him and ate without further comment.</p>
+<p>They were most of the way through the pot when the sound of footsteps reached them from the camp entrance --- measured, the walk of someone who had not heard a fight and was not expecting trouble.</p>
+<p>A figure stepped through the gap in the treeline and stopped.</p>
+<p>She was the blonde woman from yesterday. The hazel eyes were currently taking in the scene in front of her with an expression that moved through several distinct phases in quick succession --- alertness, assessment, confusion, and finally a carefully neutral something that was trying not to be judgement and not entirely succeeding.</p>
+<p>She looked at the eight dead goblins. The dead shaman. The two boys sitting on the ground eating out of a communal clay pot with their hands.</p>
+<p>"I had a listing for this camp" she said.</p>
+<p>Haruki looked up. "Sorry --- we had ours first. There are multiple camps in the area though, if you have more listings."</p>
+<p>She glanced at the pot. At Hayate, who had not stopped eating. Back at Haruki.</p>
+<p>"Are you all right?" she asked, which was not really a question about the food.</p>
+<p>"We've had a long few days" Haruki said simply.</p>
+<p>Something in her expression shifted --- the careful neutral softening slightly at the edges, the judgement dissolving into something more considered. She looked at them for another moment, then nodded once.</p>
+<p>"Multiple camps" she confirmed. "Multiple listings on the board. You won't have cleared them all." She pulled the folded paper from her pocket, glanced at it, tucked it away again. "I'll take the next one."</p>
+<p>She turned and walked back the way she had come.</p>
+<p>Hayate watched her go for a second, then looked back at the pot. "She seemed nice."</p>
+<p>"Eat" said Haruki.</p>
+<p>They turned in the listing at the administrative building as the sun was going down. The clerk behind the counter counted out the coin, paused, added an additional amount, and slid it across.</p>
+<p>"Shaman bonus" he said. "Listed rate plus ten percent."</p>
+<p>Haruki looked at the coin. It was more than he had calculated on the road. Not a lot more, but enough --- enough for lodging, enough for a meal tomorrow, enough to keep moving.</p>
+<p>"Thank you" he said.</p>
+<p>They found a boarding house two streets from the job board --- cheap, clean enough, a shared room with two narrow beds and a window that faced the street. Haruki paid for two nights and kept the rest in the purse he had taken from the bandits on the road.</p>
+<p>They sat on the respective beds and Haruki counted the coins out between them on the blanket. Hayate watched him do it.</p>
+<p>"How much?" Hayate asked.</p>
+<p>"Enough for tomorrow. Maybe the day after if we're careful."</p>
+<p>"So we keep hunting."</p>
+<p>"We keep hunting." Haruki looked at the pile. "We'll go to the market tomorrow. Get proper weapons. These---" he glanced at the bandit sword leaning against the wall "---will do for tonight."</p>
+<p>Hayate lay back on the bed and stared at the ceiling. He was asleep in under a minute --- the particular total collapse of someone who has been running on nothing for several days and has finally given the body permission to stop.</p>
+<p>Haruki sat with the coins for a little while longer. He counted them once more, put them back in the purse, and set the purse on the small table between the beds where he could see it.</p>
+<p>Outside, Akebono continued its evening. Cookfire smoke and distant voices and the ordinary sounds of a town that did not know it had two new arrivals who had nowhere to go and nothing to their names except borrowed swords and the particular determination of people who have already survived the worst thing they can imagine.</p>
+<p>He turned out the lamp.</p>
+  </div>
+
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c1" class="ch-nav-btn">&#8592; I: Kasumi</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c3" class="ch-nav-btn">&#8594; III: Akebono, Day Two</a>
+  </div>
+</div>
+
+</body>
+</html>

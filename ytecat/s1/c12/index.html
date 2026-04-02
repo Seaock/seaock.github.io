@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — XII: The Raid</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 12: The Raid — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 12: The Raid">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c12">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0806;
+      --card:    #1a1410;
+      --border:  #8b3a2a33;
+      --ember:   #c0392b;
+      --gold:    #c9a84c;
+      --ash:     #a09080;
+      --text:    #e8ddd0;
+      --muted:   #6b5a4e;
+      --font-title: 'Cinzel', serif;
+      --font-body:  'Crimson Pro', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 1.9;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,8,6,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .top-bar-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+    }
+
+    .top-bar-logo {
+      font-family: var(--font-title);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--ember);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .top-bar-logo:hover { color: var(--gold); }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-pill {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+
+    /* ── CONTENT ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 28px 80px;
+    }
+
+    .chapter-eyebrow {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .chapter-number {
+      font-family: var(--font-title);
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .chapter-title {
+      font-family: var(--font-title);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 400;
+      text-align: center;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .chapter-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent);
+      margin-bottom: 52px;
+    }
+
+    /* ── PROSE ── */
+    .chapter-body p {
+      margin-bottom: 1.4em;
+      color: #d0c4b8;
+      font-size: 20px;
+      line-height: 1.9;
+    }
+
+    .chapter-body p:first-child::first-letter {
+      font-family: var(--font-title);
+      font-size: 3.8em;
+      font-weight: 700;
+      float: left;
+      line-height: 0.78;
+      margin: 6px 10px 0 0;
+      color: var(--ember);
+    }
+
+    .scene-break {
+      text-align: center;
+      color: var(--ember);
+      font-size: 20px;
+      margin: 40px 0;
+      opacity: 0.5;
+      letter-spacing: 0.5em;
+    }
+
+    .chapter-subhead {
+      font-family: var(--font-title);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 40px 0 20px;
+    }
+
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+
+    /* ── BOTTOM NAV ── */
+    .chapter-footer {
+      margin-top: 70px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .ch-nav-btn {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    .ch-footer-title {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nav-pills { gap: 3px; }
+      .nav-pill { font-size: 9px; padding: 3px 6px; }
+      .wrap { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill active" title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 12</p>
+  <div class="chapter-number">XII</div>
+  <h1 class="chapter-title">The Raid</h1>
+  <div class="chapter-divider"></div>
+
+  <div class="chapter-body">
+    <p>Two days of light work and actual meals had done something measurable for all three of them.</p>
+<p>Not fully recovered --- that would have taken longer than two days --- but functional in a way that felt different from the grinding exhaustion of the week before. Hayate's torso wound had closed to a tight, itching line that pulled when he moved too fast. His shoulder was still tender but no longer the constant distraction it had been. Haruki moved without the careful economy of someone managing pain. Lyra, who had said nothing about her own condition throughout, seemed simply herself again, which Hayate was beginning to understand was a deliberate choice she made regardless of how she actually felt.</p>
+<p>They went to the job board in the morning and found it immediately.</p>
+<p>It was larger than the other listings --- a full page rather than the usual half, the handwriting more deliberate, the language more specific. An old tomb on the outskirts of Akebono's territory, built for fallen kings, now overrun with skeletons. The scale of the infestation required multiple parties. All interested to meet at the town square at sunrise the following day. The payout figure at the bottom was the largest any of them had seen on the board.</p>
+<p>They stood in front of it for a moment.</p>
+<p>"Skeletons" Hayate said.</p>
+<p>"In a tomb" Haruki said.</p>
+<p>"Large payout."</p>
+<p>"Also large tomb. Large number of skeletons."</p>
+<p>Hayate looked at him. "Are we doing it?"</p>
+<p>Haruki looked at Lyra.</p>
+<p>Lyra was reading the listing a second time with the focused attention she gave to things she was taking seriously. She finished, stepped back, and said --- "It's dangerous. More dangerous than anything we've taken so far." A pause. "I think we should do it."</p>
+<p>Hayate was already pulling it off the board.</p>
+<p>They had the rest of the day and Lyra used it.</p>
+<p>She had been watching the brothers fight for long enough now to have formed a complete picture --- not just of what they could do but of the specific shape of what they couldn't. She knew what she was working with and she worked with it rather than against it.</p>
+<p>Efficient movement first. She took them through it methodically --- the way a fighter conserved energy over a long engagement, how much stamina was wasted in an unnecessary step, an overextended swing, a defensive movement that covered more ground than the threat required. Hayate absorbed it through doing rather than listening, adjusting on the fly, his natural instincts finding the efficiency faster than the instruction did. Haruki absorbed it the other way --- understanding the principle first, then applying it, each movement deliberate until it wasn't.</p>
+<p>Battlefield awareness next. She addressed it directly, without making it pointed --- how to track the ground as well as the enemy, how to account for the bodies and the debris and the uneven terrain that a fight always generated around itself. Haruki took this one without comment. He knew what it was about. He did not need her to say the goblin camp.</p>
+<p>She also had them swap weapons.</p>
+<p>She had her reasons --- she wanted to see their adaptability, wanted to understand their range, wanted to know what happened when each of them was taken out of their natural mode. But she had also watched the brothers train together before she had arrived at the camp that first morning and she had noted something then that she was now confirming: they already knew each other's weapons. Not with skill but with familiarity --- the particular ease of people who had held something many times. Haruki moved the greatsword with a caution that was about respect for the weight rather than unfamiliarity with it. Hayate moved the rapier with a care that was about not wanting to break it.</p>
+<p>She filed that away with everything else she had filed about them and said nothing about it.</p>
+<p>By the time the light went they were better than they had been that morning, which was all she had aimed for.</p>
+<p>The town square at sunrise was cold and still.</p>
+<p>Their party arrived first --- or nearly first. The dwarves were already there, four of them, standing in a tight group with the particular self-contained quality of people who had worked together long enough to stop needing to talk. Broad, solid, armed with axes and hammers, wearing the kind of armour that had been repaired so many times it had become its own artefact. They looked at the approaching party --- human, human, elf, mixed and walking together --- and the looking was not neutral.</p>
+<p>The orcs arrived minutes later. Also four, also a unit, also armed and ready. They assessed the situation with the same eyes the dwarves had used and reached what appeared to be the same conclusion, though they expressed it differently --- not cold like the dwarves but openly uncomfortable, a visible recalibration of expectations.</p>
+<p>The last party was two figures, both hooded, standing slightly apart from the others. They had arrived before everyone and had chosen their position accordingly --- close enough to be present, far enough to be separate.</p>
+<p>Hayate smelled it before he saw them.</p>
+<p>Salt. Clean and sharp. The same smell from the park, from the market before that. He glanced at the two hooded figures and felt something click into place. He said nothing. He had not told Haruki or Lyra about Kira, about Rask, about the park --- it had not seemed relevant at the time and now it seemed like the wrong moment to bring it up. He watched the figures from the corner of his eye and kept walking.</p>
+<p>Their party took a position away from the others. The distance between the groups was not large but it was deliberate --- felt from both sides, maintained by both sides. The dwarf party looked at them the way people look at something they do not have a category for and have decided they do not like. The orc party looked at them the way people look at something that offends a principle they have held for a long time.</p>
+<p>Haruki noted it. Hayate noted it. Lyra had clearly already noted it and had moved on to other things.</p>
+<p>The square was getting on toward full light when three figures arrived from the direction of the main street.</p>
+<p>The man in the centre walked with the ease of someone accustomed to being looked at and had stopped registering it. Human, well-dressed without being ostentatious, the kind of wealthy that expressed itself in quality rather than display. A cross-shaped scar ran over his left eye --- the eye itself grey, flat, the colour of something that no longer worked. The two men flanking him were large in the way that suggested it was professional rather than incidental, their eyes moving across the assembled parties with the practiced assessment of people paid to assess.</p>
+<p>The discomfort in the square shifted when he arrived. The dwarves exchanged a look --- brief, controlled, the look of people swallowing something they objected to. The orcs were less controlled about it. One of them said something low to another that did not carry across the square but carried in tone.</p>
+<p>Taking orders from a human.</p>
+<p>The scarred man stopped in front of the assembled parties and looked at each group in turn without hurrying. His good eye moved across them with calm attention.</p>
+<p>"Thank you for coming" he said. His voice was measured and pleasant. "I'll keep this brief."</p>
+<p>He outlined the job cleanly. The tomb's location --- half a day's walk east of the gate. The scale of the skeleton population inside, which was substantial and had been growing. The tomb's layout, as best it was known --- large, multi-chambered, built for royalty. He did not minimise the danger. He named it directly and let it sit.</p>
+<p>Half the bounty now, he said. Half on completion. The party that recorded the highest kill count would receive a bonus payment on top of the completion fee.</p>
+<p>He looked at them all.</p>
+<p>"Last chance to walk away" he said. "No shame in it."</p>
+<p>Nobody moved.</p>
+<p>He reached into his coat and produced coin bags --- one per party, the first half of the bounty, distributed without ceremony. He handed them over and stepped back.</p>
+<p>"I'll be in town" he said. "Come find me when it's done." He turned and walked back the way he had come, his two companions falling into step behind him.</p>
+<p>The parties stood in the square for a moment.</p>
+<p>Then the orcs ran.</p>
+<p>Not walked --- ran, breaking from the square at a pace that made their intention clear. First on site. First kills. First chance at the bonus.</p>
+<p>The other parties watched them go.</p>
+<p>"Should we---" Hayate started.</p>
+<p>"No" said Haruki. He was watching the direction the orcs had gone with an expression Lyra recognised --- the one that meant he was thinking about something and had not finished yet. "We go at our own pace. Arriving last isn't the worst position."</p>
+<p>Hayate looked at him. "You have a reason for that."</p>
+<p>"I have a feeling" Haruki said. "Which isn't the same thing." He looked at the others. "Let's go."</p>
+<p>They set out --- separately from the dwarves, separately from the hooded pair, their own unit moving at their own pace through Akebono's eastern gate and out onto the road toward the tomb.</p>
+  </div>
+
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c11" class="ch-nav-btn">&#8592; XI: Kira</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c13" class="ch-nav-btn">&#8594; XIII: The Tomb</a>
+  </div>
+</div>
+
+</body>
+</html>

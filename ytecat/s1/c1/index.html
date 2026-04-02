@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — I: Kasumi</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 1: Kasumi — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 1: Kasumi">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c1">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0806;
+      --card:    #1a1410;
+      --border:  #8b3a2a33;
+      --ember:   #c0392b;
+      --gold:    #c9a84c;
+      --ash:     #a09080;
+      --text:    #e8ddd0;
+      --muted:   #6b5a4e;
+      --font-title: 'Cinzel', serif;
+      --font-body:  'Crimson Pro', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 1.9;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,8,6,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .top-bar-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+    }
+
+    .top-bar-logo {
+      font-family: var(--font-title);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--ember);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .top-bar-logo:hover { color: var(--gold); }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-pill {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+
+    /* ── CONTENT ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 28px 80px;
+    }
+
+    .chapter-eyebrow {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .chapter-number {
+      font-family: var(--font-title);
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .chapter-title {
+      font-family: var(--font-title);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 400;
+      text-align: center;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .chapter-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent);
+      margin-bottom: 52px;
+    }
+
+    /* ── PROSE ── */
+    .chapter-body p {
+      margin-bottom: 1.4em;
+      color: #d0c4b8;
+      font-size: 20px;
+      line-height: 1.9;
+    }
+
+    .chapter-body p:first-child::first-letter {
+      font-family: var(--font-title);
+      font-size: 3.8em;
+      font-weight: 700;
+      float: left;
+      line-height: 0.78;
+      margin: 6px 10px 0 0;
+      color: var(--ember);
+    }
+
+    .scene-break {
+      text-align: center;
+      color: var(--ember);
+      font-size: 20px;
+      margin: 40px 0;
+      opacity: 0.5;
+      letter-spacing: 0.5em;
+    }
+
+    .chapter-subhead {
+      font-family: var(--font-title);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 40px 0 20px;
+    }
+
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+
+    /* ── BOTTOM NAV ── */
+    .chapter-footer {
+      margin-top: 70px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .ch-nav-btn {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    .ch-footer-title {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nav-pills { gap: 3px; }
+      .nav-pill { font-size: 9px; padding: 3px 6px; }
+      .wrap { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill active" title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 1</p>
+  <div class="chapter-number">I</div>
+  <h1 class="chapter-title">Kasumi</h1>
+  <div class="chapter-divider"></div>
+
+  <div class="chapter-body">
+    <p>The village of Kasumi was the kind of place the world forgot about.</p>
+<p>Tucked between hills that caught the morning mist and held it until midday, it was small enough that everyone knew every name, and quiet enough that the loudest thing most evenings was the sound of a family at dinner. The roads were unpaved and the market was three stalls on a good day and the nearest town was far enough that most people went their whole lives without seeing it. Nobody minded. There was enough here. There was more than enough.</p>
+<p>Tonight, that family filled a house near the centre of the village --- seven children packed around a table too small for all of them, elbows fighting for space, laughter loud enough to carry through the walls. Their mother moved between the kitchen and the table without stopping, a woman who had long since learned to hold seven conversations simultaneously and follow none of them to their conclusion. Their father sat at the head --- a big man with calloused hands and a farmer's silence, watching his family the way men do when they don't have words for what they feel.</p>
+<p>Haruki, the eldest, was seventeen. He had his father's build --- medium frame, warm brown skin, golden undertones --- but his mother's eyes, dark and warm and paying attention to everything. His face was still young enough to be called round but he carried himself like someone older, the weight of being first showing in his posture rather than his expression. He passed bowls without being asked and made sure the youngest had enough before he served himself and answered his siblings' questions with the patience of someone who had been answering questions his entire life.</p>
+<p>Hayate sat beside him. Ten years old, broad-shouldered in a way that promised something in a few years, with the same warm brown skin and dark eyes as his brother but olive undertones and a restless energy that made him look like he was always about to do something even when he was sitting still. He was the youngest of seven and he knew exactly what that meant --- the most loved, the most indulged, the loudest voice at the table and the last one anyone expected anything from. He took full advantage of all of it.</p>
+<p>Between them sat the rest --- two brothers and four sisters, one set of twins, all of them loud and warm and thoroughly convinced their own conversation was the most important one happening at the table.</p>
+<p>They were halfway through the meal when the screaming started.</p>
+<p>It came from outside --- distant at first, a single voice, then more, then not distant at all. Their father was on his feet before anyone else reacted. He crossed the room in three strides, the chair scraping back behind him, and reached for the door.</p>
+<p>He didn't get to it.</p>
+<p>The door came off its hinges.</p>
+<p>Five demons filled the entrance. They were wrong in the way that made the stomach drop before the mind could name what it was seeing --- too tall, too dark, proportions that didn't resolve correctly no matter how long you looked at them, moving like something that had never been taught to move like a person. The smallest of them was bigger than their father. They brought the smell of something burnt and old and deeply wrong.</p>
+<p>The table went silent.</p>
+<p>Their father grabbed the nearest thing --- a hand tool leaning against the wall --- and swung without hesitating.</p>
+<p>The first demon went down.</p>
+<p>The other four did not stop.</p>
+<p>Haruki and Hayate moved at the same time, without words, without a plan. There was no plan. There had never been a plan for this. Haruki grabbed a blade from the kitchen --- a long carving knife, not a weapon but the closest thing to one --- and put himself between the demons and his siblings. Hayate grabbed anything his hands found. Two demons broke toward them. The other two spread into the room.</p>
+<p>The noise that followed was not something either brother would speak of later.</p>
+<p>Haruki's demon was fast. He was faster, though he had no idea how or why --- his body moved like it had always known how to do this, precise and controlled, finding the gap and pressing it with the carving knife until the demon stopped moving. His hands did not shake. He did not understand that either.</p>
+<p>Hayate's was different. His demon was bigger and angrier and it took longer. Rage turned out to be cleaner than fear, and he had enough of both. He fought with the reckless, overwhelming commitment of someone who has not yet learned that hesitation exists --- all forward momentum, all noise, no technique. When the demon finally stopped, Hayate was breathing in ragged pulls and his hands were shaking and he didn't look at them.</p>
+<p>By then, the room was quiet.</p>
+<p>Their father lay near the door, still holding the tool. He had not hesitated. Not for a single second. In the last moment that mattered, he had been exactly the man they had always known him to be. The other two demons lay dead on the floor --- killed in the seconds after Haruki and Hayate turned from their own fights.</p>
+<p>But the seconds before that.</p>
+<p>Haruki looked at his family.</p>
+<p>He looked for a long time. Long enough that Hayate, who had been staring at his own hands, looked up and followed his gaze and understood.</p>
+<p>The table was still set. The bowls were still full.</p>
+<p>The brothers did not speak. There was nothing to say that the silence wasn't already saying. They did not stay --- not because they were callous, but because the part of the mind that handles the unbearable sometimes does so by moving, and moving was the only thing available.</p>
+<p>They left under cover of night.</p>
+<p>The village was burning in several places by then, other families, other doors. They moved between the shadows without lamps, without anything except the clothes they were wearing and what their hands had picked up in the fight --- the carving knife, a demon's blade, instinct, and each other.</p>
+<p>At the edge of the village, Hayate stopped.</p>
+<p>He turned back. Haruki stopped beside him.</p>
+<p>The fire was visible from here --- orange against the dark hills, the mist that usually softened everything in Kasumi now catching the light and glowing with it. The outline of the house was still there. Then it wasn't.</p>
+<p>Hayate's face was doing something complicated and unresolved. He was ten years old. His family was gone. The place that had made him who he was burned in front of him. There were no words for any of it --- so he said nothing, and looked until he couldn't anymore.</p>
+<p>Haruki stood beside him and said nothing. He had looked already and understood already and was doing the only thing he knew how to do, which was to be present for his brother while the world ended.</p>
+<p>They stood until neither of them could look anymore.</p>
+<p>Then they turned, and kept walking.</p>
+  </div>
+
+  <div class="chapter-footer">
+    <span></span>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c2" class="ch-nav-btn">&#8594; II: Akebono</a>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — X: Light Duty</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 10: Light Duty — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 10: Light Duty">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c10">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0806;
+      --card:    #1a1410;
+      --border:  #8b3a2a33;
+      --ember:   #c0392b;
+      --gold:    #c9a84c;
+      --ash:     #a09080;
+      --text:    #e8ddd0;
+      --muted:   #6b5a4e;
+      --font-title: 'Cinzel', serif;
+      --font-body:  'Crimson Pro', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 1.9;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,8,6,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .top-bar-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+    }
+
+    .top-bar-logo {
+      font-family: var(--font-title);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--ember);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .top-bar-logo:hover { color: var(--gold); }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-pill {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+
+    /* ── CONTENT ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 28px 80px;
+    }
+
+    .chapter-eyebrow {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .chapter-number {
+      font-family: var(--font-title);
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .chapter-title {
+      font-family: var(--font-title);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 400;
+      text-align: center;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .chapter-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent);
+      margin-bottom: 52px;
+    }
+
+    /* ── PROSE ── */
+    .chapter-body p {
+      margin-bottom: 1.4em;
+      color: #d0c4b8;
+      font-size: 20px;
+      line-height: 1.9;
+    }
+
+    .chapter-body p:first-child::first-letter {
+      font-family: var(--font-title);
+      font-size: 3.8em;
+      font-weight: 700;
+      float: left;
+      line-height: 0.78;
+      margin: 6px 10px 0 0;
+      color: var(--ember);
+    }
+
+    .scene-break {
+      text-align: center;
+      color: var(--ember);
+      font-size: 20px;
+      margin: 40px 0;
+      opacity: 0.5;
+      letter-spacing: 0.5em;
+    }
+
+    .chapter-subhead {
+      font-family: var(--font-title);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 40px 0 20px;
+    }
+
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+
+    /* ── BOTTOM NAV ── */
+    .chapter-footer {
+      margin-top: 70px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .ch-nav-btn {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    .ch-footer-title {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nav-pills { gap: 3px; }
+      .nav-pill { font-size: 9px; padding: 3px 6px; }
+      .wrap { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill active" title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 10</p>
+  <div class="chapter-number">X</div>
+  <h1 class="chapter-title">Light Duty</h1>
+  <div class="chapter-divider"></div>
+
+  <div class="chapter-body">
+    <p>Hayate opened his eyes to the ceiling of the inn room.</p>
+<p>For a moment he just looked at it --- the familiar grain of the wood, the crack running from the window frame toward the far corner that he had memorised from the first night without meaning to. Then he turned his head.</p>
+<p>Haruki was sitting on the edge of the other bed, talking quietly with Lyra who had pulled the chair from the corner and sat facing him. They had the easy back and forth of people who had been talking for a while already --- not animated, just steady, the conversation of two people who had run out of urgent things to say and moved on to the ordinary ones.</p>
+<p>"You look like shit" Hayate said.</p>
+<p>They both looked over. Haruki's face did the thing it did when he was relieved but was not going to say so --- a small exhale, a slight softening around the eyes, the smile that came a half second after the relief rather than with it.</p>
+<p>Lyra said nothing but she did not look away either, which from her was approximately the same thing.</p>
+<p>"How do you feel?" Haruki asked.</p>
+<p>Hayate took stock. His right torso was a dull, deep ache that sharpened when he breathed too fully. His left shoulder was a different kind of pain --- surface, hot, the burn making itself known every time the cloth of his shirt moved against it. His legs felt fine. Everything else felt like it had been wrung out and hung up to dry.</p>
+<p>"Manageable" he said.</p>
+<p>"You were unconscious when we carried you back" Haruki said. "Lyra and I healed what we could on the field. The magic has helped but the body needs to finish the work itself. Two days of light duty minimum."</p>
+<p>"Two days."</p>
+<p>"Two days."</p>
+<p>Hayate looked at the ceiling again. "Fine."</p>
+<p>Haruki continued --- measured, thorough, the way he explained things when he wanted to make sure there was no room for argument later. The healing was slower than it should have been. Not because of the wounds specifically but because of everything surrounding them. A week of accumulated damage --- the demon attack on Kasumi, three days on the road with no proper rest, the bandit fight, the first goblin camp, the afternoon of weapons training, the second goblin camp with a chief and two shamans. The body had been absorbing all of it without being given time to recover, and it had finally called in the debt.</p>
+<p>"I need rest too" Haruki added. "Not as much as you, but I'm not at full capacity. Lyra and I will keep taking jobs --- light work, nothing that requires us to be combat-ready. We need the money and we can't afford to stop entirely."</p>
+<p>"And me?"</p>
+<p>"You stay in town. Rest. Eat. Don't do anything that reopens that wound."</p>
+<p>Hayate looked at him.</p>
+<p>"Hayate."</p>
+<p>"I heard you."</p>
+<p>"Do you agree?"</p>
+<p>A pause. As much as he wanted to argue --- and he did want to argue, the instinct to push back was immediate and strong --- he could feel the truth of it in every part of his body that was currently making its opinion known. Even he could not pretend this was nothing.</p>
+<p>"Fine" he said again. "Two days."</p>
+<p>Haruki nodded. He stood, and Lyra stood with him, and they moved toward the door.</p>
+<p>Lyra stopped at the door.</p>
+<p>She turned back. Her eyes found Hayate and she held his gaze for a moment --- steady, assessing, with something underneath it that she was deciding whether to let through.</p>
+<p>She let it through.</p>
+<p>"Thank you" she said. "For what you did with the goblins. Splitting them up the way you did." A pause. "I don't know if I would have survived if you hadn't moved when you did."</p>
+<p>Hayate looked at her. The thanks was genuine --- no qualification, no armour around it, just the words given plainly. Coming from Lyra, who gave nothing plainly, it landed with considerably more weight than the words themselves carried.</p>
+<p>"You're welcome" he said. His ears were warm. He was fairly certain his face was doing something he would prefer it not to be doing and there was nothing he could do about it.</p>
+<p>Lyra held his gaze for one more moment. Then she turned and walked out.</p>
+<p>Haruki, following her, glanced back at Hayate with the expression of someone who had noticed everything and had decided to be kind about it.</p>
+<p>He said nothing. He closed the door behind him.</p>
+<p>Hayate lasted approximately forty minutes before the ceiling became intolerable.</p>
+<p>He got dressed carefully --- the torso wound making the process longer than it should have been --- and went downstairs and out into Akebono.</p>
+<p>They had been here for days and he had seen the job board, the market, the goblin camps outside the eastern gate, and the inside of this inn. That was the full inventory of Akebono as far as he was concerned, which was clearly not the full inventory of Akebono. He turned left at the end of the street and started walking without a destination.</p>
+<p>The town was larger than it looked from the main road. Side streets branching off the central market, residential blocks further back, the smell of cookfires and animals and people living their ordinary lives in the ordinary way. He walked through it and looked at things and let his mind go quiet, which it rarely did but occasionally needed to.</p>
+<p>He found the park by following the sound of birds.</p>
+<p>It was a modest space --- a square of grass and old trees set back from the surrounding buildings, the kind of place a town put in when it had the room and the inclination. A few benches. A path worn into the grass by years of foot traffic. And on one of the benches, sitting very still and looking at the entrance to the park with the focused attention of someone waiting for something, a child.</p>
+<p>Beastman. Snake hybrid --- Hayate could see it from twenty metres, the particular quality of the skin on the child's arms, the way the light caught it. Scales along the forearms and neck, subtle but unmistakable. The eyes, when the child glanced up at his approach, had the vertical pupils of a snake. A forked tongue, visible for a moment. Fangs at the edge of a mouth that was currently pressed into the careful neutral expression of someone who had learned not to show what they were feeling in front of strangers.</p>
+<p>The child looked at him. Looked away. Looked back.</p>
+<p>Hayate sat down on the bench a comfortable distance away and said nothing for a moment.</p>
+<p>"You okay?" he asked.</p>
+<p>"Fine" the child said. Immediately. The word of someone who had been asked that question before and had a prepared answer for it.</p>
+<p>"You don't look fine."</p>
+<p>"I'm fine."</p>
+<p>Hayate looked at the park entrance the child kept watching. "Are you lost?"</p>
+<p>"No."</p>
+<p>"Waiting for someone?"</p>
+<p>A pause. Longer than the others. "My teacher. We were meant to train magic today." The child's eyes moved to the entrance again. "He hasn't come."</p>
+<p>"How long have you been waiting?"</p>
+<p>The child didn't answer, which was an answer.</p>
+<p>"I'll wait with you" Hayate said.</p>
+<p>The child looked at him with the open suspicion of someone who had learned that offers from strangers were rarely straightforwardly what they appeared to be. "You don't have to."</p>
+<p>"I know. I'm bored." Hayate leaned back on the bench and looked up at the trees. "I'm not allowed to do anything useful for two days so I'm just walking around. I've got time."</p>
+<p>The child looked at him for another moment. Then looked back at the entrance. "Fine."</p>
+<p>They sat. The child made several attempts to end the conversation through the strategic use of short answers and deliberate silences, and Hayate absorbed all of them without taking offence and kept talking anyway, which was something he was naturally good at.</p>
+<p>After a while the entrance to the park remained empty and the child's teacher had not come and Hayate had an idea.</p>
+<p>"I know a bit about magic" he said. "Not a teacher --- I'm not qualified for that. But if you want something to do while you wait, I can show you what I know."</p>
+<p>The child looked at him.</p>
+<p>Something happened in the carefully neutral expression --- a crack in it, small and involuntary, the particular light that appears in a person's eyes when something they care about very much has just been mentioned unexpectedly. The child tried to put it back. Did not entirely succeed.</p>
+<p>"Okay" the child said.</p>
+<p>Hayate went through it the way he understood it --- not formally, not with any particular structure, just the shape of it as he had come to know it through his own affinity and what Haruki had taught him and what he had worked out for himself.</p>
+<p>Six elements. Each one with a natural inclination --- toward offence, toward defence, toward healing and support. Earth and Water on the defensive and buffing side. Fire and Dark on the offensive side. Light and Wind for healing and support, though Wind had an enhancement quality that sat somewhere between the two.</p>
+<p>Every person had at most two. Some had one. Some had none --- no affinity at all, which was more common than people assumed.</p>
+<p>He demonstrated with his own. Dark first --- a shadow bolt, small and controlled, the dark energy condensing in his palm and firing at a spot on the grass where it left a scorch mark. The child's eyes went very wide.</p>
+<p>Wind next --- he let the enhancement run up his forearm, the air tightening around the muscle, the subtle increase in speed and force that came with it. He moved his hand through the air and the displacement was visible, a fraction of a second faster than it should have been.</p>
+<p>"Dark is mine" he said. "Offensive. Wind I use for enhancement --- making myself faster, hits harder. Wind also has healing and support applications but I---" he paused "---I mostly use the enhancement side."</p>
+<p>The child had stopped making any pretence of looking at the park entrance.</p>
+<p>"What are yours?" Hayate asked.</p>
+<p>The child held out one hand. The air around it moved --- subtle, the kind of manifestation that was still finding its shape. Wind, clearly, though young and unformed. The child let it run for a moment and then let it go.</p>
+<p>"Wind" Hayate said. "That's good. Versatile. What's your second?"</p>
+<p>The child shook their head. "I don't know yet. It hasn't come."</p>
+<p>"That's normal" Hayate said. "Second affinities take time. It'll show up."</p>
+<p>The child looked at him. Then, with the deliberate care of someone doing something they had decided to do rather than something that had simply happened --- "My name is Kira."</p>
+<p>Hayate smiled. The kind he didn't always mean to. "Hayate. Good to meet you, Kira."</p>
+<p>Kira looked like he was trying to decide whether to smile back and had not finished deciding when something at the edge of the park caught Hayate's attention.</p>
+<p>Two figures. Hooded. Walking toward them from the far entrance with the purposeful ease of people who knew where they were going.</p>
+<p>Hayate noticed the smell before he noticed anything else about them. Salt. Clean and sharp, like open water, like the sea. He had smelled it once before, briefly, in the market.</p>
+<p>He stayed where he was and watched them come.</p>
+<p><em>\[Section 1 ends here --- Chapters 11-20 continue in Section 2\]</em></p>
+  </div>
+
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c9" class="ch-nav-btn">&#8592; IX: One Down</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c11" class="ch-nav-btn">&#8594; XI: Kira</a>
+  </div>
+</div>
+
+</body>
+</html>

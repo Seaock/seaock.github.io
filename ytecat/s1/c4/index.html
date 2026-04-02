@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — IV: Wepons</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 4: Wepons — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 4: Wepons">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c4">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0806;
+      --card:    #1a1410;
+      --border:  #8b3a2a33;
+      --ember:   #c0392b;
+      --gold:    #c9a84c;
+      --ash:     #a09080;
+      --text:    #e8ddd0;
+      --muted:   #6b5a4e;
+      --font-title: 'Cinzel', serif;
+      --font-body:  'Crimson Pro', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 1.9;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,8,6,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .top-bar-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+    }
+
+    .top-bar-logo {
+      font-family: var(--font-title);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--ember);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .top-bar-logo:hover { color: var(--gold); }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-pill {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+
+    /* ── CONTENT ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 28px 80px;
+    }
+
+    .chapter-eyebrow {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .chapter-number {
+      font-family: var(--font-title);
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .chapter-title {
+      font-family: var(--font-title);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 400;
+      text-align: center;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .chapter-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent);
+      margin-bottom: 52px;
+    }
+
+    /* ── PROSE ── */
+    .chapter-body p {
+      margin-bottom: 1.4em;
+      color: #d0c4b8;
+      font-size: 20px;
+      line-height: 1.9;
+    }
+
+    .chapter-body p:first-child::first-letter {
+      font-family: var(--font-title);
+      font-size: 3.8em;
+      font-weight: 700;
+      float: left;
+      line-height: 0.78;
+      margin: 6px 10px 0 0;
+      color: var(--ember);
+    }
+
+    .scene-break {
+      text-align: center;
+      color: var(--ember);
+      font-size: 20px;
+      margin: 40px 0;
+      opacity: 0.5;
+      letter-spacing: 0.5em;
+    }
+
+    .chapter-subhead {
+      font-family: var(--font-title);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 40px 0 20px;
+    }
+
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+
+    /* ── BOTTOM NAV ── */
+    .chapter-footer {
+      margin-top: 70px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .ch-nav-btn {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    .ch-footer-title {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nav-pills { gap: 3px; }
+      .nav-pill { font-size: 9px; padding: 3px 6px; }
+      .wrap { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill active" title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 4</p>
+  <div class="chapter-number">IV</div>
+  <h1 class="chapter-title">Wepons</h1>
+  <div class="chapter-divider"></div>
+
+  <div class="chapter-body">
+    <p>The shop was smaller inside than the door suggested.</p>
+<p>Every surface was occupied --- weapons on the walls, weapons in barrels, weapons laid flat across makeshift shelving that had been added incrementally by someone who kept acquiring more stock than they had planned for. Swords, axes, daggers, spears, things that were somewhere between a tool and a weapon and had committed to neither. The smell was iron and oil and the particular dusty warmth of a space that had been lived in for a long time.</p>
+<p>Behind the counter, a dwarf was arranging a row of short blades with the focused attention of a man who had strong opinions about the correct order for short blades. He was broad and compact with a grey-streaked beard tucked into his belt and the calloused hands of someone who had been working with metal his entire life. He looked up when the door opened, and his expression went through three distinct phases in very quick succession.</p>
+<p>Warm welcome. Recognition that his visitors were not who he expected. Poorly concealed panic.</p>
+<p>"I paid already" he said immediately. "Three days ago. Spoke to the man with the scar personally. We have an arrangement."</p>
+<p>Haruki blinked. "We're here to buy weapons."</p>
+<p>The shopkeeper looked at him. Looked at Hayate. Looked back at Haruki.</p>
+<p>"To buy" Haruki confirmed.</p>
+<p>"Weapons" Hayate added helpfully.</p>
+<p>The shopkeeper's expression did not fully resolve into anything comfortable. He looked them over with the careful suspicion of someone who had been surprised before and had not enjoyed it. His eyes dropped to the weapons at their belts --- the bandit sword, the borrowed axe --- and his brow furrowed.</p>
+<p>"Have you lost your vision?" he asked.</p>
+<p>"No" said Haruki.</p>
+<p>"Both of you?"</p>
+<p>"Both of us" said Hayate.</p>
+<p>The shopkeeper stared at them for another moment. Then he made a sound somewhere between a sigh and a grunt and waved a hand at the shop. "Look around then. I'll be watching." He picked up the short blade he had been arranging and set it down in a slightly different position, eyes still on them.</p>
+<p>Haruki moved toward the sword section along the left wall. There were perhaps thirty blades on display --- different lengths, different weights, different levels of visible craft. He stood in front of them and looked and realised almost immediately that he had no idea what he was looking at. He could hold a sword. He could use a sword in the approximate sense of the word. Whether the steel in front of him was good or poor, whether the balance was right or wrong for what he needed, whether the price was fair or extortionate --- he had no reference for any of it. He felt the particular frustration of standing in front of a decision he couldn't make properly.</p>
+<p>He glanced at Hayate.</p>
+<p>Hayate had not gone to the sword section. Hayate had gone directly to the back wall, where the largest weapons in the shop were displayed, and he was standing in front of a greatsword with the expression of someone who had just seen something that confirmed a long-held belief about the world.</p>
+<p>It was enormous. Longer than Hayate was tall, broad-bladed, with a simple crossguard and a grip wrapped in worn leather. It was the kind of weapon that announced its presence in a room. Hayate reached up and put his hand on the grip and looked at it the way other people looked at things that belonged to them.</p>
+<p>Haruki walked over. Checked the price tag hanging from the crossguard.</p>
+<p>Twenty silver.</p>
+<p>He checked the purse. Thirty-five silver total --- everything they had, including the shaman bonus. Fifteen left after the greatsword, which was not enough margin if the hunt tomorrow went badly.</p>
+<p>He looked at the greatsword. At Hayate's hand on the grip. At the purse.</p>
+<p>"We'll take it" he said.</p>
+<p>Hayate looked at him. Something in his face that was not quite surprise but was adjacent to it.</p>
+<p>Haruki was already walking back toward the short sword section. He looked at the wall for another moment, then turned to the shopkeeper. "What's your cheapest short sword?"</p>
+<p>The shopkeeper, who had been watching all of this from behind the counter with the expression of a man witnessing something he could not categorise, set down the blade he was holding. He went to a large barrel near the end of the counter and reached in without looking, the way a person reaches into a barrel they have reached into many times. He pulled out a rapier and set it on the counter.</p>
+<p>It was plain. Functional. The blade was clean and the crossguard was simple and there was nothing remarkable about it in any direction.</p>
+<p>"Five silver" the shopkeeper said. "Not popular. Been in the barrel two years."</p>
+<p>Hayate, who had followed Haruki back to the counter with the greatsword already in his hands, looked at the rapier. Then at Haruki. "That's the cheapest one?"</p>
+<p>"It's fine" Haruki said.</p>
+<p>"It's five silver."</p>
+<p>"I know what it costs."</p>
+<p>"You're spending twenty on mine and five on yours."</p>
+<p>"Hayate." Haruki looked at him. "Trust me."</p>
+<p>Hayate looked at the rapier. Looked at Haruki. Made the face he made when he disagreed with something but had decided not to push it. "Fine."</p>
+<p>Haruki put twenty-five silver on the counter. The shopkeeper counted it twice, then looked up at them with the expression of a man who had accepted that he was not going to understand this transaction and had made peace with it.</p>
+<p>"Thank you" Haruki said.</p>
+<p>"Mm" said the shopkeeper.</p>
+<p>They left. He watched them go through the small window, two boys heading back into the market --- one carrying a greatsword that was nearly as tall as he was, one carrying a rapier from a barrel that nobody had wanted in two years.</p>
+<p>He shook his head and went back to his blades.</p>
+<p>The afternoon went to the space behind the boarding house --- a narrow strip of packed earth between the building and the fence that was just wide enough to move in. They trained until the light went. Not sparring exactly --- just getting acquainted. Learning the weight and the reach and the way each weapon wanted to move. Haruki worked the rapier through slow deliberate passes, finding the balance, noting the way it rewarded precision over force. Hayate swung the greatsword in wide arcs and grinned every time it connected with the practice post they had hammered into the ground.</p>
+<p>By the time they went in for the night Haruki had stopped feeling like he was fighting the weapon. That was enough for now.</p>
+<p>The gate at sunrise was cold and quiet. Two guards on duty, a handful of other adventurers heading out for early jobs, the particular grey light of early morning that made everything look temporary.</p>
+<p>Lyra was already there.</p>
+<p>She was leaning against the gate post with her arms crossed, bow across her back, watching the road. She straightened slightly when they approached and looked at their weapons --- the greatsword on Hayate's back, the rapier at Haruki's hip --- with the assessing look Haruki was beginning to recognise as her default mode.</p>
+<p>"Do you know how to use those?" she asked.</p>
+<p>"Trained all afternoon" Hayate said.</p>
+<p>She looked at him for a moment. "You trained all afternoon."</p>
+<p>"Yes."</p>
+<p>She looked at the greatsword. At Hayate. At the greatsword again.</p>
+<p>"Don't die" she said. She turned and started walking.</p>
+<p>The brothers fell into step behind her.</p>
+<p>"She seems confident in us" Hayate said, quietly, to Haruki.</p>
+<p>"Walk faster" said Haruki.</p>
+  </div>
+
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c3" class="ch-nav-btn">&#8592; III: Akebono, Day Two</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c5" class="ch-nav-btn">&#8594; V: The Chief</a>
+  </div>
+</div>
+
+</body>
+</html>

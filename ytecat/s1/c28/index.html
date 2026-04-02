@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — XXVIII: Separated</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 28: Separated — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 28: Separated">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c28">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0806; --card: #1a1410; --border: #8b3a2a33;
+      --ember: #c0392b; --gold: #c9a84c; --ash: #a09080;
+      --text: #e8ddd0; --muted: #6b5a4e;
+      --font-title: 'Cinzel', serif; --font-body: 'Crimson Pro', serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 20px; line-height: 1.9; min-height: 100vh; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; opacity: 0.6; }
+    .top-bar { position: sticky; top: 0; z-index: 100; background: rgba(13,8,6,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+    .top-bar-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; gap: 16px; padding: 12px 0; }
+    .top-bar-logo { font-family: var(--font-title); font-size: 12px; letter-spacing: 0.2em; color: var(--ember); text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+    .top-bar-logo:hover { color: var(--gold); }
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; }
+    .nav-pill { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.1em; color: var(--muted); text-decoration: none; padding: 4px 8px; border-radius: 2px; border: 1px solid transparent; transition: all 0.15s; white-space: nowrap; }
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+    .wrap { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 60px 28px 80px; }
+    .chapter-eyebrow { font-family: var(--font-title); font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--ember); margin-bottom: 16px; text-align: center; }
+    .chapter-number { font-family: var(--font-title); font-size: clamp(48px, 8vw, 80px); font-weight: 700; text-align: center; color: var(--text); line-height: 1; margin-bottom: 12px; letter-spacing: 0.1em; }
+    .chapter-title { font-family: var(--font-title); font-size: clamp(18px, 3vw, 26px); font-weight: 400; text-align: center; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 48px; }
+    .chapter-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent); margin-bottom: 52px; }
+    .chapter-body p { margin-bottom: 1.4em; color: #d0c4b8; font-size: 20px; line-height: 1.9; }
+    .chapter-body p:first-child::first-letter { font-family: var(--font-title); font-size: 3.8em; font-weight: 700; float: left; line-height: 0.78; margin: 6px 10px 0 0; color: var(--ember); }
+    .scene-break { text-align: center; color: var(--ember); font-size: 20px; margin: 40px 0; opacity: 0.5; letter-spacing: 0.5em; }
+    .chapter-subhead { font-family: var(--font-title); font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin: 40px 0 20px; }
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+    .chapter-footer { margin-top: 70px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .ch-nav-btn { font-family: var(--font-title); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: 10px 20px; border-radius: 2px; transition: all 0.2s; }
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+    .ch-footer-title { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-align: center; }
+    @media (max-width: 600px) { .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; } .nav-pills { gap: 3px; } .nav-pill { font-size: 9px; padding: 3px 6px; } .wrap { padding: 40px 20px 60px; } }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill active" title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 28</p>
+  <div class="chapter-number">XXVIII</div>
+  <h1 class="chapter-title">Separated</h1>
+  <div class="chapter-divider"></div>
+  <div class="chapter-body">
+    <p>The first wave broke against them like it expected resistance and found something worse.</p>
+<p>Freyja didn't wait for them to reach her. She stepped forward into the charge, shield angled low, and used their own momentum to send the front rank sprawling. Three grunts went down in the first two seconds. She stepped over them. The trident left her hand before they'd finished falling --- punched through one grunt's chest, vanished, returned to her grip, left her hand again immediately. She had done this hundreds of times now. The mechanics were automatic.</p>
+<p>What was not automatic was the thing sitting behind her eyes.</p>
+<p><em>You fish folk all look alike, especially dead on the ground.</em></p>
+<p>She threw the trident again. And again. Each throw harder than the last.</p>
+<p>Rask moved through the left flank like a man with somewhere to be.</p>
+<p>The cracked ribs he'd woken up with were a fact he had noted and set aside. The cut above his brow had clotted. Neither of these things slowed him --- he had fought through worse and the body knew what was being asked of it. He dropped from a low glide into the press of grunts, both daggers already drawn, Piercing Flames burning along the blades. The fire and wind combination punched through demon hide cleanly. He was already moving before the grunt finished falling.</p>
+<p>In the tomb he had fought with precision born of discipline. Now the precision was still there but something colder sat underneath it --- a patience that had nothing to do with calm. He was not hurrying. He did not need to hurry. He simply needed to keep moving until there was nothing left between him and Kira, and he was prepared to cut through every single one of the hundred to get there.</p>
+<p>A grunt lunged from his blind side. He sidestepped without looking, drove a dagger backward into its neck, kept walking.</p>
+<p>At the centre of it, Haruki and Hayate had stopped needing to think about each other.</p>
+<p>It had happened somewhere over the past weeks without either of them marking the moment --- the point where fighting beside someone stopped being coordination and became something closer to instinct. Haruki moved left and Hayate was already covering right. Hayate overextended on a wide arc and Haruki was already filling the gap he'd left. No calls, no signals. Just the accumulated weight of having nearly died together enough times that the body learned to compensate.</p>
+<p>Haruki was bleeding from his shoulder --- a claw in the first rush, deep enough to matter, not deep enough to stop him. He fought through it the way he had learned to fight through most things, which was to acknowledge it fully and then refuse to let it be relevant. His rapier moved in short, precise arcs, finding joints and gaps in the grunts' guard. He was not trying to be spectacular. He was trying to be sustainable.</p>
+<p>Beside him Hayate was spectacular whether he intended it or not.</p>
+<p>The greatsword moved in wide punishing sweeps that cleared space rather than picking targets --- three grunts at a time, five, the blade carrying enough force that even a partial hit sent bodies sideways. He was stronger than he had been in the tomb. Noticeably. The weeks of fighting had done something to him that training alone couldn't replicate, and it showed in the way he moved --- less effort, more result, the sword an extension rather than a weight. Shadow Step held in reserve, used only when the press became genuinely dangerous, each use faster and more controlled than the last.</p>
+<p>Izel worked the rear in long controlled bursts --- fire rolling out in deliberate columns across grunt clusters, buying breathing room, protecting the flanks. He had learned the party's rhythms too. He knew when Freyja was about to throw and kept his fire clear of her line. He knew Rask's flight paths. He did not need to be told these things anymore.</p>
+<p>Lyra had always fought on her own terms.</p>
+<p>Distance was the terms she preferred --- enough space to read the field, time the shots, pick targets rather than react to them. She had been doing it long enough that it felt less like a strategy and more like breathing. Back, shoot, back again, never letting the fight come to her if she could bring herself to it instead.</p>
+<p>The difference now was the quality of it. In the tomb she had been good. Now she was something beyond good --- the movement fluid and economical, the arrows finding marks she wouldn't have trusted herself to hit three months ago. A grunt at forty metres through two others. A running target, lead it right, loose on the exhale. She had stopped counting kills because counting had stopped being useful.</p>
+<p>She called positions as she moved. Left flank thinning, Rask has it. Grunt cluster forming behind Hayate, Izel already turning. Freyja pushing too far forward --- "Freyja, pull back two steps" --- and Freyja pulled back two steps without breaking stride.</p>
+<p>She was useful here. She was very useful here.</p>
+<p>She was also moving backwards, as she always did, and the party was moving forwards, as they tended to when the rage was up, and neither of these things was wrong on its own.</p>
+<p>A hard press from the right drove her left. She angled away, loosed twice, dropped both, kept moving. Another cluster cut across from the village edge --- she pivoted, the dagger out for the one that got too close, back into her off hand, arrow notched and loosed before she'd fully reset. The muscle memory was there before the thought was.</p>
+<p>Back. And back. And back.</p>
+<p>Somewhere ahead of her Hayate was pushing deep into the grunt lines, Freyja pressing with him, the two of them creating a momentum that pulled Haruki and Izel forward to maintain the formation. It was working --- the grunts were folding under it, the numbers thinning --- and nobody was thinking about what was happening at the edges because what was happening at the centre was working.</p>
+<p>Lyra fired her last arrow from a full quiver and reached back for another.</p>
+<p>The field behind her was empty. She had not noticed it emptying.</p>
+<p>She fired again. Stepped back. Her heel caught the edge of a drainage ditch running along an old field boundary and she stumbled, caught herself, stepped across it without looking down.</p>
+<p>Another wave. She retreated further, drawing them with her, thinning them. Operating on the part of fighting that ran without deliberate thought, the part that had been built over months of exactly this.</p>
+<p>It was only when she reached back and touched the last four arrows in her quiver that she stopped.</p>
+<p>She looked up.</p>
+<p>The village was behind her. Forty metres at least. The sounds of the fight came from that direction --- Freyja's shield, the crack of Izel's fire, Hayate somewhere in the middle of all of it --- but muffled now, at a distance that shouldn't have been possible.</p>
+<p>Between her and the others, a dense press of demon bodies that had closed in silently behind her while she was focused forward. Not a gap in them. Not a seam.</p>
+<p>She stood very still.</p>
+<p>A grunt lunged from her left. She put an arrow through it on reflex --- three left --- and the stillness was over, replaced by the immediate and absolute problem of being alone with no clear route back, a near empty quiver, and the dagger in her off hand that she was already gripping without having decided to reach for it.</p>
+<p>She did not call out. Calling out would tell them where she was.</p>
+<p>Somewhere in the chaos ahead, she knew Hayate would notice the gap where her voice had been. He always did. She had watched him do it for months --- the way his eyes moved across the party in the middle of a fight, checking, always checking.</p>
+<p>She just had to stay alive long enough for it to matter.</p>
+<p>She raised the dagger, back to a collapsed wall, and waited for the next one to come.</p>
+  </div>
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c27" class="ch-nav-btn">&#8592; XXVII: Gallu</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c29" class="ch-nav-btn">XXIX: Overwhelmed &#8594;</a>
+  </div>
+</div>
+</body>
+</html>

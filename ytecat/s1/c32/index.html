@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — XXXII: Curse</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 32: Curse — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 32: Curse">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c32">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0806; --card: #1a1410; --border: #8b3a2a33;
+      --ember: #c0392b; --gold: #c9a84c; --ash: #a09080;
+      --text: #e8ddd0; --muted: #6b5a4e;
+      --font-title: 'Cinzel', serif; --font-body: 'Crimson Pro', serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 20px; line-height: 1.9; min-height: 100vh; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; opacity: 0.6; }
+    .top-bar { position: sticky; top: 0; z-index: 100; background: rgba(13,8,6,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+    .top-bar-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; gap: 16px; padding: 12px 0; }
+    .top-bar-logo { font-family: var(--font-title); font-size: 12px; letter-spacing: 0.2em; color: var(--ember); text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+    .top-bar-logo:hover { color: var(--gold); }
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; }
+    .nav-pill { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.1em; color: var(--muted); text-decoration: none; padding: 4px 8px; border-radius: 2px; border: 1px solid transparent; transition: all 0.15s; white-space: nowrap; }
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+    .wrap { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 60px 28px 80px; }
+    .chapter-eyebrow { font-family: var(--font-title); font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--ember); margin-bottom: 16px; text-align: center; }
+    .chapter-number { font-family: var(--font-title); font-size: clamp(48px, 8vw, 80px); font-weight: 700; text-align: center; color: var(--text); line-height: 1; margin-bottom: 12px; letter-spacing: 0.1em; }
+    .chapter-title { font-family: var(--font-title); font-size: clamp(18px, 3vw, 26px); font-weight: 400; text-align: center; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 48px; }
+    .chapter-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent); margin-bottom: 52px; }
+    .chapter-body p { margin-bottom: 1.4em; color: #d0c4b8; font-size: 20px; line-height: 1.9; }
+    .chapter-body p:first-child::first-letter { font-family: var(--font-title); font-size: 3.8em; font-weight: 700; float: left; line-height: 0.78; margin: 6px 10px 0 0; color: var(--ember); }
+    .scene-break { text-align: center; color: var(--ember); font-size: 20px; margin: 40px 0; opacity: 0.5; letter-spacing: 0.5em; }
+    .chapter-subhead { font-family: var(--font-title); font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin: 40px 0 20px; }
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+    .chapter-footer { margin-top: 70px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .ch-nav-btn { font-family: var(--font-title); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: 10px 20px; border-radius: 2px; transition: all 0.2s; }
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+    .ch-footer-title { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-align: center; }
+    @media (max-width: 600px) { .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; } .nav-pills { gap: 3px; } .nav-pill { font-size: 9px; padding: 3px 6px; } .wrap { padding: 40px 20px 60px; } }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill " title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill active" title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 32</p>
+  <div class="chapter-number">XXXII</div>
+  <h1 class="chapter-title">Curse</h1>
+  <div class="chapter-divider"></div>
+  <div class="chapter-body">
+    <p>They heard the news before dawn.</p>
+<p>A runner came through the inn at speed, knocking on doors, voice tight with the specific urgency of someone delivering information they didn't want to be delivering. Demon forces sighted at the eastern perimeter. Large numbers. Moving fast. One figure at the front, enormous, winged, walking through his own advance line like it wasn't there.</p>
+<p>Gallu.</p>
+<p>Blind, according to the runner. Both eyes burned through. Walking forward anyway.</p>
+<p>They were in the street before the runner had finished his circuit of the inn. Around them, Kibou was waking into panic --- soldiers moving to posts, civilians being directed away from the walls, the watchtowers lighting signal fires that painted the pre-dawn sky orange. The section of wall that had been under repair when they arrived was still under repair. It would not be finished in time.</p>
+<p>"We should leave" Izel said. Not a suggestion. A practical observation.</p>
+<p>Nobody moved.</p>
+<p>Hayate was looking at the eastern wall. His jaw was set and his hands were at his sides and he was doing the thing he had learned from Haruki, which was to wait until he was sure before he spoke.</p>
+<p>"He said he'd meet us at the inn" Hayate said finally.</p>
+<p>"Hayate---" Lyra started.</p>
+<p>"He said he'd meet us at the inn." He looked at her. "He always has a plan. He told me to trust him. I'm trusting him."</p>
+<p>Lyra looked at him for a long moment. Then she looked at the others.</p>
+<p>Freyja was already checking her trident. Rask was already in the air, circling low, assessing the eastern approach. Izel looked at the wall, then at Hayate, then exhaled slowly through his nose and unslung his staff.</p>
+<p>"Then we stay" Lyra said.</p>
+<p>The town's fighting force assembled at the eastern wall within the hour. It was impressive, Haruki would have noted --- coordinated, disciplined, Kibou had clearly done this before. Adventurers alongside soldiers, Dwarves and humans and a handful of other races all moving to position without the racial friction that would have defined the same scene in Akebono. The frontline had a way of burning that particular hesitation away.</p>
+<p>The party took position near the gate. Lyra's quiver was restocked. Freyja's shield was braced. Hayate held the rapier in his left hand and said nothing about it.</p>
+<p>Around them, several hundred fighters checked their weapons and armour and prepared themselves in the particular private way people do before something begins.</p>
+<p>Then the first rank dropped.</p>
+<p>Not from the demons. Not from anything outside the walls.</p>
+<p>From inside.</p>
+<p>Fifty fighters in the front rank simply collapsed. No warning, no sound, no visible cause. Here and then not here, the same instant, all of them simultaneously. Then it started --- blood from every orifice, eyes, nose, mouth, ears, pouring dark and fast, and with it something worse, something that turned the stomachs of the fighters standing beside them --- maggots, writhing through the blood, covering the ground beneath the bodies before they had finished falling. The men beside them stumbled back in shock. Someone screamed. Then another rank --- not all of them, not even most, but enough, scattered through the formation like a pattern that made no sense until it did.</p>
+<p>The cursed weapons.</p>
+<p>The same curse that had taken the dwarf in the tomb. Scaled across hundreds.</p>
+<p>Hayate understood it before he could have explained how. He grabbed the nearest soldier by the arm --- "Drop your weapon. Drop it now. If you bought it from Dagan, drop it" --- and the soldier stared at him and the man beside the soldier was already on the ground bleeding from his eyes and the soldier dropped the sword and stood there shaking.</p>
+<p>Around them the formation was dissolving. Not from the demon advance, not yet, but from within --- the cursed blades activating simultaneously, taking the men and women who had trusted Dagan's impossible enchantments, who had bought strength at a price they hadn't known they were paying. Bodies on the ground. Healthy fighters staring at their own weapons not knowing if they were holding death. The discipline that had taken years to build collapsing in ninety seconds.</p>
+<p>Gallu's laughter reached them over the wall.</p>
+<p>He had known. He had always known. He hadn't been waiting for a worthy fight. He had been waiting for this.</p>
+<p>Hayate looked at the gate. Looked at the eastern approach. Looked at the bodies on the ground and the living fighters standing in shock and the wall with its unfinished section and did the mathematics of it without wanting to.</p>
+<p>Haruki would have known what to do.</p>
+<p>Haruki would have already been doing it.</p>
+<p>Hayate tightened his grip on the rapier and said --- "Form up. Anyone still standing, form up on me" --- and was already moving toward the gate when the demons came through it.</p>
+<p>They held for two hours.</p>
+<p>It was not nothing. Against those numbers, against that coordination, against a blind demon general who walked through arrow volleys and fire and did not slow --- two hours was not nothing. The party fought as a unit in the chaos, pulling what remained of Kibou's fighting force around them, Freyja anchoring the line, Rask disrupting from above, Izel burning paths through the advance, Hayate moving through the rapier's constraints with a precision that was not his natural language but was becoming it.</p>
+<p>They held.</p>
+<p>And then Gallu reached the line and the holding stopped.</p>
+<p>He moved through the remaining defenders the way weather moves --- not targeted, not tactical, just present and total and impossible to reason with. The skull hammer rising and falling. The blind eyes that tracked sound and movement and heat. The burns on his face and hands from Haruki's light that had not slowed him in any meaningful way.</p>
+<p>Hayate went for him twice. Both times Gallu found him without seeing him, one massive hand catching the rapier on the flat and sending it spinning, the second time a backhand that Freyja's shield intercepted at the cost of driving her sideways into a market stall.</p>
+<p>The third time Hayate came at him, Gallu caught his wrist mid-strike. Just held it. The grip like a vice, effortless.</p>
+<p>"You fight like him" Gallu said. Conversationally. Like they were not in the middle of a battle. "The one who did this to my eyes."</p>
+<p>Hayate went still.</p>
+<p>"Brave" Gallu said. "I'll give him that. Braver than most. He stood there and smiled and let it build until there was nothing left of him." He tilted his burned, sightless face slightly. "There was nothing left, you understand. Nothing to find. Nothing to bury. Just a crater and some ash and a very large hole where your little village used to be." A pause. "Took Zaqaru with him too. My best lieutenant. Gone. Just like that."</p>
+<p>Something crossed his face that might have been irritation. Might have been something closer to respect. It was difficult to tell on a face that burned.</p>
+<p>"Brave" he said again. "And stupid."</p>
+<p>Hayate's hand was shaking. He did not know when that had started.</p>
+<p>"He bought you time" Gallu said. "Was it worth it?"</p>
+<p>Freyja's shield hit Gallu across the jaw before the sentence finished. The grip released. Hayate stumbled back and Freyja was already pulling him --- "Move. Now. MOVE."</p>
+<p>He moved.</p>
+<p>"FALL BACK" Lyra's voice, cutting through everything. "EVERYONE FALL BACK TO THE WESTERN GATE."</p>
+<p>It was not a retreat. Hayate told himself that as he pulled Freyja up and moved. It was not a retreat it was a repositioning it was tactical it was what Haruki would have---</p>
+<p>The inn collapsed behind them as Gallu's hammer took out its foundation wall.</p>
+<p>Hayate did not look back at it.</p>
+  </div>
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c31" class="ch-nav-btn">&#8592; XXXI: Okay</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c33" class="ch-nav-btn">XXXIII: They Walked &#8594;</a>
+  </div>
+</div>
+</body>
+</html>

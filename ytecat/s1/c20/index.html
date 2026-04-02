@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — XX: Kibou</title>
+  <meta name="description" content="Ytecat Season 1, Chapter 20: Kibou — by Rob Florendo">
+  <meta property="og:title" content="Ytecat — Chapter 20: Kibou">
+  <meta property="og:description" content="Ytecat Season 1 by Rob Florendo. A dark fantasy about grief, survival, and what it costs to stay human.">
+  <meta property="og:url" content="https://www.4our.it/ytecat/s1/c20">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0806;
+      --card:    #1a1410;
+      --border:  #8b3a2a33;
+      --ember:   #c0392b;
+      --gold:    #c9a84c;
+      --ash:     #a09080;
+      --text:    #e8ddd0;
+      --muted:   #6b5a4e;
+      --font-title: 'Cinzel', serif;
+      --font-body:  'Crimson Pro', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 1.9;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,8,6,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .top-bar-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+    }
+
+    .top-bar-logo {
+      font-family: var(--font-title);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--ember);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .top-bar-logo:hover { color: var(--gold); }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-pill {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-pill:hover { color: var(--ash); border-color: var(--border); }
+    .nav-pill.active { color: var(--gold); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.08); }
+
+    /* ── CONTENT ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 28px 80px;
+    }
+
+    .chapter-eyebrow {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .chapter-number {
+      font-family: var(--font-title);
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .chapter-title {
+      font-family: var(--font-title);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 400;
+      text-align: center;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .chapter-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent);
+      margin-bottom: 52px;
+    }
+
+    /* ── PROSE ── */
+    .chapter-body p {
+      margin-bottom: 1.4em;
+      color: #d0c4b8;
+      font-size: 20px;
+      line-height: 1.9;
+    }
+
+    .chapter-body p:first-child::first-letter {
+      font-family: var(--font-title);
+      font-size: 3.8em;
+      font-weight: 700;
+      float: left;
+      line-height: 0.78;
+      margin: 6px 10px 0 0;
+      color: var(--ember);
+    }
+
+    .scene-break {
+      text-align: center;
+      color: var(--ember);
+      font-size: 20px;
+      margin: 40px 0;
+      opacity: 0.5;
+      letter-spacing: 0.5em;
+    }
+
+    .chapter-subhead {
+      font-family: var(--font-title);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 40px 0 20px;
+    }
+
+    .placeholder { color: var(--muted); font-style: italic; text-align: center; padding: 60px 0; }
+
+    /* ── BOTTOM NAV ── */
+    .chapter-footer {
+      margin-top: 70px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .ch-nav-btn {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .ch-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    .ch-footer-title {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .top-bar-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nav-pills { gap: 3px; }
+      .nav-pill { font-size: 9px; padding: 3px 6px; }
+      .wrap { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="/ytecat" class="top-bar-logo">Ytecat &mdash; S1</a>
+    <div class="nav-pills">
+        <a href="/ytecat/s1/c1" class="nav-pill " title="Chapter 1: Kasumi">I</a>
+        <a href="/ytecat/s1/c2" class="nav-pill " title="Chapter 2: Akebono">II</a>
+        <a href="/ytecat/s1/c3" class="nav-pill " title="Chapter 3: Akebono, Day Two">III</a>
+        <a href="/ytecat/s1/c4" class="nav-pill " title="Chapter 4: Wepons">IV</a>
+        <a href="/ytecat/s1/c5" class="nav-pill " title="Chapter 5: The Chief">V</a>
+        <a href="/ytecat/s1/c6" class="nav-pill " title="Chapter 6: Outnumbered">VI</a>
+        <a href="/ytecat/s1/c7" class="nav-pill " title="Chapter 7: Fireball">VII</a>
+        <a href="/ytecat/s1/c8" class="nav-pill " title="Chapter 8: Two Arrows">VIII</a>
+        <a href="/ytecat/s1/c9" class="nav-pill " title="Chapter 9: One Down">IX</a>
+        <a href="/ytecat/s1/c10" class="nav-pill " title="Chapter 10: Light Duty">X</a>
+        <a href="/ytecat/s1/c11" class="nav-pill " title="Chapter 11: Kira">XI</a>
+        <a href="/ytecat/s1/c12" class="nav-pill " title="Chapter 12: The Raid">XII</a>
+        <a href="/ytecat/s1/c13" class="nav-pill " title="Chapter 13: The Tomb">XIII</a>
+        <a href="/ytecat/s1/c14" class="nav-pill " title="Chapter 14: The King">XIV</a>
+        <a href="/ytecat/s1/c15" class="nav-pill " title="Chapter 15: Eleven">XV</a>
+        <a href="/ytecat/s1/c16" class="nav-pill " title="Chapter 16: Zaqaru">XVI</a>
+        <a href="/ytecat/s1/c17" class="nav-pill " title="Chapter 17: True Despair">XVII</a>
+        <a href="/ytecat/s1/c18" class="nav-pill " title="Chapter 18: Together">XVIII</a>
+        <a href="/ytecat/s1/c19" class="nav-pill " title="Chapter 19: The Crown">XIX</a>
+        <a href="/ytecat/s1/c20" class="nav-pill active" title="Chapter 20: Kibou">XX</a>
+        <a href="/ytecat/s1/c21" class="nav-pill " title="Chapter 21: Gordo">XXI</a>
+        <a href="/ytecat/s1/c22" class="nav-pill " title="Chapter 22: The Road">XXII</a>
+        <a href="/ytecat/s1/c23" class="nav-pill " title="Chapter 23: Chained">XXIII</a>
+        <a href="/ytecat/s1/c24" class="nav-pill " title="Chapter 24: Threads">XXIV</a>
+        <a href="/ytecat/s1/c25" class="nav-pill " title="Chapter 25: Raven">XXV</a>
+        <a href="/ytecat/s1/c26" class="nav-pill " title="Chapter 26: Still">XXVI</a>
+        <a href="/ytecat/s1/c27" class="nav-pill " title="Chapter 27: Gallu">XXVII</a>
+        <a href="/ytecat/s1/c28" class="nav-pill " title="Chapter 28: Separated">XXVIII</a>
+        <a href="/ytecat/s1/c29" class="nav-pill " title="Chapter 29: Overwhelmed">XXIX</a>
+        <a href="/ytecat/s1/c30" class="nav-pill " title="Chapter 30: Sorry">XXX</a>
+        <a href="/ytecat/s1/c31" class="nav-pill " title="Chapter 31: Okay">XXXI</a>
+        <a href="/ytecat/s1/c32" class="nav-pill " title="Chapter 32: Curse">XXXII</a>
+        <a href="/ytecat/s1/c33" class="nav-pill " title="Chapter 33: They Walked">XXXIII</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="chapter-eyebrow">Season One &nbsp;&bull;&nbsp; Chapter 20</p>
+  <div class="chapter-number">XX</div>
+  <h1 class="chapter-title">Kibou</h1>
+  <div class="chapter-divider"></div>
+
+  <div class="chapter-body">
+    <p>The tavern was warm and loud and smelled of cooked meat and spilled mead, which was exactly what all of them needed.</p>
+<p>Rask, Freyja and Kira were already in the corner when the party arrived --- a small table, Kira sitting between the two of them with the particular contentment of a child who had been fed and was in the company of people he trusted. He was mid-sentence when he looked up and saw Hayate crossing the tavern toward him.</p>
+<p>He was off the bench before the sentence finished.</p>
+<p>"Hayate! What are you doing here?"</p>
+<p>"Celebrating" Hayate said. "We had a victory today. Thought we'd come here."</p>
+<p>Kira's eyes went wide. "We're celebrating too! You should join us!"</p>
+<p>"That was the idea. It was a combined effort."</p>
+<p>Something lit up in Kira's face. He turned and ran back to Rask, planting himself in front of him.</p>
+<p>"You never told me Hayate would be here!"</p>
+<p>Rask looked at him. "You never asked."</p>
+<p>Kira's face collapsed into a pout. "No fair!"</p>
+<p>The laughter that came from the approaching party was immediate and collective --- Lyra's quiet and genuine, Haruki's surprised out of him, Izel covering his with a cough that didn't quite work. They pulled tables together and sat, and the corner of the tavern became something louder and warmer than it had been.</p>
+<p>Haruki looked at Hayate as they settled. "How do you know the child?"</p>
+<p>"Met him in the park" Hayate said. "Few days ago, when I was on light duty. He was waiting for Rask, I kept him company. Taught him a bit about magic." He shrugged. "Then Rask and Freyja showed up and that was that."</p>
+<p>Haruki absorbed this. Then he looked at Kira with an expression of exaggerated sympathy. "Of all the people in Akebono who could have taught you magic --- you found the worst one."</p>
+<p>Kira looked at Hayate. Hayate looked at Haruki. The table laughed.</p>
+<p>The food arrived --- meat and bread and more mead than was strictly necessary --- and they ate and drank and the conversation moved the way it does when people have survived something together and are still processing the fact that they survived it. The tension of the past several hours dissolved into the warmth of the tavern and the relief of being alive, and for the first time in longer than most of them could specifically recall, none of them were thinking about what came next.</p>
+<p>Across the tavern, the other patrons had noticed the corner table. The looks ranged from confused to openly uncomfortable --- five races, sitting together, laughing. It was not something Akebono saw regularly. The party did not notice. They were too busy. Too happy. Too relieved. The guard that each of them had been holding up for months, in their different ways, had come down --- not permanently, not even fully, but enough. Enough to breathe.</p>
+<p>The debrief happened naturally, the way debriefs do when everyone at the table was there for the same thing.</p>
+<p>They went through the fight --- who had moved well, what had worked, what hadn't. Freyja's Earth Pillar launching her shield first into Zaqaru's face got a round of appreciation. Rask's Piercing Flames connecting before anyone had processed he had moved drew quiet acknowledgment from the table. The orcs' willingness to hold the right flank with no prior coordination got specific acknowledgment from Haruki.</p>
+<p>Then someone brought up Hayate charging the skeleton king.</p>
+<p>Then someone brought up Hayate charging Zaqaru.</p>
+<p>The laughter that followed was long enough that the table next to them turned to look.</p>
+<p>Haruki stood up. "Hayate. The shadow step. Explain it."</p>
+<p>Hayate leaned back in his seat. "I watched Zaqaru. Watched how he moved, how the magic flowed through him when he did it. I understood the concept --- enter one shadow, exit from another. Entering was the easy part. I got that from just his foot, the first time." He paused. "Creating an exit was harder. I couldn't figure out how to channel my magic into something I wasn't touching."</p>
+<p>"So how did you solve it?" Lyra asked.</p>
+<p>"I put my foot in first. Just the foot. And once I was partially in --- I could feel the other shadows. Within about ten metres, maybe. Like a sense of where they were, not a picture. Then it was trial and error to find which shadow came out where." He looked at his hand. "I used my foot as the baseline. If it came out safe, the rest of me would follow."</p>
+<p>Haruki stared at him. He said nothing for a moment.</p>
+<p>"You learned a demon's technique" he said finally. "By watching it once."</p>
+<p>"I had a good view."</p>
+<p>Lyra leaned forward. "What are the weaknesses?"</p>
+<p>Hayate thought about it --- genuinely thought, not performing the consideration. "It's slow. It's not for moving fast, it's for moving safely. You have to plan it. Coming out of the wrong shadow could kill you." He looked at her. "And once you're in, you can't see anything. Nothing. So you commit to your exit before you go in, and you'd better be certain it's safe, because you have no vision until you come out."</p>
+<p>The table was quiet for a moment.</p>
+<p>Freyja looked at Haruki. "Maybe you could learn something from him." She kept her voice completely straight. "Considering you tried to reason with the demon."</p>
+<p>The table erupted.</p>
+<p>Izel waited for it to settle, then said with absolute composure --- "I knew we could beat him from the beginning."</p>
+<p>The table erupted again, louder.</p>
+<p>The three men entered the tavern without announcement.</p>
+<p>The party was mid-laugh and did not notice them until they were already at the table --- the scarred man and his two bodyguards, standing at the edge of the group with the ease of people accustomed to walking into rooms and being accommodated.</p>
+<p>The scarred man looked at each of them in turn. His expression was measured and pleasant.</p>
+<p>"Well done" he said. "I heard it went well." He reached into his coat and placed the skeleton king's crown on the table in front of them. "You all killed equal amounts, as I understand it. No bonus to award." He paused. "Consider the crown your reward instead. A trophy for what you accomplished today." He looked around the table. "My name is Dagan."</p>
+<p>Haruki looked at the crown.</p>
+<p>He looked at the six people around the table --- humans, elf, cecaelian, beastman, orc. Six ways to split a crown.</p>
+<p>"That's very generous, Dagan" he said. He stood, and bowed. "Thank you."</p>
+<p>Dagan nodded. He began to turn.</p>
+<p>Then he stopped.</p>
+<p>His eyes had found Kira --- sitting at the end of the bench, half asleep against Freyja's arm, scales catching the candlelight. Dagan looked at him for a moment. Then he completed the turn and walked out of the tavern with his bodyguards behind him.</p>
+<p>Haruki sat back down.</p>
+<p>"The crown is meant to divide us" he said, quietly enough that only the table heard. "Coin splits six ways. A crown doesn't. He's hoping we fight over it."</p>
+<p>The table looked at the crown. Then at each other.</p>
+<p>Izel nodded slowly. "Then you should keep it. Your leadership got us through."</p>
+<p>"Hayate should have it" Haruki said. He looked at his brother. "Zaqaru retreating was the turning point. Everything after that was manageable --- the arm is what forced him out. Without that, we face twenty-two grunts with Zaqaru still present." He pushed the crown across the table. "It's yours."</p>
+<p>Hayate looked at it for a long moment. Then, reluctantly, picked it up.</p>
+<p>The evening continued and the mead continued with it.</p>
+<p>Gordo arrived several hours later --- the party noticed him before he reached the table, a cheer going up that turned heads across the tavern. He made his way through the other tables and Haruki could see him clocking the looks from the other patrons as he passed --- the discomfort, the stares. Gordo's expression acknowledged it and moved on. The party itself was past noticing, the mead having done its work on most of them.</p>
+<p>"I can't stay" Gordo said, when he reached them. "Just came to drop by. It's late, I need to turn in."</p>
+<p>Izel protested. Gordo was firm. He had plans in the morning.</p>
+<p>Rask looked down the bench. Kira had fallen asleep --- fully, completely, the boneless sleep of a child who had held on as long as they could and then surrendered entirely. Rask sighed.</p>
+<p>"I should get him back."</p>
+<p>Gordo looked at Kira. "Where are you staying?"</p>
+<p>Rask told him.</p>
+<p>"That's on my way. I'll take him." He held up a hand before Rask could respond. "It's no trouble. Stay."</p>
+<p>Rask looked at Kira. At Gordo. "Are you certain?"</p>
+<p>"I'm certain."</p>
+<p>Rask bowed his head --- a small, genuine thing. Gordo picked Kira up with careful ease, adjusted the child's weight against his chest, and walked out of the tavern. Kira did not stir.</p>
+<p>They called it some hours after that.</p>
+<p>Everyone except Hayate and Lyra was comprehensively drunk --- Haruki listing slightly, Izel requiring assistance to locate his own coat, Freyja laughing at something nobody else had said. Rask was the most functional of the group and was still not entirely functional.</p>
+<p>Hayate looked at Izel. "You're staying at our inn tonight. You're not walking anywhere alone in this state."</p>
+<p>Izel considered this with the gravity of a man working through a complex problem. "That is," he said carefully, "a reasonable position." He sat back down.</p>
+<p>Lyra appeared at Hayate's shoulder. "I'll walk with Haruki and Izel. You take Rask and Freyja."</p>
+<p>They left the tavern in a loose, somewhat diagonal procession and split at the first corner.</p>
+<p>The blood trail was faint.</p>
+<p>Hayate almost missed it --- two blocks from Rask and Freyja's inn, a dark smear across the cobblestones that caught the lamplight at the wrong angle. He slowed. Crouched. Pressed two fingers to it.</p>
+<p>Cold. But the consistency was wrong for old blood. This was from tonight.</p>
+<p>He said nothing. He straightened and kept walking, but the easy loose feeling of the evening had gone. He watched the street. He watched the shadows.</p>
+<p>They reached the inn.</p>
+<p>Gordo was at the doorway.</p>
+<p>Not standing. Not waiting.</p>
+<p>Hayate was moving before his mind had finished processing what he was seeing --- crossing the remaining distance, dropping to his knees beside the body. Lacerations everywhere. The kind of damage that was not a fight but a message. A dagger pinned a folded piece of paper to Gordo's chest, driven through his heart, the note dark with blood.</p>
+<p>Hayate pulled it free with hands that were not quite steady.</p>
+<p>He read it.</p>
+<p>Then he read it again.</p>
+<p>If you wish to be reunited with the child, come to Kibou. Don't look for us. We'll find you.</p>
+<p><em>\[Section 2 ends here --- Chapters 21-33 continue in Section 3\]</em></p>
+  </div>
+
+  <div class="chapter-footer">
+    <a href="/ytecat/s1/c19" class="ch-nav-btn">&#8592; XIX: The Crown</a>
+    <div class="ch-footer-title">Ytecat &nbsp;&mdash;&nbsp; Rob Florendo</div>
+    <a href="/ytecat/s1/c21" class="ch-nav-btn">&#8594; XXI: Gordo</a>
+  </div>
+</div>
+
+</body>
+</html>
