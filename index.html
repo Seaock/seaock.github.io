@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rob Florendo</title>
+  <meta name="description" content="Rob Florendo — IT Service Delivery professional and author of Ytecat, a dark fantasy series born from years of dreams.">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0f;
+      --surface:   #111118;
+      --card:      #16161f;
+      --border:    #ffffff0f;
+      --accent:    #00e5ff;
+      --accent2:   #7c6af7;
+      --text:      #e8e8f0;
+      --muted:     #6b6b80;
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 60px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.1s;
+    }
+
+    .hero-eyebrow::before { content: '// '; color: var(--muted); }
+
+    .hero-name {
+      font-family: var(--font-head);
+      font-size: clamp(52px, 8vw, 86px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+
+    .hero-name span {
+      display: block;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-tagline {
+      font-size: 15px;
+      color: #c0c0d0;
+      max-width: 480px;
+      line-height: 1.85;
+      border-left: 2px solid var(--accent2);
+      padding-left: 20px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.3s;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.4s;
+    }
+
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary { background: var(--accent); color: #0a0a0f; font-weight: 500; }
+    .btn-primary:hover { background: #fff; transform: translateY(-2px); }
+    .btn-ghost { border: 1px solid var(--border); color: var(--muted); }
+    .btn-ghost:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-2px); }
+
+    .hero-photo-wrap {
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 0.6s;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-photo {
+      width: 240px;
+      height: 240px;
+      border-radius: 50% 40% 50% 40% / 40% 50% 40% 50%;
+      object-fit: cover;
+      object-position: center top;
+      border: 2px solid var(--accent2);
+      box-shadow: 0 0 0 8px rgba(124,106,247,0.08), 0 0 40px rgba(0,229,255,0.12);
+      transition: border-radius 0.6s ease;
+    }
+
+    .hero-photo:hover { border-radius: 40% 50% 40% 50% / 50% 40% 50% 40%; }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent2) 40%, var(--accent) 60%, transparent);
+      margin: 0 0 80px;
+    }
+
+    section {
+      margin-bottom: 100px;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .about-text p {
+      font-size: 14px;
+      color: #a0a0b8;
+      line-height: 1.9;
+      margin-bottom: 18px;
+    }
+
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-text strong { color: var(--text); font-weight: 500; }
+
+    .about-traits { display: flex; flex-direction: column; gap: 12px; }
+
+    .trait {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px 14px 32px;
+      font-size: 12px;
+      color: #8888a0;
+      line-height: 1.5;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .trait::before {
+      content: '"';
+      position: absolute;
+      left: 14px; top: 12px;
+      color: var(--accent2);
+      font-size: 18px;
+      font-family: var(--font-head);
+      line-height: 1;
+    }
+
+    .trait:hover { border-color: var(--accent2); }
+
+    .trait-source {
+      display: block;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-top: 6px;
+    }
+
+    .do-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    .do-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px 32px;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .do-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .do-card.it::before   { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+    .do-card.book::before { background: linear-gradient(90deg, #a855f7, #ec4899); }
+    .do-card:hover { transform: translateY(-4px); }
+    .do-card.it:hover   { border-color: var(--accent); }
+    .do-card.book:hover { border-color: #a855f7; }
+    .do-card:hover::before { opacity: 1; }
+
+    .do-card-icon  { font-size: 32px; margin-bottom: 20px; display: block; }
+
+    .do-card-title {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .do-card-desc  { font-size: 13px; color: #8888a0; line-height: 1.7; margin-bottom: 24px; }
+
+    .do-card-link {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s, gap 0.2s;
+    }
+
+    .do-card.it:hover   .do-card-link { color: var(--accent); gap: 12px; }
+    .do-card.book:hover .do-card-link { color: #a855f7; gap: 12px; }
+
+    .currently-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+    .now-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 22px 20px;
+      transition: border-color 0.2s;
+    }
+
+    .now-card:hover { border-color: var(--accent2); }
+    a.now-card { text-decoration: none; }
+    a.now-card:hover { border-color: var(--accent); }
+
+    .now-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .now-value {
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+
+    .now-sub { font-size: 12px; color: var(--muted); }
+
+    .progress-bar { margin-top: 12px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      border-radius: 2px;
+      width: 0%;
+      transition: width 1.2s ease 0.3s;
+    }
+
+    section.visible .progress-fill { width: var(--pct); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0 48px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--accent); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @media (max-width: 700px) {
+      nav { padding: 16px 20px; }
+      .nav-links { gap: 20px; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-photo-wrap { order: -1; }
+      .hero-photo { width: 160px; height: 160px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .do-grid { grid-template-columns: 1fr; }
+      .currently-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">4our<span>.it</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#what-i-do">Work</a></li>
+    <li><a href="cv.html">CV</a></li>
+    <li><a href="ytecat.html">Ytecat</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Sydney, Australia</p>
+        <h1 class="hero-name"><span>Rob<br>Florendo</span></h1>
+        <p class="hero-tagline">
+          IT professional by day. Author of dark fantasy by night.
+          Externally logical, internally emotional &mdash; and apparently that's a whole thing.
+        </p>
+        <div class="hero-cta">
+          <a href="cv.html" class="btn btn-primary">View CV</a>
+          <a href="ytecat.html" class="btn btn-ghost">Read Ytecat &rarr;</a>
+        </div>
+      </div>
+      <div class="hero-photo-wrap">
+        <img src="rob.jpg" alt="Rob Florendo" class="hero-photo" />
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <section id="about">
+    <p class="section-label">About</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I was born in the <strong>Philippines</strong> and moved to Sydney when I was eight.
+          That was a long time ago now &mdash; Sydney is home.
+        </p>
+        <p>
+          Growing up, I was obsessed with video games. That obsession quietly turned into a
+          genuine love for technology, which eventually became a
+          <strong>13-year career in IT service delivery</strong> &mdash; building service desks,
+          owning SLAs, leading teams, and working through the kind of operational complexity
+          that most people would rather not touch.
+        </p>
+        <p>
+          Outside of work I'm into <strong>anime</strong>, and I collect and paint
+          <strong>Warhammer 40K</strong> &mdash; Grey Knights, a custom chapter I call The Grey Ravens.
+          I don't play competitively, just with friends and family. It's supposed to be fun.
+        </p>
+        <p>
+          I've also been having the same vivid dreams since my late teens. A world, characters,
+          a story that kept building itself in my sleep. Eventually I decided to stop ignoring it
+          and write it down. That became <strong>Ytecat</strong>.
+        </p>
+      </div>
+      <div class="about-traits">
+        <div class="trait">
+          Straight up. No messing around.
+          <span class="trait-source">&mdash; as described by friends</span>
+        </div>
+        <div class="trait">
+          Clear boundaries with an element of openness for change.
+          <span class="trait-source">&mdash; as described by friends</span>
+        </div>
+        <div class="trait">
+          Selfless &mdash; described in yin and yang.
+          <span class="trait-source">&mdash; as described by friends</span>
+        </div>
+        <div class="trait">
+          Externally logical, internally emotional.
+          <span class="trait-source">&mdash; as described by friends</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="what-i-do">
+    <p class="section-label">What I Do</p>
+    <div class="do-grid">
+      <a href="cv.html" class="do-card it">
+        <span class="do-card-icon">&#9881;</span>
+        <div class="do-card-title">IT Service Delivery</div>
+        <p class="do-card-desc">
+          13 years across MSP, enterprise and managed services. Built service desks from scratch,
+          owned SLAs end to end, led teams through significant operational change.
+          Currently building an in-house MSP desk at Conekt Australia.
+        </p>
+        <span class="do-card-link">View full CV &rarr;</span>
+      </a>
+      <a href="ytecat.html" class="do-card book">
+        <span class="do-card-icon">&#128214;</span>
+        <div class="do-card-title">Ytecat</div>
+        <p class="do-card-desc">
+          A dark fantasy series set in a world 83% occupied by demons, following a group of
+          misfits learning the quietly dangerous act of trusting each other.
+          Born from over a decade of recurring dreams.
+        </p>
+        <span class="do-card-link">Discover the world &rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <section id="currently">
+    <p class="section-label">Currently</p>
+    <div class="currently-grid">
+      <a href="ytecat.html" class="now-card">
+        <div class="now-label">Writing</div>
+        <div class="now-value">Ytecat &mdash; Season 1</div>
+        <div class="now-sub">Chapter 27 of 33 &rarr;</div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="--pct: 82%"></div>
+        </div>
+      </a>
+      <a href="cv.html" class="now-card">
+        <div class="now-label">Day Job</div>
+        <div class="now-value">Service Delivery Lead</div>
+        <div class="now-sub">Conekt Australia &middot; MSP build &rarr;</div>
+      </a>
+      <a href="greyravens.html" class="now-card">
+        <div class="now-label">On the Hobby Desk</div>
+        <div class="now-value">The Grey Ravens</div>
+        <div class="now-sub">Grey Knights &middot; Warhammer 40K &rarr;</div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>Rob Florendo &nbsp;&middot;&nbsp; Sydney, Australia &nbsp;&middot;&nbsp;
+      <a href="mailto&#58;roberto&#46;florendo&#64;gmail&#46;com">roberto&#46;florendo&#64;gmail&#46;com</a>
+    </p>
+  </footer>
+
+</div>
+
+<script>
+  function revealSections() {
+    document.querySelectorAll('section').forEach(function(s) {
+      var rect = s.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 40) {
+        s.classList.add('visible');
+      }
+    });
+  }
+
+  revealSections();
+  window.addEventListener('scroll', revealSections, { passive: true });
+</script>
+
+</body>
+</html>
