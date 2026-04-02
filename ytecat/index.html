@@ -4,7 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ytecat — A Dark Fantasy Series</title>
-  <meta name="description" content="Ytecat — a dark fantasy series about grief, survival, and what it costs to stay human when the world keeps asking you to be something harder.">
+  <meta name="description" content="Ytecat — a dark fantasy about grief, survival, and what it costs to stay human when the world keeps asking you to be something harder.">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.4our.it/ytecat">
+  <meta property="og:title" content="Ytecat — A Dark Fantasy Series">
+  <meta property="og:description" content="A dark fantasy about grief, survival, and what it costs to stay human when the world keeps asking you to be something harder.">
+  <meta property="og:site_name" content="4our.it">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Ytecat — A Dark Fantasy Series">
+  <meta name="twitter:description" content="A dark fantasy about grief, survival, and what it costs to stay human when the world keeps asking you to be something harder.">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,7 +46,6 @@
       overflow-x: hidden;
     }
 
-    /* Noise grain */
     body::before {
       content: '';
       position: fixed;
@@ -48,7 +56,6 @@
       opacity: 0.7;
     }
 
-    /* Vignette */
     body::after {
       content: '';
       position: fixed;
@@ -58,7 +65,6 @@
       z-index: 0;
     }
 
-    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -83,14 +89,10 @@
 
     .nav-logo span { color: #c0392b; }
 
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
 
     .nav-links a {
-      font-family: 'Cinzel', serif;
+      font-family: var(--font-title);
       font-size: 10px;
       letter-spacing: 0.25em;
       text-transform: uppercase;
@@ -102,7 +104,6 @@
     .nav-links a:hover,
     .nav-links a.active { color: var(--gold); }
 
-    /* ── WRAP ── */
     .wrap {
       position: relative;
       z-index: 1;
@@ -123,14 +124,11 @@
       position: relative;
     }
 
-    /* Ember glow behind hero */
     .hero-glow {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -60%);
-      width: 600px;
-      height: 600px;
+      width: 600px; height: 600px;
       background: radial-gradient(ellipse, rgba(192,57,43,0.12) 0%, transparent 70%);
       pointer-events: none;
     }
@@ -173,6 +171,17 @@
       z-index: -1;
     }
 
+    .hero-pronunciation {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 14px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.35s;
+    }
+
     .hero-subtitle {
       font-family: var(--font-title);
       font-size: clamp(11px, 1.5vw, 14px);
@@ -213,23 +222,14 @@
     }
 
     .status-dot {
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       border-radius: 50%;
-      background: var(--ember);
-      animation: pulse 2s ease infinite;
+      background: var(--gold);
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--ember); }
-      50%       { opacity: 0.4; box-shadow: none; }
-    }
-
-    /* Scroll cue */
     .scroll-cue {
       position: absolute;
-      bottom: 40px;
-      left: 50%;
+      bottom: 40px; left: 50%;
       transform: translateX(-50%);
       display: flex;
       flex-direction: column;
@@ -248,8 +248,7 @@
     }
 
     .scroll-line {
-      width: 1px;
-      height: 40px;
+      width: 1px; height: 40px;
       background: linear-gradient(180deg, var(--ember), transparent);
       animation: scrollDrop 2s ease infinite;
     }
@@ -260,7 +259,7 @@
       100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
     }
 
-    /* ── ORNAMENTAL DIVIDER ── */
+    /* ── ORNAMENT ── */
     .ornament {
       text-align: center;
       margin: 0 0 70px;
@@ -281,12 +280,10 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border2));
     }
 
-    .ornament-line::after {
-      background: linear-gradient(90deg, var(--border2), transparent);
-    }
+    .ornament-line::before { background: linear-gradient(90deg, transparent, var(--border2)); }
+    .ornament-line::after  { background: linear-gradient(90deg, var(--border2), transparent); }
 
     .ornament-symbol {
       font-family: var(--font-title);
@@ -318,14 +315,26 @@
     }
 
     .section-label::before,
-    .section-label::after {
-      content: '';
-      height: 1px;
-      background: var(--border2);
-    }
-
+    .section-label::after { content: ''; height: 1px; background: var(--border2); }
     .section-label::before { width: 40px; }
     .section-label::after  { flex: 1; }
+
+    /* ── AUTHOR NOTE ── */
+    .author-note {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-left: 3px solid var(--ember);
+      padding: 32px 36px;
+      font-style: italic;
+      font-size: 17px;
+      color: #c0b0a0;
+      line-height: 1.9;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .author-note p { margin-bottom: 18px; }
+    .author-note p:last-child { margin-bottom: 0; color: var(--gold); font-style: normal; font-family: var(--font-title); font-size: 12px; letter-spacing: 0.2em; }
 
     /* ── SYNOPSIS ── */
     .synopsis-text {
@@ -358,7 +367,7 @@
       color: var(--ash);
     }
 
-    /* ── WORLD STAT ── */
+    /* ── WORLD STATS ── */
     .world-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -433,14 +442,64 @@
       text-transform: uppercase;
     }
 
-    .race-desc {
-      font-size: 14px;
-      color: var(--ash);
-      line-height: 1.65;
-    }
+    .race-desc { font-size: 14px; color: var(--ash); line-height: 1.65; }
 
     .race-card.demon .race-name { color: var(--ember); }
     .race-card.demon { border-color: rgba(192,57,43,0.2); }
+
+    /* ── MAGIC ── */
+    .magic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .magic-card {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 2px;
+      padding: 18px 20px;
+      transition: border-color 0.2s;
+    }
+
+    .magic-card:hover { border-color: rgba(201,168,76,0.3); }
+
+    .magic-element {
+      font-family: var(--font-title);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .magic-element.fire  { color: #e74c3c; }
+    .magic-element.dark  { color: #9b59b6; }
+    .magic-element.earth { color: #8b7355; }
+    .magic-element.water { color: #3498db; }
+    .magic-element.light { color: var(--gold); }
+    .magic-element.wind  { color: #7fb3a0; }
+
+    .magic-type {
+      font-family: var(--font-title);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .magic-desc { font-size: 13px; color: var(--ash); line-height: 1.6; }
+
+    .magic-note {
+      font-size: 14px;
+      color: var(--ash);
+      font-style: italic;
+      border-left: 2px solid var(--border2);
+      padding-left: 18px;
+      line-height: 1.7;
+    }
 
     /* ── CHARACTERS ── */
     .characters-grid {
@@ -463,13 +522,13 @@
 
     .char-name {
       font-family: var(--font-title);
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
       color: var(--text);
       margin-bottom: 4px;
     }
 
-    .char-race {
+    .char-meta {
       font-family: var(--font-title);
       font-size: 9px;
       letter-spacing: 0.3em;
@@ -478,14 +537,33 @@
       margin-bottom: 16px;
     }
 
-    .char-desc {
-      font-size: 15px;
-      color: var(--ash);
-      line-height: 1.7;
+    .char-desc { font-size: 14px; color: var(--ash); line-height: 1.7; margin-bottom: 14px; }
+
+    .char-magic {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
     }
 
+    .magic-pill {
+      font-family: var(--font-title);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 2px;
+      border: 1px solid;
+    }
+
+    .magic-pill.fire  { color: #e74c3c; border-color: rgba(231,76,60,0.3); background: rgba(231,76,60,0.08); }
+    .magic-pill.dark  { color: #9b59b6; border-color: rgba(155,89,182,0.3); background: rgba(155,89,182,0.08); }
+    .magic-pill.earth { color: #8b7355; border-color: rgba(139,115,85,0.3); background: rgba(139,115,85,0.08); }
+    .magic-pill.water { color: #3498db; border-color: rgba(52,152,219,0.3); background: rgba(52,152,219,0.08); }
+    .magic-pill.light { color: var(--gold); border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.08); }
+    .magic-pill.wind  { color: #7fb3a0; border-color: rgba(127,179,160,0.3); background: rgba(127,179,160,0.08); }
+
     .char-trait {
-      margin-top: 14px;
       padding-top: 14px;
       border-top: 1px solid var(--border2);
       font-style: italic;
@@ -505,8 +583,7 @@
     .season-block::before {
       content: 'I';
       position: absolute;
-      right: 30px;
-      top: 20px;
+      right: 30px; top: 20px;
       font-family: var(--font-title);
       font-size: 120px;
       font-weight: 900;
@@ -530,41 +607,34 @@
       margin-bottom: 28px;
     }
 
-    .season-progress-label {
+    .season-desc { font-size: 16px; color: #a09080; line-height: 1.8; max-width: 600px; margin-bottom: 28px; }
+
+    .timestamps {
       display: flex;
-      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding-top: 24px;
+      border-top: 1px solid var(--border2);
+    }
+
+    .ts-item {}
+
+    .ts-label {
       font-family: var(--font-title);
       font-size: 10px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
 
-    .season-progress-bar {
-      height: 4px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 2px;
-      overflow: hidden;
-      margin-bottom: 28px;
+    .ts-value {
+      font-family: var(--font-title);
+      font-size: 13px;
+      color: var(--ash);
     }
 
-    .season-progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--ember), var(--gold));
-      border-radius: 2px;
-      transition: width 1.4s ease 0.4s;
-    }
-
-    section.visible .season-progress-fill { width: 82%; }
-
-    .season-desc {
-      font-size: 16px;
-      color: #a09080;
-      line-height: 1.8;
-      max-width: 600px;
-    }
+    .ts-value.highlight { color: var(--gold); }
 
     /* ── FOOTER ── */
     footer {
@@ -581,7 +651,6 @@
     footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
     footer a:hover { color: var(--gold); }
 
-    /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -592,7 +661,6 @@
       to   { opacity: 1; }
     }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 700px) {
       nav { padding: 16px 20px; }
       .nav-links { gap: 20px; }
@@ -601,6 +669,7 @@
       .world-stat:last-child { border-bottom: none; }
       .season-block { padding: 28px 22px; }
       .hero-title { letter-spacing: 0.04em; }
+      .author-note { padding: 24px 20px; }
     }
   </style>
 </head>
@@ -623,14 +692,19 @@
     <div class="hero-glow"></div>
     <p class="hero-world">A Dark Fantasy Series</p>
     <h1 class="hero-title">Ytecat</h1>
-    <p class="hero-subtitle">Season One &nbsp;&bull;&nbsp; In Progress</p>
+    <p class="hero-pronunciation">pronounced &ldquo;teh-cat&rdquo;</p>
+    <p class="hero-subtitle">Season One &nbsp;&bull;&nbsp; Complete</p>
     <p class="hero-tagline">
       A story about grief, survival, and what it costs to stay human<br>
       when the world keeps asking you to be something harder.
     </p>
+    <div style="display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-bottom:28px;">
+      <a href="/ytecat/s1/c1" style="display:inline-block; font-family:var(--font-title); font-size:11px; letter-spacing:0.25em; text-transform:uppercase; color:#0d0806; background:var(--ember); padding:14px 36px; border-radius:2px; text-decoration:none; transition:all 0.2s;">Read Season One &rarr;</a>
+      <a href="/ytecat/Ytecat_Season1.pdf" download style="display:inline-block; font-family:var(--font-title); font-size:11px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); background:transparent; padding:14px 36px; border-radius:2px; text-decoration:none; border:1px solid rgba(201,168,76,0.4); transition:all 0.2s;">&#8675; Download PDF</a>
+    </div>
     <div class="hero-status">
       <span class="status-dot"></span>
-      Chapter 27 of 33 &nbsp;&mdash;&nbsp; Being Written
+      Season 1 &mdash; 33 Chapters &nbsp;&mdash;&nbsp; Written by Rob Florendo
     </div>
     <div class="scroll-cue">
       <span>Scroll</span>
@@ -640,9 +714,24 @@
 
   <!-- ORNAMENT -->
   <div class="ornament">
-    <div class="ornament-line">
-      <span class="ornament-symbol">&#10022;</span>
+    <div class="ornament-line"><span class="ornament-symbol">&#10022;</span></div>
+  </div>
+
+  <!-- AUTHOR NOTE -->
+  <section id="author">
+    <p class="section-label">A Note from the Author</p>
+    <div class="author-note">
+      <p>Our world is cruel. It is unrelenting and unforgiving, and it does not pause to ask whether you are ready for what it brings next.</p>
+      <p>I wrote Ytecat thinking about that &mdash; about what it actually means to be strong in a world like that. The easy answer is to carry it alone. To close off, to distance yourself, to decide that needing someone is the same as being weak. It feels safer that way. It costs less, until it costs everything.</p>
+      <p>Real strength, I think, looks different. It looks like trusting someone else to hold what you can&rsquo;t. It looks like understanding your own flaws clearly enough to let another person fill that gap &mdash; not because you have no choice, but because you choose to believe they will. That takes more courage than carrying the weight alone ever does.</p>
+      <p>This story is about what happens when people choose each other anyway. Not because the world gets easier. It doesn&rsquo;t. But because enduring it together is the only way to overcome it at all.</p>
+      <p>&mdash; Rob Florendo</p>
     </div>
+  </section>
+
+  <!-- ORNAMENT -->
+  <div class="ornament">
+    <div class="ornament-line"><span class="ornament-symbol">&#10022;</span></div>
   </div>
 
   <!-- SYNOPSIS -->
@@ -672,8 +761,8 @@
       </div>
 
       <p>
-        Haruki and Hayate are the only survivors of their village. They didn't escape &mdash;
-        they fought their way out, and the weight of everyone they couldn't save has shaped
+        Haruki and Hayate are the only survivors of their village. They didn&rsquo;t escape &mdash;
+        they fought their way out, and the weight of everyone they couldn&rsquo;t save has shaped
         them in opposite ways. Haruki became calm, methodical, the steady hand his brother needed.
         Hayate became something harder &mdash; aggressive, instinct-driven, carrying grief as rage.
       </p>
@@ -684,9 +773,10 @@
       </div>
 
       <p>
-        Together they arrive at Akebono with borrowed swords and empty pockets, looking for work.
-        What they find instead is a party &mdash; an elf archer with warmth on the surface and darkness
-        underneath, a Cecaelian warrior searching for a missing brother, and a stoic Beastman who
+        Together they arrive at Akebono &mdash; a human settlement whose name means <em>dawn</em> &mdash;
+        with borrowed swords and empty pockets, looking for work. What they find instead is a party:
+        Lyra, an elf archer with warmth on the surface and something darker underneath; Freyja,
+        a Cecaelian warrior searching for her missing brother; and Rask, a winged Beastman who
         protects the ones no one else will.
       </p>
       <p>
@@ -700,9 +790,7 @@
 
   <!-- ORNAMENT -->
   <div class="ornament">
-    <div class="ornament-line">
-      <span class="ornament-symbol">&#10022;</span>
-    </div>
+    <div class="ornament-line"><span class="ornament-symbol">&#10022;</span></div>
   </div>
 
   <!-- RACES -->
@@ -711,130 +799,194 @@
     <div class="races-grid">
       <div class="race-card">
         <div class="race-name">Humans</div>
-        <div class="race-desc">Adaptable and numerous, humans are scattered across what remains of the free world. Their greatest strength is also their oldest flaw &mdash; they are capable of both extraordinary unity and devastating division.</div>
+        <div class="race-desc">The most numerous of the surviving races, adaptable and widespread. Their towns form the backbone of the remaining defensive lines. Their greatest strength and oldest flaw are the same thing &mdash; they are capable of extraordinary unity and devastating division in equal measure.</div>
       </div>
       <div class="race-card">
         <div class="race-name">Elves</div>
-        <div class="race-desc">Long-lived and perceptive, elves carry centuries of memory &mdash; including every war they've fought and every alliance that has failed them. Warmth, when they offer it, is earned slowly and guarded carefully.</div>
-      </div>
-      <div class="race-card">
-        <div class="race-name">Cecaelians</div>
-        <div class="race-desc">Cecaelians are oceanic beings &mdash; part humanoid, part cephalopod &mdash; powerful in both body and will. They are fiercely loyal to family above all else, and the loss of one of their own leaves a wound that does not heal.</div>
-      </div>
-      <div class="race-card">
-        <div class="race-name">Beastmen</div>
-        <div class="race-desc">Varied in form and fierce in spirit, Beastmen are defined less by their appearance than their code &mdash; protect those who cannot protect themselves. Their stoicism is often mistaken for coldness. It is not.</div>
+        <div class="race-desc">Long-lived and perceptive, with senses sharper than any other race. Their capital, Dawnholt, stands on the coast &mdash; a city of high forests and ocean views that has served as the elven seat of power since before the portal opened. Warmth, when they offer it, is earned slowly and guarded carefully.</div>
       </div>
       <div class="race-card">
         <div class="race-name">Dwarves</div>
-        <div class="race-desc">Builders and survivors, dwarves have held their underground strongholds longer than any other race. Their endurance is legendary. Their patience with the failures of others is considerably less so.</div>
-      </div>
-      <div class="race-card">
-        <div class="race-name">Revenants</div>
-        <div class="race-desc">Something brought them back — and whatever it was, it did not return them whole. Revenants exist between states, neither fully living nor fully gone. In a world already on the edge of ruin, they are a reminder that some costs cannot be undone.</div>
+        <div class="race-desc">Master craftspeople, particularly in metalwork and weapons. Their loyalty runs deep within their own kind and cautiously beyond it. They have held their strongholds longer than any other race. Their endurance is legendary. Their patience with the failures of others is considerably less so.</div>
       </div>
       <div class="race-card">
         <div class="race-name">Orcs</div>
-        <div class="race-desc">Orcs have survived a hundred years of occupation through invisibility — moving quietly, trading carefully, and knowing when to vanish. Do not mistake their discretion for weakness.</div>
+        <div class="race-desc">A warrior culture shaped by ritual and honour. Their young are sent into the world to prove themselves before they can return home &mdash; a tradition that has sent many orc fighters to the frontlines. Do not mistake their discipline for simplicity.</div>
+      </div>
+      <div class="race-card">
+        <div class="race-name">Beastmen</div>
+        <div class="race-desc">Hybrid humanoids &mdash; part human, part animal &mdash; covering enormous variety in form and ability. Winged Beastmen, serpent hybrids, and dozens of others exist within the same broad category, each carrying the traits of their animal lineage. Stoic and deliberate. Their softness is not visible in a casual glance.</div>
+      </div>
+      <div class="race-card">
+        <div class="race-name">Cecaelia</div>
+        <div class="race-desc">Amphibious humanoids &mdash; human above the waist, cephalopod below. At home in water as much as on land, they hold the coastlines that other races cannot defend. Their culture is traditional and family-bound. Fiercely loyal to their own. The loss of one of theirs leaves a wound that does not heal.</div>
+      </div>
+      <div class="race-card">
+        <div class="race-name">Revenants</div>
+        <div class="race-desc">A dying people. Bound to Ytecat by an ancient pact with the God of Death, they cannot pass on &mdash; instead they return after death, over and over, but each death costs them something. A memory. A name. A piece of who they were. The oldest Revenants are the most powerful and the most hollow. They are not undead. They are simply running out of time in a way no one else is.</div>
       </div>
       <div class="race-card demon">
         <div class="race-name">Demons</div>
-        <div class="race-desc">They came through a portal no one asked for and have not stopped since. The demon army is disciplined, patient and vast &mdash; and behind its generals lies something worse: intelligence that has been watching the free races for a very long time.</div>
+        <div class="race-desc">They are not mindless. They have generals, captains, lieutenants &mdash; armies with structure and strategy. What occupies Ytecat is, in fact, a scouting force. Four generals hold eighty-three percent of the world with a fraction of the demon realm&rsquo;s true power. They are not in a hurry. The slow burn, for most of them, is the point.</div>
       </div>
     </div>
   </section>
 
   <!-- ORNAMENT -->
   <div class="ornament">
-    <div class="ornament-line">
-      <span class="ornament-symbol">&#10022;</span>
+    <div class="ornament-line"><span class="ornament-symbol">&#10022;</span></div>
+  </div>
+
+  <!-- MAGIC -->
+  <section id="magic">
+    <p class="section-label">The Magic System</p>
+    <div class="magic-grid">
+      <div class="magic-card">
+        <div class="magic-element fire">Fire</div>
+        <div class="magic-type">Offensive</div>
+        <div class="magic-desc">A weapon of direct harm. High damage output, particularly devastating in combination with Light.</div>
+      </div>
+      <div class="magic-card">
+        <div class="magic-element dark">Dark</div>
+        <div class="magic-type">Offensive</div>
+        <div class="magic-desc">Shadow-based attacks and movement. Unpredictable in the hands of someone willing to use it fully.</div>
+      </div>
+      <div class="magic-card">
+        <div class="magic-element earth">Earth</div>
+        <div class="magic-type">Defensive</div>
+        <div class="magic-desc">Used to protect and strengthen. Can enhance metal weapons by fortifying the earth within them.</div>
+      </div>
+      <div class="magic-card">
+        <div class="magic-element water">Water</div>
+        <div class="magic-type">Defensive</div>
+        <div class="magic-desc">Absorbs kinetic energy and shields the target. Capable of carrying Light properties when blessed.</div>
+      </div>
+      <div class="magic-card">
+        <div class="magic-element light">Light</div>
+        <div class="magic-type">Support &mdash; Anti-Demon</div>
+        <div class="magic-desc">Healing, enhancing, sustaining &mdash; and significantly more effective against demons than any other element.</div>
+      </div>
+      <div class="magic-card">
+        <div class="magic-element wind">Wind</div>
+        <div class="magic-type">Support</div>
+        <div class="magic-desc">Speed, propulsion, and fire enhancement. In the right combination, extreme piercing capability.</div>
+      </div>
     </div>
+    <p class="magic-note">
+      Every person in Ytecat is born with a magical affinity &mdash; or without one. No person can wield more than two elements. Most have one. A rare few have none at all. The combination matters more than the individual parts.
+    </p>
+  </section>
+
+  <!-- ORNAMENT -->
+  <div class="ornament">
+    <div class="ornament-line"><span class="ornament-symbol">&#10022;</span></div>
   </div>
 
   <!-- CHARACTERS -->
   <section id="characters">
     <p class="section-label">The Party</p>
     <div class="characters-grid">
+
       <div class="char-card">
         <div class="char-name">Haruki</div>
-        <div class="char-race">Human &nbsp;&bull;&nbsp; Swordsman</div>
-        <div class="char-desc">The older brother. He became calm and methodical because someone had to &mdash; because Hayate couldn't, and someone had to be the steady hand. He carries the same grief as his brother. He just wears it differently.</div>
-        <div class="char-trait">"The weight of the ones we couldn't save."</div>
+        <div class="char-meta">Human &nbsp;&bull;&nbsp; Age 17 &nbsp;&bull;&nbsp; Rapier</div>
+        <div class="char-desc">Calm, steady, the kind of person whose smile makes you feel like everything is going to be okay. He carries himself like someone older than seventeen. The weight of responsibility shows in his posture, not his face. He became steady because someone had to &mdash; and Hayate couldn&rsquo;t.</div>
+        <div class="char-magic">
+          <span class="magic-pill fire">Fire</span>
+          <span class="magic-pill light">Light</span>
+        </div>
+        <div class="char-trait">&ldquo;The weight of the ones we couldn&rsquo;t save.&rdquo;</div>
       </div>
+
       <div class="char-card">
         <div class="char-name">Hayate</div>
-        <div class="char-race">Human &nbsp;&bull;&nbsp; Swordsman</div>
-        <div class="char-desc">The younger brother. Aggressive, instinct-driven, and running from something he can't outrun. He carries grief as rage because rage at least feels like it's going somewhere. By the end of Season 1, he learns what it costs to be the steady one.</div>
-        <div class="char-trait">"Carrying grief as rage."</div>
+        <div class="char-meta">Human &nbsp;&bull;&nbsp; Age 11 &nbsp;&bull;&nbsp; Greatsword</div>
+        <div class="char-desc">Eleven years old. Broad-shouldered, explosive, imprecise, magnetic &mdash; a child&rsquo;s face on a fighter&rsquo;s frame. He carries grief as rage because rage at least feels like it&rsquo;s going somewhere. By the end of Season 1, standing in front of burning Kibou, he learns what it means to be the steady one.</div>
+        <div class="char-magic">
+          <span class="magic-pill dark">Dark</span>
+          <span class="magic-pill wind">Wind</span>
+        </div>
+        <div class="char-trait">&ldquo;What would Haruki do?&rdquo;</div>
       </div>
+
       <div class="char-card">
-        <div class="char-name">The Elf</div>
-        <div class="char-race">Elf &nbsp;&bull;&nbsp; Archer</div>
-        <div class="char-desc">Warmth on the surface and something darker underneath. She is easy to like and careful to be known. The party will have to earn what she hasn't shown them yet.</div>
-        <div class="char-trait">"Warmth on the surface, darkness underneath."</div>
+        <div class="char-name">Lyra</div>
+        <div class="char-meta">Elf &nbsp;&bull;&nbsp; Age 19 &nbsp;&bull;&nbsp; Bow &amp; Dagger</div>
+        <div class="char-desc">Warm and playful on the surface, with hazel eyes that carry something that doesn&rsquo;t quite match the smile if you look closely enough. She wears a raven pendant necklace that becomes a significant detail through Season 1. Easy to like, careful to be known.</div>
+        <div class="char-magic">
+          <span class="magic-pill light">Light</span>
+          <span class="magic-pill water">Water</span>
+        </div>
+        <div class="char-trait">&ldquo;Warmth on the surface, darkness underneath.&rdquo;</div>
       </div>
+
       <div class="char-card">
-        <div class="char-name">The Cecaelian</div>
-        <div class="char-race">Cecaelian &nbsp;&bull;&nbsp; Guardian</div>
-        <div class="char-desc">Armed with a magic trident that returns to her hand when thrown and a shield that has turned more blows than she can count. Every fight she takes, every risk she accepts &mdash; it is all in service of one thing. Finding her missing brother. The party are means to an end, until they aren't.</div>
-        <div class="char-trait">"Searching for what was taken."</div>
+        <div class="char-name">Freyja</div>
+        <div class="char-meta">Cecaelia &nbsp;&bull;&nbsp; Age 15 &nbsp;&bull;&nbsp; Trident &amp; Shield</div>
+        <div class="char-desc">The youngest-feeling member of the party &mdash; bright-eyed, wide smile, cheerful in a way that disarms people. She is also the tank. Her magical trident returns to her hand via a bangle at her wrist. She is searching for her missing brother, and everything she does serves that one purpose &mdash; until it doesn&rsquo;t.</div>
+        <div class="char-magic">
+          <span class="magic-pill earth">Earth</span>
+          <span class="magic-pill water">Water</span>
+        </div>
+        <div class="char-trait">&ldquo;She should read as someone who loves being here.&rdquo;</div>
       </div>
+
       <div class="char-card">
-        <div class="char-name">The Beastman</div>
-        <div class="char-race">Beastman &nbsp;&bull;&nbsp; Assassin</div>
-        <div class="char-desc">Stoic and deliberate, he has made a quiet decision about what he is for. He protects the ones no one else will. The party didn't ask for a guardian. They got one anyway.</div>
-        <div class="char-trait">"Protects the ones no one else will."</div>
+        <div class="char-name">Rask</div>
+        <div class="char-meta">Beastman, Winged &nbsp;&bull;&nbsp; Age 21 &nbsp;&bull;&nbsp; Dual Daggers</div>
+        <div class="char-desc">A winged Beastman with predator&rsquo;s eyes that miss nothing. Tall, lean, built for flight and close-quarters precision. Quiet strength &mdash; not cold, restrained. Always watching, always assessing, never wasting movement. The softness underneath is not visible in a casual glance. He protects the ones no one else will.</div>
+        <div class="char-magic">
+          <span class="magic-pill wind">Wind</span>
+          <span class="magic-pill fire">Fire</span>
+        </div>
+        <div class="char-trait">&ldquo;Protects the ones no one else will.&rdquo;</div>
       </div>
+
     </div>
   </section>
 
   <!-- ORNAMENT -->
   <div class="ornament">
-    <div class="ornament-line">
-      <span class="ornament-symbol">&#10022;</span>
-    </div>
+    <div class="ornament-line"><span class="ornament-symbol">&#10022;</span></div>
   </div>
 
   <!-- SEASON STATUS -->
   <section id="season">
     <p class="section-label">Season One</p>
     <div class="season-block">
-      <div class="season-title">The Cost of Survival</div>
+      <div class="season-title">They Walked</div>
       <div class="season-tagline">Season 1 ends not with victory &mdash; but with survival. And barely that.</div>
-      <div class="season-progress-label">
-        <span>Progress</span>
-        <span>Chapter 27 of 33</span>
-      </div>
-      <div class="season-progress-bar">
-        <div class="season-progress-fill"></div>
-      </div>
       <p class="season-desc">
-        A city lost. A member of their party gone. And Hayate walking away from the smoke
-        of another burning place, carrying his brother's rapier, learning for the first time
-        what it means to be the steady one.
+        A city lost. Kibou burns behind them, smoke rising thick against an early sky. Hayate stops
+        on the road west and looks back at the fire for a long time. He thinks about his brother.
+        He thinks &mdash; what would Haruki do? And for the first time, he knows the answer.
+        He turns back to face the others and says, <em>&ldquo;We keep moving.&rdquo;</em>
+        His voice is steady. He is not sure how. They follow him west into a world that is eighty-three
+        percent occupied, and they keep walking because that is what you do.
       </p>
-      <div style="margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--border2); display: flex; gap: 40px; flex-wrap: wrap;">
-        <div>
-          <div style="font-family: var(--font-title); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">First Conceived</div>
-          <div style="font-family: var(--font-title); font-size: 13px; color: var(--ash);">Late teens — early 2000s</div>
+      <div class="timestamps">
+        <div class="ts-item">
+          <div class="ts-label">First Conceived</div>
+          <div class="ts-value">Late teens &mdash; early 2000s</div>
         </div>
-        <div>
-          <div style="font-family: var(--font-title); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">Writing Began</div>
-          <div style="font-family: var(--font-title); font-size: 13px; color: var(--ash);">Early 2026</div>
+        <div class="ts-item">
+          <div class="ts-label">Writing Began</div>
+          <div class="ts-value">Early 2026</div>
         </div>
-        <div>
-          <div style="font-family: var(--font-title); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">First Published Online</div>
-          <div style="font-family: var(--font-title); font-size: 13px; color: var(--ember);">Coming Soon — 4our.it/ytecat</div>
+        <div class="ts-item">
+          <div class="ts-label">Season 1 Completed</div>
+          <div class="ts-value">2026 &mdash; 33 Chapters</div>
+        </div>
+        <div class="ts-item">
+          <div class="ts-label">First Published Online</div>
+          <div class="ts-value highlight">02 April 2026, 22:43 AEST &mdash; 4our.it/ytecat</div>
         </div>
       </div>
     </div>
   </section>
 
   <footer>
-    <p>
-      Ytecat &nbsp;&mdash;&nbsp; Written by Rob Florendo &nbsp;&mdash;&nbsp;
-      <a href="/">Back to 4our.it</a>
-    </p>
+    <p>Ytecat &nbsp;&mdash;&nbsp; Written by Rob Florendo &nbsp;&mdash;&nbsp; <a href="/">Back to 4our.it</a></p>
   </footer>
 
 </div>
@@ -842,13 +994,11 @@
 <script>
   function revealSections() {
     document.querySelectorAll('section, .ornament').forEach(function(s) {
-      var rect = s.getBoundingClientRect();
-      if (rect.top < window.innerHeight - 40) {
+      if (s.getBoundingClientRect().top < window.innerHeight - 40) {
         s.classList.add('visible');
       }
     });
   }
-
   revealSections();
   window.addEventListener('scroll', revealSections, { passive: true });
 </script>
