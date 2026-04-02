@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ytecat — Hayate</title>
+  <meta name="description" content="Hayate — The Rage That Learns. A character from Ytecat by Rob Florendo.">
+  <meta property="og:title" content="Ytecat — Hayate">
+  <meta property="og:url" content="https://www.4our.it/ytecat/characters/hayate">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0806; --card: #1a1410; --border: #8b3a2a33;
+      --ember: #c0392b; --gold: #c9a84c; --ash: #a09080;
+      --text: #e8ddd0; --muted: #6b5a4e;
+      --font-title: 'Cinzel', serif; --font-body: 'Crimson Pro', serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 17px; line-height: 1.8; min-height: 100vh; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; opacity: 0.7; }
+    body::after { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%); pointer-events: none; z-index: 0; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: rgba(13,8,6,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: var(--font-title); font-size: 12px; letter-spacing: 0.2em; color: var(--ember); text-decoration: none; }
+    .nav-logo:hover { color: var(--gold); }
+    .nav-back { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--gold); }
+    .wrap { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 28px; }
+    .hero { padding: 120px 0 60px; display: grid; grid-template-columns: 1fr 280px; gap: 60px; align-items: start; }
+    .hero-eyebrow { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--ember); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
+    .hero-name { font-family: var(--font-title); font-size: clamp(42px, 7vw, 72px); font-weight: 900; line-height: 1; letter-spacing: 0.05em; margin-bottom: 8px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s; background: linear-gradient(135deg, var(--text) 30%, var(--ash) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-role { font-family: var(--font-title); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.3s; }
+    .hero-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.35s; }
+    .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.4s; }
+    .hero-stat { background: var(--card); border: 1px solid var(--border); border-radius: 2px; padding: 12px 16px; }
+    .hero-stat-label { font-family: var(--font-title); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .hero-stat-value { font-family: var(--font-title); font-size: 13px; color: var(--text); }
+    .hero-quote { font-style: italic; font-size: 16px; color: var(--ash); border-left: 2px solid var(--ember); padding-left: 18px; margin-top: 20px; line-height: 1.6; opacity: 0; animation: fadeUp 0.6s ease forwards 0.5s; }
+
+    /* Art placeholder */
+    .art-placeholder { background: var(--card); border: 1px solid var(--border); border-radius: 4px; aspect-ratio: 3/4; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; opacity: 0; animation: fadeIn 0.8s ease forwards 0.6s; position: relative; overflow: hidden; }
+    .art-placeholder::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(192,57,43,0.04) 0%, transparent 60%); }
+    .art-placeholder-icon { font-size: 40px; opacity: 0.2; }
+    .art-placeholder-text { font-family: var(--font-title); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); text-align: center; }
+
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border) 30%, var(--ember) 50%, var(--border) 70%, transparent); margin: 0 0 60px; }
+
+    section { margin-bottom: 60px; opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    section.visible { opacity: 1; transform: translateY(0); }
+
+    .section-label { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--ember); margin-bottom: 28px; display: flex; align-items: center; gap: 16px; }
+    .section-label::before, .section-label::after { content: ''; height: 1px; background: var(--border); }
+    .section-label::before { width: 40px; }
+    .section-label::after { flex: 1; }
+
+    .desc-text p { font-size: 17px; color: #c8bdb0; line-height: 1.9; margin-bottom: 18px; }
+    .desc-text p:last-child { margin-bottom: 0; }
+
+    .gear-block { background: var(--card); border: 1px solid var(--border); border-left: 2px solid var(--gold); padding: 20px 24px; font-size: 15px; color: var(--ash); line-height: 1.7; }
+
+    .spells-grid { display: flex; flex-direction: column; gap: 12px; }
+    .spell-card { background: var(--card); border: 1px solid var(--border); border-radius: 2px; padding: 20px 22px; transition: border-color 0.2s; }
+    .spell-card:hover { border-color: rgba(201,168,76,0.3); }
+    .spell-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+    .spell-name { font-family: var(--font-title); font-size: 14px; font-weight: 600; color: var(--text); }
+    .spell-element { font-family: var(--font-title); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; }
+    .spell-effect { font-size: 14px; color: var(--ash); line-height: 1.65; }
+
+    .back-link { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-title); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: 10px 20px; border-radius: 2px; transition: all 0.2s; margin-bottom: 60px; }
+    .back-link:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+    footer { border-top: 1px solid var(--border); padding: 32px 0 48px; text-align: center; font-family: var(--font-title); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+    footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--gold); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    @media (max-width: 700px) {
+      nav { padding: 16px 20px; }
+      .hero { grid-template-columns: 1fr; padding: 100px 0 40px; }
+      .art-placeholder { aspect-ratio: 1/1; max-width: 280px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/ytecat" class="nav-logo">Ytecat &mdash; Season 1</a>
+  <a href="/ytecat" class="nav-back">&#8592; Back to Ytecat</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div>
+      <p class="hero-eyebrow">Human &nbsp;&bull;&nbsp; Age 11</p>
+      <h1 class="hero-name">Hayate</h1>
+      <p class="hero-role">The Rage That Learns</p>
+      <div class="hero-pills"><span style="font-family:var(--font-title);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:3px 10px;border-radius:2px;border:1px solid rgba(155,89,182,0.3);background:rgba(155,89,182,0.1);color:#9b59b6;">Dark</span> <span style="font-family:var(--font-title);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:3px 10px;border-radius:2px;border:1px solid rgba(127,179,160,0.3);background:rgba(127,179,160,0.1);color:#7fb3a0;">Wind</span></div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Race</div>
+          <div class="hero-stat-value">Human</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Age</div>
+          <div class="hero-stat-value">11</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Weapon</div>
+          <div class="hero-stat-value">Greatsword</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Affinities</div>
+          <div class="hero-stat-value">Dark &amp; Wind</div>
+        </div>
+      </div>
+      <p class="hero-quote">&ldquo;What would Haruki do?&rdquo;</p>
+    </div>
+    <div class="art-placeholder">
+      <div class="art-placeholder-icon">&#9998;</div>
+      <div class="art-placeholder-text">Concept Art<br/>Coming Soon</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <section id="description">
+    <p class="section-label">Description</p>
+    <div class="desc-text"><p>Hayate has a stocky, solid build — broad-shouldered for his age, with warm brown skin and olive undertones. His face is round and full. His eyes are dark brown, calm in expression though rarely matching his actions. His hair is very dark brown to black, short-to-medium with a natural tousle.</p>
+<p>He is eleven. This is important. He should read younger than his fighting ability suggests — a child's face on a fighter's frame. He is not polished. He is explosive, imprecise, and magnetic.</p>
+<p>His default expression is a kind of restless energy — always about to do something. When he smiles, it's sudden and genuine. He carries grief as rage because rage at least feels like it's going somewhere. By the end of Season 1, standing in front of burning Kibou, he learns what it means to be the steady one.</p></div>
+  </section>
+
+  <section id="gear">
+    <p class="section-label">Gear</p>
+    <div class="gear-block">Greatsword (Season 1) — comically large for his age, carried like it's the most natural thing in the world. Rapier in left hand (late Season 1) — carried more carefully, like something borrowed.</div>
+  </section>
+
+  <section id="spells">
+    <p class="section-label">Spells &amp; Abilities</p>
+    <div class="spells-grid">
+        <div class="spell-card">
+          <div class="spell-header">
+            <span class="spell-name">Shadow Bolt</span>
+            <span class="spell-element" style="color:#9b59b6;">Dark</span>
+          </div>
+          <div class="spell-effect">Concentrated bolt of dark energy — offensive ranged attack.</div>
+        </div>
+        <div class="spell-card">
+          <div class="spell-header">
+            <span class="spell-name">Shadow Step</span>
+            <span class="spell-element" style="color:#9b59b6;">Dark</span>
+          </div>
+          <div class="spell-effect">The user enters a shadow and moves through the shadow realm, emerging from another shadow within approximately 10 metres. Slow but safe. No vision while inside. Must commit to exit point before entering.</div>
+        </div>
+        <div class="spell-card">
+          <div class="spell-header">
+            <span class="spell-name">Tailwind</span>
+            <span class="spell-element" style="color:#7fb3a0;">Wind</span>
+          </div>
+          <div class="spell-effect">A gust of wind that propels the user in any direction at speed.</div>
+        </div></div>
+  </section>
+
+  <a href="/ytecat" class="back-link">&#8592; Back to Ytecat</a>
+
+  <footer>
+    <p>Ytecat &nbsp;&mdash;&nbsp; Rob Florendo &nbsp;&mdash;&nbsp; <a href="/">4our.it</a></p>
+  </footer>
+
+</div>
+
+<script>
+  function revealSections() {
+    document.querySelectorAll('section').forEach(function(s) {
+      if (s.getBoundingClientRect().top < window.innerHeight - 40) s.classList.add('visible');
+    });
+  }
+  revealSections();
+  window.addEventListener('scroll', revealSections, { passive: true });
+</script>
+
+</body>
+</html>
