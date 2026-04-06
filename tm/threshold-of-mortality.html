@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Threshold of Mortality</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:#c89640;--gold-dim:#7a5a20;--gold-light:#e0aa50;
+  --bg:#080604;--bg-panel:#0c0a06;--bg-card:#100e08;--bg-hover:#181408;--bg-sel:#1e1808;
+  --border:#2a1e0e;--border-hover:#5a3e20;
+  --text-primary:#f0d898;--text-secondary:#9a8060;--text-muted:#6a5030;--text-dim:#3a2a14;
+  --red:#8a2010;--red-light:#c03020;
+}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:#e8d5b0;font-family:'Crimson Pro',serif;}
+
+/* ── SCREEN MANAGER ── */
+.screen{display:none;flex-direction:column;height:100vh;overflow:hidden;}
+.screen.active{display:flex;}
+
+/* ════════════════════════════════
+   TITLE SCREEN
+════════════════════════════════ */
+#screen-title{
+  align-items:center;justify-content:center;position:relative;
+  background:radial-gradient(ellipse 70% 50% at 50% 100%,#2a0e04 0%,transparent 65%),
+             radial-gradient(ellipse 50% 40% at 20% 30%,#0d0a14 0%,transparent 60%),
+             radial-gradient(ellipse 40% 60% at 80% 20%,#0a100e 0%,transparent 60%);
+}
+canvas#title-embers{position:absolute;inset:0;pointer-events:none;opacity:0.6;}
+.title-content{position:relative;z-index:2;text-align:center;padding:2rem;}
+.title-eyebrow{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.5em;color:#5a3e20;text-transform:uppercase;margin-bottom:1rem;}
+.title-main{font-family:'Cinzel',serif;font-size:clamp(28px,6vw,56px);font-weight:700;color:var(--text-primary);letter-spacing:0.06em;line-height:1.1;margin-bottom:0.4rem;}
+.title-sub{font-family:'Crimson Pro',serif;font-size:16px;font-style:italic;color:#5a3e20;margin-bottom:0.5rem;}
+.title-divider{display:flex;align-items:center;gap:1rem;margin:1.2rem auto;max-width:280px;}
+.title-divider-line{flex:1;height:1px;background:linear-gradient(to right,transparent,#5a3e20,transparent);}
+.title-divider-gem{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;}
+.title-lore{font-size:14px;font-style:italic;color:#4a3418;max-width:440px;line-height:1.7;margin:0 auto 2.5rem;}
+.title-buttons{display:flex;flex-direction:column;gap:10px;align-items:center;}
+.title-btn{
+  font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--bg);background:var(--gold);border:none;padding:0.9rem 3rem;cursor:pointer;
+  transition:background 0.2s;min-width:220px;
+}
+.title-btn:hover{background:var(--gold-light);}
+.title-btn.secondary{background:transparent;color:var(--text-muted);border:1px solid var(--border);}
+.title-btn.secondary:hover{border-color:var(--border-hover);color:var(--text-secondary);background:var(--bg-card);}
+.title-version{position:absolute;bottom:1rem;right:1.5rem;font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:#2a1e0e;text-transform:uppercase;}
+
+/* ════════════════════════════════
+   CHARACTER CREATION
+════════════════════════════════ */
+#screen-create{overflow-y:auto;background:var(--bg);}
+#screen-create .bg-layer{position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,#2a1a08 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 80% 80%,#1a0d1a 0%,transparent 60%);pointer-events:none;z-index:0;}
+.create-container{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+.create-header{text-align:center;margin-bottom:2rem;}
+.create-eyebrow{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.4em;color:#8a6a3a;text-transform:uppercase;margin-bottom:0.4rem;}
+.create-title{font-family:'Cinzel',serif;font-size:clamp(20px,4vw,30px);font-weight:700;color:var(--text-primary);letter-spacing:0.06em;}
+.create-sub{font-size:14px;font-style:italic;color:var(--text-muted);margin-top:0.3rem;}
+.divider{display:flex;align-items:center;gap:1rem;margin:0.8rem auto;max-width:320px;}
+.divider-line{flex:1;height:1px;background:linear-gradient(to right,transparent,#5a3e20,transparent);}
+.divider-gem{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;}
+.lore-bar{background:var(--bg-panel);border:1px solid #1e1608;border-left:3px solid #3a2a10;padding:0.7rem 1.1rem;margin-bottom:2rem;font-size:14px;font-style:italic;color:#5a4828;line-height:1.6;}
+.section-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.35em;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.75rem;display:block;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+@media(max-width:540px){.two-col{grid-template-columns:1fr;}}
+.name-input{width:100%;background:#12100a;border:1px solid var(--border);border-bottom:2px solid var(--gold-dim);color:var(--text-primary);font-family:'Cinzel',serif;font-size:18px;letter-spacing:0.08em;padding:0.7rem 1rem;outline:none;transition:border-color 0.25s;}
+.name-input:focus{border-bottom-color:var(--gold);background:#16130c;}
+.name-input::placeholder{color:#3a2a14;font-style:italic;font-family:'Crimson Pro',serif;font-size:14px;}
+.gender-row{display:flex;gap:8px;}
+.gender-btn{flex:1;cursor:pointer;border:1px solid var(--border);background:var(--bg-card);padding:0.65rem 0.5rem;text-align:center;transition:all 0.2s;user-select:none;}
+.gender-btn:hover{border-color:var(--border-hover);background:var(--bg-hover);}
+.gender-btn.selected{border-color:var(--gold);background:var(--bg-sel);}
+.gender-btn .g-icon{font-size:20px;display:block;margin-bottom:4px;color:var(--text-muted);}
+.gender-btn.selected .g-icon{color:var(--gold);}
+.gender-btn .g-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.15em;color:var(--text-muted);text-transform:uppercase;}
+.gender-btn.selected .g-label{color:var(--gold);}
+.appearance-layout{display:grid;grid-template-columns:100px 1fr;gap:1.5rem;align-items:start;}
+@media(max-width:480px){.appearance-layout{grid-template-columns:1fr;}}
+.avatar-col{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.avatar-frame{width:90px;height:90px;border-radius:50%;border:2px solid var(--border);background:#12100a;overflow:hidden;display:flex;align-items:center;justify-content:center;transition:border-color 0.3s;}
+.avatar-frame.ready{border-color:var(--gold);}
+.avatar-frame svg{width:90px;height:90px;display:block;}
+.avatar-status{font-size:10px;color:var(--text-dim);font-style:italic;text-align:center;line-height:1.4;}
+.options-col{display:flex;flex-direction:column;gap:14px;}
+.tone-row{display:flex;gap:6px;flex-wrap:wrap;}
+.tone-swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2px solid transparent;outline:2px solid transparent;outline-offset:2px;transition:transform 0.15s,outline-color 0.15s;flex-shrink:0;}
+.tone-swatch:hover{transform:scale(1.15);}
+.tone-swatch.selected{outline-color:var(--gold);border-color:var(--bg);}
+.style-row{display:flex;gap:7px;flex-wrap:wrap;}
+.style-tile{cursor:pointer;border:1px solid var(--border);background:var(--bg-card);width:54px;height:54px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;border-radius:3px;flex-shrink:0;position:relative;overflow:hidden;}
+.style-tile:hover{border-color:var(--border-hover);background:var(--bg-hover);}
+.style-tile.selected{border-color:var(--gold);background:var(--bg-sel);}
+.style-tile svg{width:40px;height:40px;}
+.style-tile .tile-label{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.05em;color:var(--text-dim);text-transform:uppercase;}
+.style-tile.selected .tile-label{color:var(--gold);}
+.race-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;}
+@media(max-width:580px){.race-grid{grid-template-columns:repeat(3,1fr);}}
+.race-card{cursor:pointer;border:1px solid var(--border);background:var(--bg-card);padding:0.75rem 0.25rem 0.6rem;text-align:center;transition:all 0.2s;position:relative;user-select:none;}
+.race-card:hover{border-color:var(--border-hover);background:var(--bg-hover);}
+.race-card.selected{border-color:var(--gold);background:var(--bg-sel);}
+.race-card.selected::after{content:'';position:absolute;inset:0;border:1px solid var(--gold);opacity:0.25;pointer-events:none;}
+.race-icon-el{font-size:22px;display:block;margin-bottom:4px;line-height:1;}
+.race-name-el{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:0.1em;color:#8a6a3a;text-transform:uppercase;}
+.race-card.selected .race-name-el{color:var(--gold);}
+.race-info-box{background:var(--bg-panel);border:1px solid var(--border);border-left:3px solid #5a3e20;padding:0.85rem 1rem;margin-top:0.75rem;min-height:58px;}
+.race-info-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin-bottom:3px;}
+.race-info-desc{font-size:13px;color:var(--text-secondary);line-height:1.55;font-style:italic;}
+.affinity-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;}
+@media(max-width:580px){.affinity-grid{grid-template-columns:repeat(3,1fr);}}
+.aff-btn{cursor:pointer;border:1px solid var(--border);background:var(--bg-card);padding:0.65rem 0.25rem;text-align:center;transition:all 0.2s;user-select:none;}
+.aff-btn:hover:not(.locked){border-color:var(--border-hover);}
+.aff-btn.locked{opacity:0.3;cursor:not-allowed;}
+.aff-gem{width:14px;height:14px;border-radius:50%;margin:0 auto 5px;}
+.aff-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.08em;color:var(--text-muted);text-transform:uppercase;}
+.aff-fire.selected{border-color:#cc4420;background:#1a0d08;} .aff-fire .aff-gem{background:#cc4420;} .aff-fire.selected .aff-label{color:#cc7750;}
+.aff-dark.selected{border-color:#6a3acc;background:#0e0a1a;} .aff-dark .aff-gem{background:#6a3acc;} .aff-dark.selected .aff-label{color:#9a70ee;}
+.aff-earth.selected{border-color:#5a8030;background:#0a1008;} .aff-earth .aff-gem{background:#5a8030;} .aff-earth.selected .aff-label{color:#80b050;}
+.aff-water.selected{border-color:#2060cc;background:#081018;} .aff-water .aff-gem{background:#2060cc;} .aff-water.selected .aff-label{color:#5090ee;}
+.aff-light.selected{border-color:#d4a020;background:#181208;} .aff-light .aff-gem{background:#d4a020;} .aff-light.selected .aff-label{color:#d4b040;}
+.aff-wind.selected{border-color:#30c0a0;background:#081412;} .aff-wind .aff-gem{background:#30c0a0;} .aff-wind.selected .aff-label{color:#50d0b0;}
+.aff-status{display:flex;align-items:center;gap:10px;margin-top:0.6rem;min-height:22px;}
+.aff-pips{display:flex;gap:5px;}
+.pip{width:9px;height:9px;border-radius:50%;border:1px solid var(--border);transition:all 0.2s;}
+.pip.on{background:var(--gold);border-color:var(--gold);}
+.aff-status-text{font-size:13px;color:var(--text-muted);font-style:italic;}
+.aff-combo{font-size:13px;color:#7a5a28;font-style:italic;}
+.stat-grid-cc{display:grid;grid-template-columns:1fr 1fr;gap:9px 28px;}
+.stat-row-cc{display:flex;align-items:center;gap:9px;}
+.stat-name-cc{font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:0.1em;color:var(--text-muted);width:70px;flex-shrink:0;text-transform:uppercase;}
+.stat-bar-bg{flex:1;height:4px;background:#1a1408;border:1px solid var(--border);overflow:hidden;}
+.stat-bar-fill{height:100%;background:var(--gold-dim);transition:width 0.45s ease;}
+.stat-val-cc{font-family:'Cinzel',serif;font-size:10px;color:var(--text-muted);width:16px;text-align:right;flex-shrink:0;}
+.stat-val-cc.high{color:var(--gold);}
+.begin-section{text-align:center;margin-top:2.5rem;}
+.summary-box{background:var(--bg-panel);border:1px solid var(--border);padding:1rem 1.25rem;margin-bottom:1.5rem;text-align:left;display:none;}
+.summary-box.show{display:block;}
+.summary-title-el{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.3em;color:#5a3e20;text-transform:uppercase;margin-bottom:0.6rem;}
+.summary-line{font-size:14px;color:var(--text-secondary);line-height:1.9;}
+.summary-line strong{color:var(--gold);font-family:'Cinzel',serif;font-size:13px;font-weight:400;}
+.begin-btn{font-family:'Cinzel',serif;font-size:12px;letter-spacing:0.35em;text-transform:uppercase;color:var(--bg);background:var(--gold);border:none;padding:1rem 3.5rem;cursor:pointer;transition:background 0.2s;}
+.begin-btn:hover:not(:disabled){background:var(--gold-light);}
+.begin-btn:disabled{background:#2a1e0e;color:#5a4020;cursor:not-allowed;}
+.begin-hint{font-size:12px;color:var(--text-muted);font-style:italic;margin-top:0.65rem;}
+
+/* ════════════════════════════════
+   SHARED TOPBAR (hub + inventory)
+════════════════════════════════ */
+.game-topbar{display:flex;align-items:center;justify-content:space-between;padding:0.6rem 1.2rem;border-bottom:1px solid var(--border);background:var(--bg-panel);flex-shrink:0;}
+.topbar-left{display:flex;flex-direction:column;}
+.topbar-town{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.4em;color:var(--text-muted);text-transform:uppercase;}
+.topbar-char{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--text-primary);letter-spacing:0.04em;line-height:1.1;}
+.topbar-tag{font-family:'Crimson Pro',serif;font-size:12px;font-style:italic;color:var(--red-light);}
+.topbar-right{display:flex;align-items:center;gap:1.2rem;}
+.party-bar{display:flex;align-items:center;gap:7px;}
+.party-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.25em;color:var(--text-muted);text-transform:uppercase;margin-right:2px;}
+.party-slot{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--bg-card);display:flex;align-items:center;justify-content:center;position:relative;transition:border-color 0.2s;font-size:16px;}
+.party-slot.filled{border-color:var(--gold-dim);}
+.party-slot.leader{border-color:var(--gold);}
+.slot-empty-dot{width:12px;height:12px;border:1px dashed var(--text-dim);border-radius:50%;}
+.slot-badge{position:absolute;bottom:-1px;right:-1px;width:13px;height:13px;border-radius:50%;background:var(--gold);border:1px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--bg);font-family:'Cinzel',serif;font-weight:700;}
+.resource-bar{display:flex;align-items:center;gap:12px;}
+.resource{display:flex;align-items:center;gap:5px;font-family:'Cinzel',serif;font-size:12px;color:var(--text-secondary);}
+.resource-val{color:var(--gold);}
+.nav-btn{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--border);background:var(--bg-card);color:var(--text-muted);padding:5px 12px;cursor:pointer;transition:all 0.2s;}
+.nav-btn:hover{border-color:var(--border-hover);color:var(--text-secondary);background:var(--bg-hover);}
+.nav-btn.active{border-color:var(--gold-dim);color:var(--gold);}
+
+/* ════════════════════════════════
+   HUB SCREEN
+════════════════════════════════ */
+#screen-hub{background:var(--bg);}
+.hub-body{flex:1;display:grid;grid-template-columns:1fr 320px;overflow:hidden;}
+@media(max-width:700px){.hub-body{grid-template-columns:1fr;}}
+.alert-banner{background:#1a0804;border-bottom:1px solid #3a1008;padding:0.5rem 1.5rem;display:flex;align-items:center;gap:0.75rem;flex-shrink:0;}
+.alert-dot{width:6px;height:6px;border-radius:50%;background:var(--red-light);flex-shrink:0;animation:pulse 2s infinite;}
+.alert-text{font-size:13px;font-style:italic;color:#8a5040;line-height:1.4;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.time-bar{display:flex;align-items:center;gap:8px;padding:0.5rem 1.5rem;border-bottom:1px solid var(--border);background:rgba(8,6,4,0.6);flex-shrink:0;}
+.time-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.25em;color:var(--text-muted);text-transform:uppercase;flex-shrink:0;}
+.time-track{flex:1;height:3px;background:var(--border);position:relative;}
+.time-fill{height:100%;background:linear-gradient(to right,#1a1408,#c89640,#8a4010,#080604);}
+.time-cursor{position:absolute;top:-4px;width:3px;height:11px;background:var(--gold);transform:translateX(-50%);transition:left 1s;}
+.time-val{font-family:'Cinzel',serif;font-size:11px;color:var(--text-secondary);flex-shrink:0;min-width:42px;text-align:right;}
+.town-area{padding:1.5rem;overflow-y:auto;}
+.town-area::-webkit-scrollbar{width:3px;} .town-area::-webkit-scrollbar-thumb{background:var(--border);}
+.area-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.35em;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.75rem;}
+.locations-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:500px){.locations-grid{grid-template-columns:1fr;}}
+.location-card{border:1px solid var(--border);background:var(--bg-card);padding:1.1rem 1.1rem 1rem;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;overflow:hidden;user-select:none;}
+.location-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--loc-color,var(--border));opacity:0.6;transition:opacity 0.2s;}
+.location-card:hover{border-color:var(--border-hover);background:var(--bg-hover);}
+.location-card:hover::before,.location-card.active::before{opacity:1;}
+.location-card.active{border-color:var(--loc-color,var(--gold));background:var(--bg-sel);}
+.location-card.wide{grid-column:1/-1;}
+.loc-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:0.5rem;}
+.loc-icon-el{font-size:24px;line-height:1;flex-shrink:0;margin-top:1px;}
+.loc-name-el{font-family:'Cinzel',serif;font-size:13px;font-weight:600;color:var(--text-primary);letter-spacing:0.05em;margin-bottom:2px;}
+.loc-tag-el{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.2em;color:var(--loc-color,var(--text-muted));text-transform:uppercase;}
+.loc-desc{font-size:13px;font-style:italic;color:var(--text-secondary);line-height:1.5;margin-bottom:0.6rem;}
+.loc-action{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:var(--loc-color,var(--gold-dim));text-transform:uppercase;display:flex;align-items:center;gap:5px;}
+.loc-action::before{content:'';display:inline-block;width:14px;height:1px;background:currentColor;}
+.loc-badge{position:absolute;top:10px;right:10px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.1em;padding:2px 6px;border:1px solid;text-transform:uppercase;}
+.loc-badge.danger{color:var(--red-light);border-color:var(--red);background:#1a0804;}
+.loc-badge.ok{color:var(--gold);border-color:var(--gold-dim);background:#18140a;}
+.loc-badge.new{color:#40a060;border-color:#206030;background:#081408;}
+.sidebar{border-left:1px solid var(--border);background:rgba(12,10,6,0.6);display:flex;flex-direction:column;overflow:hidden;}
+.sidebar-header{padding:1rem 1.2rem 0.8rem;border-bottom:1px solid var(--border);flex-shrink:0;}
+.sidebar-loc-name{font-family:'Cinzel',serif;font-size:14px;color:var(--text-primary);margin-bottom:3px;}
+.sidebar-loc-tag{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.25em;color:var(--text-muted);text-transform:uppercase;}
+.sidebar-body{flex:1;overflow-y:auto;padding:1rem 1.2rem;}
+.sidebar-body::-webkit-scrollbar{width:3px;} .sidebar-body::-webkit-scrollbar-thumb{background:var(--border);}
+.sidebar-placeholder{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;text-align:center;padding:2rem;}
+.placeholder-icon-el{font-size:32px;opacity:0.15;}
+.placeholder-text-el{font-size:13px;font-style:italic;color:var(--text-dim);line-height:1.6;}
+.npc-card{border:1px solid var(--border);background:var(--bg-card);padding:0.75rem;margin-bottom:8px;transition:border-color 0.2s;}
+.npc-card:hover{border-color:var(--border-hover);}
+.npc-header{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.npc-name{font-family:'Cinzel',serif;font-size:12px;color:var(--text-primary);}
+.npc-race{font-size:11px;color:var(--text-muted);font-style:italic;}
+.npc-desc{font-size:12px;color:var(--text-secondary);font-style:italic;line-height:1.4;margin-bottom:6px;}
+.npc-stats-el{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.15em;color:var(--text-muted);margin-bottom:6px;}
+.recruit-btn{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--bg);background:var(--gold-dim);border:none;padding:5px 12px;cursor:pointer;transition:background 0.2s;width:100%;}
+.recruit-btn:hover:not(:disabled){background:var(--gold);}
+.recruit-btn:disabled{background:#2a1e0e;color:var(--text-dim);cursor:not-allowed;}
+.quest-card{border:1px solid var(--border);background:var(--bg-card);padding:0.75rem;margin-bottom:8px;}
+.quest-name{font-family:'Cinzel',serif;font-size:12px;color:var(--text-primary);margin-bottom:3px;}
+.quest-desc{font-size:12px;font-style:italic;color:var(--text-secondary);line-height:1.4;margin-bottom:6px;}
+.quest-footer{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.quest-reward{font-family:'Cinzel',serif;font-size:10px;color:var(--gold);}
+.quest-diff{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.1em;padding:2px 6px;border:1px solid;text-transform:uppercase;}
+.diff-low{color:#40a060;border-color:#206030;} .diff-mid{color:#c89640;border-color:#7a5a20;} .diff-high{color:#cc4020;border-color:#7a2010;} .diff-dire{color:#8030cc;border-color:#4a1a80;}
+.accept-btn{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--bg);background:var(--gold-dim);border:none;padding:5px 12px;cursor:pointer;transition:background 0.2s;width:100%;}
+.accept-btn:hover:not(:disabled){background:var(--gold);}
+.accept-btn:disabled{background:#2a1e0e;color:var(--text-dim);cursor:not-allowed;}
+.market-item{border:1px solid var(--border);background:var(--bg-card);padding:0.65rem 0.75rem;display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.item-icon-el{font-size:18px;flex-shrink:0;}
+.item-info{flex:1;}
+.item-name-el{font-family:'Cinzel',serif;font-size:11px;color:var(--text-primary);}
+.item-desc-el{font-size:11px;font-style:italic;color:var(--text-muted);}
+.item-price-el{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);flex-shrink:0;}
+.barracks-stat{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);}
+.barracks-stat-name{font-size:13px;color:var(--text-secondary);}
+.barracks-stat-val{font-family:'Cinzel',serif;font-size:12px;color:var(--text-primary);}
+.barracks-stat-val.danger{color:var(--red-light);} .barracks-stat-val.warn{color:#c89640;} .barracks-stat-val.good{color:#60a050;}
+.gate-warning{background:#180804;border:1px solid #3a1008;padding:0.85rem 1rem;margin-bottom:1rem;font-size:13px;font-style:italic;color:#8a5040;line-height:1.6;}
+.gate-btn{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--bg);background:var(--red);border:none;padding:0.75rem 1.5rem;cursor:pointer;transition:background 0.2s;width:100%;margin-bottom:8px;}
+.gate-btn:hover:not(:disabled){background:var(--red-light);}
+.gate-btn:disabled{background:#2a1e0e;color:var(--text-dim);cursor:not-allowed;}
+.gate-btn.sec{background:var(--bg-card);color:var(--text-secondary);border:1px solid var(--border);}
+.gate-btn.sec:hover{border-color:var(--border-hover);background:var(--bg-hover);color:var(--text-primary);}
+.sidebar-divider{height:1px;background:var(--border);margin:0.75rem 0;}
+
+/* ════════════════════════════════
+   INVENTORY SCREEN
+════════════════════════════════ */
+#screen-inv{background:var(--bg);}
+.inv-body{flex:1;display:grid;grid-template-columns:200px 1fr 220px;overflow:hidden;min-height:0;}
+.party-tabs-inv{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg-panel);}
+.party-tab-inv{flex:1;padding:0.6rem 0.5rem;cursor:pointer;text-align:center;border-right:1px solid var(--border);transition:background 0.2s;border-bottom:2px solid transparent;user-select:none;}
+.party-tab-inv:last-child{border-right:none;}
+.party-tab-inv:hover{background:var(--bg-hover);}
+.party-tab-inv.active{border-bottom-color:var(--gold);background:var(--bg-card);}
+.tab-icon-inv{font-size:18px;margin-bottom:2px;}
+.tab-name-inv{font-family:'Cinzel',serif;font-size:11px;color:var(--text-primary);letter-spacing:0.05em;}
+.tab-race-inv{font-size:11px;color:var(--text-muted);font-style:italic;}
+.party-tab-inv.empty .tab-name-inv{color:var(--text-dim);}
+.equip-panel{border-right:1px solid var(--border);background:var(--bg-panel);display:flex;flex-direction:column;overflow-y:auto;padding:0.75rem;gap:6px;}
+.equip-panel::-webkit-scrollbar{width:3px;} .equip-panel::-webkit-scrollbar-thumb{background:var(--border);}
+.equip-section-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.3em;color:var(--text-muted);text-transform:uppercase;padding:4px 0 2px;border-bottom:1px solid var(--border);margin-bottom:2px;}
+.equip-slot{border:1px solid var(--border);background:var(--bg-card);padding:6px 8px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.2s;position:relative;min-height:44px;}
+.equip-slot:hover{border-color:var(--border-hover);background:var(--bg-hover);}
+.equip-slot.has-item{border-color:var(--gold-dim);}
+.slot-icon-wrap{width:28px;height:28px;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.slot-label{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:0.1em;color:var(--text-muted);text-transform:uppercase;line-height:1.2;}
+.slot-item-name{font-size:11px;color:var(--text-primary);line-height:1.3;}
+.slot-item-stats{font-size:10px;color:var(--text-muted);}
+.slot-rarity-bar{position:absolute;left:0;top:0;bottom:0;width:2px;}
+.bag-panel{display:flex;flex-direction:column;overflow:hidden;}
+.bag-header{padding:0.6rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.bag-title-el{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.3em;color:var(--text-muted);text-transform:uppercase;}
+.bag-info-el{font-family:'Cinzel',serif;font-size:10px;color:var(--text-muted);}
+.bag-tabs-inv{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;}
+.bag-tab-inv{padding:5px 16px;cursor:pointer;font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);border-bottom:2px solid transparent;transition:all 0.2s;}
+.bag-tab-inv:hover{color:var(--text-secondary);}
+.bag-tab-inv.active{color:var(--gold);border-bottom-color:var(--gold);}
+.bag-body{flex:1;overflow-y:auto;padding:0.75rem;}
+.bag-body::-webkit-scrollbar{width:3px;} .bag-body::-webkit-scrollbar-thumb{background:var(--border);}
+.bag-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;}
+.grid-cell{aspect-ratio:1;border:1px solid var(--border);background:var(--bg-card);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:all 0.15s;user-select:none;}
+.grid-cell:hover:not(.empty){border-color:var(--border-hover);background:var(--bg-hover);}
+.grid-cell.empty{cursor:default;}
+.grid-cell.selected{border-color:var(--gold);background:var(--bg-sel);}
+.cell-icon-el{font-size:20px;line-height:1;}
+.cell-qty{position:absolute;bottom:2px;right:3px;font-family:'Cinzel',serif;font-size:8px;color:var(--text-secondary);line-height:1;pointer-events:none;}
+.cell-rarity{position:absolute;top:2px;left:2px;width:4px;height:4px;border-radius:50%;}
+.detail-panel{border-left:1px solid var(--border);background:var(--bg-panel);display:flex;flex-direction:column;overflow:hidden;}
+.detail-body{flex:1;overflow-y:auto;padding:0.85rem;}
+.detail-body::-webkit-scrollbar{width:3px;} .detail-body::-webkit-scrollbar-thumb{background:var(--border);}
+.detail-placeholder-inv{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;padding:1.5rem;text-align:center;}
+.detail-placeholder-icon-el{font-size:28px;opacity:0.15;}
+.detail-placeholder-text-el{font-size:12px;font-style:italic;color:var(--text-dim);line-height:1.6;}
+.detail-icon-el{font-size:36px;margin-bottom:0.5rem;display:block;text-align:center;}
+.detail-name-el{font-family:'Cinzel',serif;font-size:14px;color:var(--text-primary);margin-bottom:2px;}
+.detail-type-el{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.25em;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.75rem;}
+.detail-rarity-el{display:inline-block;font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:2px 7px;border:1px solid;margin-bottom:0.75rem;}
+.detail-desc-el{font-size:13px;font-style:italic;color:var(--text-secondary);line-height:1.6;margin-bottom:0.85rem;}
+.detail-stats-el{margin-bottom:0.85rem;}
+.detail-stat-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border);}
+.detail-stat-name{font-size:12px;color:var(--text-secondary);}
+.detail-stat-val{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);}
+.detail-stat-val.negative{color:var(--red-light);}
+.detail-compare{background:var(--bg-card);border:1px solid var(--border);border-left:2px solid var(--gold-dim);padding:6px 8px;margin-bottom:0.85rem;font-size:11px;color:var(--text-muted);font-style:italic;line-height:1.5;}
+.detail-actions{display:flex;flex-direction:column;gap:6px;padding-top:0.5rem;}
+.action-btn{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--border);background:var(--bg-card);color:var(--text-secondary);padding:7px;cursor:pointer;transition:all 0.2s;width:100%;}
+.action-btn:hover{border-color:var(--border-hover);color:var(--text-primary);background:var(--bg-hover);}
+.action-btn.primary{background:var(--gold-dim);color:var(--bg);border-color:var(--gold-dim);}
+.action-btn.primary:hover{background:var(--gold);border-color:var(--gold);}
+.action-btn.danger{border-color:var(--red);color:var(--red-light);}
+.action-btn.danger:hover{background:#1a0804;}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%) translateY(60px);background:var(--bg-panel);border:1px solid var(--gold-dim);padding:5px 14px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.1em;color:var(--text-primary);z-index:1000;transition:transform 0.25s ease;white-space:nowrap;pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ── Transitions ── */
+.screen{animation:none;}
+.screen.fade-in{animation:fadeIn 0.4s ease;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ TITLE SCREEN ══════════════ -->
+<div id="screen-title" class="screen active">
+  <canvas id="title-embers"></canvas>
+  <div class="title-content">
+    <p class="title-eyebrow">Ytecat — Season 1</p>
+    <h1 class="title-main">Threshold of Mortality</h1>
+    <p class="title-sub">The Dark Frontier awaits.</p>
+    <div class="title-divider"><div class="title-divider-line"></div><div class="title-divider-gem"></div><div class="title-divider-line"></div></div>
+    <p class="title-lore">"For centuries, the seven races of Ytecat fought each other for dominance. One hundred years ago, something found them in that weakness. Eighty-three percent of the world is now occupied. What remains is held not through strength — but through sheer refusal to stop."</p>
+    <div class="title-buttons">
+      <button class="title-btn" onclick="startNewGame()">New Game</button>
+      <button class="title-btn secondary" onclick="showToast('No save found.')">Continue</button>
+    </div>
+  </div>
+  <div class="title-version">v0.1 — Early Build</div>
+</div>
+
+<!-- ══════════════ CHARACTER CREATION ══════════════ -->
+<div id="screen-create" class="screen">
+  <div class="bg-layer"></div>
+  <div class="create-container">
+    <div class="create-header">
+      <p class="create-eyebrow">Threshold of Mortality</p>
+      <h2 class="create-title">Forge Your Legend</h2>
+      <p class="create-sub">Choose who you are before the world decides for you.</p>
+      <div class="divider"><div class="divider-line"></div><div class="divider-gem"></div><div class="divider-line"></div></div>
+    </div>
+    <div class="lore-bar">"The seven races do not trust each other easily. But they share what remains of the world, because they have no other choice."</div>
+    <div class="two-col">
+      <div><span class="section-label">Your Name</span><input class="name-input" id="nameInput" type="text" maxlength="24" placeholder="Enter your name…" autocomplete="off"/></div>
+      <div><span class="section-label">Gender</span><div class="gender-row" id="genderRow"></div></div>
+    </div>
+    <div style="margin-bottom:1.5rem;">
+      <span class="section-label">Appearance</span>
+      <div class="appearance-layout">
+        <div class="avatar-col">
+          <div class="avatar-frame" id="avatarFrame"><svg id="avatarSVG" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg"><circle cx="45" cy="45" r="45" fill="#12100a"/><text x="45" y="54" text-anchor="middle" font-size="28" fill="#3a2a14" font-family="serif">?</text></svg></div>
+          <div class="avatar-status" id="avatarStatus">Build your character</div>
+        </div>
+        <div class="options-col">
+          <div><span class="section-label" style="margin-bottom:5px;">Skin Tone</span><div class="tone-row" id="toneRow"></div></div>
+          <div><span class="section-label" style="margin-bottom:5px;">Face Shape</span><div class="style-row" id="faceRow"></div></div>
+          <div><span class="section-label" style="margin-bottom:5px;">Hair Style</span><div class="style-row" id="hairRow"></div></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-bottom:2rem;">
+      <span class="section-label">Choose Your Race</span>
+      <div class="race-grid" id="raceGrid"></div>
+      <div class="race-info-box" id="raceInfoBox"><p class="race-info-desc">Hover or select a race to learn about them.</p></div>
+    </div>
+    <div style="margin-bottom:2rem;">
+      <span class="section-label">Magic Affinity <span style="color:#3a2a14;font-size:11px;letter-spacing:0.04em;font-family:'Crimson Pro',serif;font-style:italic;font-weight:400;text-transform:none;"> — choose exactly 2</span></span>
+      <div class="affinity-grid" id="affinityGrid"></div>
+      <div class="aff-status"><div class="aff-pips"><div class="pip" id="pip1"></div><div class="pip" id="pip2"></div></div><span class="aff-status-text" id="affText">Choose 2 affinities</span><span class="aff-combo" id="affCombo"></span></div>
+    </div>
+    <div style="margin-bottom:2rem;">
+      <span class="section-label">Character Stats</span>
+      <div class="stat-grid-cc" id="statGrid"></div>
+    </div>
+    <div class="begin-section">
+      <div class="summary-box" id="summaryBox"><div class="summary-title-el">Your Adventurer</div><div id="summaryContent"></div></div>
+      <button class="begin-btn" id="beginBtn" disabled onclick="enterGame()">Enter the Dark Frontier</button>
+      <p class="begin-hint" id="beginHint">Complete all fields to continue</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ HUB SCREEN ══════════════ -->
+<div id="screen-hub" class="screen">
+  <div class="game-topbar" id="hubTopbar"></div>
+  <div class="alert-banner"><div class="alert-dot"></div><div class="alert-text">Demon activity reported 4 leagues east. Patrols doubled. All adventurers — report to the job board or the gate commander before nightfall.</div></div>
+  <div class="time-bar"><span class="time-label">Time</span><div class="time-track"><div class="time-fill"></div><div class="time-cursor" id="timeCursor"></div></div><span class="time-val" id="timeVal">14:20</span></div>
+  <div class="hub-body">
+    <div class="town-area">
+      <div class="area-title">Fenjiren — Navigate</div>
+      <div class="locations-grid">
+        <div class="location-card" data-loc="tavern" style="--loc-color:#8a5020;"><div class="loc-badge new">Open</div><div class="loc-header"><div class="loc-icon-el">🍺</div><div><div class="loc-name-el">The Ember & Ash</div><div class="loc-tag-el">Tavern</div></div></div><div class="loc-desc">Smoke-stained walls and watered-down ale. Where soldiers, mercenaries and refugees share the same floor — usually without fighting.</div><div class="loc-action">Recruit companions</div></div>
+        <div class="location-card" data-loc="jobboard" style="--loc-color:#c89640;"><div class="loc-badge ok">12 Active</div><div class="loc-header"><div class="loc-icon-el">📋</div><div><div class="loc-name-el">The War Board</div><div class="loc-tag-el">Job Board</div></div></div><div class="loc-desc">Nailed with contracts and bounties. Some pay in coin. Some pay in survival. The board never stays empty at the Dark Frontier.</div><div class="loc-action">Browse contracts</div></div>
+        <div class="location-card" data-loc="barracks" style="--loc-color:#6a8030;"><div class="loc-header"><div class="loc-icon-el">🏰</div><div><div class="loc-name-el">The Iron Barracks</div><div class="loc-tag-el">Barracks</div></div></div><div class="loc-desc">Fenjiren's military backbone. The barracks house the garrison and keep a running count of who is still standing.</div><div class="loc-action">Check garrison status</div></div>
+        <div class="location-card" data-loc="market" style="--loc-color:#4a7a80;"><div class="loc-header"><div class="loc-icon-el">⚒</div><div><div class="loc-name-el">Frontier Market</div><div class="loc-tag-el">Market & Smithy</div></div></div><div class="loc-desc">Weapons, armour, and supplies — all priced for a warzone. What you can't find here, you'll have to take off something that no longer needs it.</div><div class="loc-action">Buy gear & supplies</div></div>
+        <div class="location-card wide" data-loc="gate" style="--loc-color:#8a2010;"><div class="loc-badge danger">Danger</div><div class="loc-header"><div class="loc-icon-el">⚠</div><div><div class="loc-name-el">The Dark Gate</div><div class="loc-tag-el">Frontline — Demon Territory</div></div></div><div class="loc-desc">The gate faces east. Beyond it, eighty-three percent of Ytecat belongs to the demon horde. The push to reclaim the world starts here.</div><div class="loc-action">Deploy to the frontline</div></div>
+      </div>
+    </div>
+    <div class="sidebar"><div class="sidebar-header" id="sidebarHeader"><div class="sidebar-loc-name">Fenjiren</div><div class="sidebar-loc-tag">Select a location</div></div><div class="sidebar-body" id="sidebarBody"><div class="sidebar-placeholder"><div class="placeholder-icon-el">🧭</div><div class="placeholder-text-el">Select a location to see what awaits.</div></div></div></div>
+  </div>
+</div>
+
+<!-- ══════════════ INVENTORY SCREEN ══════════════ -->
+<div id="screen-inv" class="screen">
+  <div class="game-topbar" id="invTopbar"></div>
+  <div class="party-tabs-inv" id="partyTabsInv"></div>
+  <div class="inv-body">
+    <div class="equip-panel" id="equipPanel"></div>
+    <div class="bag-panel">
+      <div class="bag-header"><div class="bag-title-el" id="bagLabel">Personal Bag</div><div class="bag-info-el" id="bagInfo">0 / 20 slots</div></div>
+      <div class="bag-tabs-inv"><div class="bag-tab-inv active" onclick="switchBag('personal',this)">Personal</div><div class="bag-tab-inv" onclick="switchBag('shared',this)">Party Stash</div></div>
+      <div class="bag-body"><div class="bag-grid" id="bagGrid"></div></div>
+    </div>
+    <div class="detail-panel"><div class="detail-body" id="detailBody"><div class="detail-placeholder-inv"><div class="detail-placeholder-icon-el">⚔</div><div class="detail-placeholder-text-el">Select an item to inspect it.</div></div></div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════
+//  SCREEN MANAGER
+// ══════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active','fade-in'); });
+  var el = document.getElementById('screen-' + id);
+  el.classList.add('active','fade-in');
+}
+
+// ══════════════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════════════
+var toastTimer;
+function showToast(msg) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() { el.classList.remove('show'); }, 2600);
+}
+
+// ══════════════════════════════════════════════
+//  STATIC DATA
+// ══════════════════════════════════════════════
+var RACES = [
+  { id:'human',    icon:'⚔',  name:'Human',    tag:'Adaptable',  desc:'The most numerous race, adaptable and widespread. Their towns form the backbone of the defensive lines. A true all-rounder.' },
+  { id:'elf',      icon:'🏹', name:'Elf',       tag:'Perceptive', desc:'Long-lived and perceptive, with senses sharper than any other race. Their capital Dawnholt stands on the coast. Swift and precise.' },
+  { id:'dwarf',    icon:'🔨', name:'Dwarf',     tag:'Stalwart',   desc:'Master craftspeople in metalwork and weapons. Loyalty runs deep within their own kind and cautiously beyond it. Built like fortresses.' },
+  { id:'orc',      icon:'🛡', name:'Orc',       tag:'Warrior',    desc:'A warrior culture shaped by ritual and honour. Their young are sent into the world to prove themselves. Immense strength and endurance.' },
+  { id:'beastman', icon:'🦅', name:'Beastman',  tag:'Diverse',    desc:'Hybrid humanoids — part human, part animal. Winged, serpent, and dozens of other lineages each carrying the traits of their heritage. Naturally agile.' },
+  { id:'cecaelia',  icon:'🐙', name:'Cecaelia',  tag:'Amphibious', desc:'Human above the waist, cephalopod below. At home in water as much as on land. They hold coastlines no other race can defend.' },
+];
+var TONES = [
+  {id:'t1',hex:'#FDDBB4',name:'Ivory'},{id:'t2',hex:'#F5C18A',name:'Peach'},{id:'t3',hex:'#E8A96A',name:'Sand'},
+  {id:'t4',hex:'#D4874A',name:'Tan'},{id:'t5',hex:'#B8663A',name:'Copper'},{id:'t6',hex:'#8B4A2A',name:'Brown'},
+  {id:'t7',hex:'#5C2E14',name:'Mahogany'},{id:'t8',hex:'#331408',name:'Ebony'},
+];
+var FACES = [
+  {id:'f1',name:'Oval',   path:'M45,14 C60,14 68,27 68,45 C68,62 60,74 45,74 C30,74 22,62 22,45 C22,27 30,14 45,14Z',eyeX:[34,56],eyeY:42,browL:'M30,36 L38,34',browR:'M52,34 L60,36'},
+  {id:'f2',name:'Round',  path:'M45,16 C62,16 68,30 68,45 C68,60 62,72 45,72 C28,72 22,60 22,45 C22,30 28,16 45,16Z',eyeX:[35,55],eyeY:43,browL:'M31,37 L39,35',browR:'M51,35 L59,37'},
+  {id:'f3',name:'Square', path:'M27,16 L63,16 C66,16 68,18 68,21 L68,65 C68,68 66,72 63,72 L27,72 C24,72 22,68 22,65 L22,21 C22,18 24,16 27,16Z',eyeX:[34,56],eyeY:42,browL:'M29,35 L38,34',browR:'M52,34 L61,35'},
+  {id:'f4',name:'Sharp',  path:'M45,14 L66,28 L70,50 L57,70 L45,76 L33,70 L20,50 L24,28Z',eyeX:[34,56],eyeY:43,browL:'M29,36 L38,33',browR:'M52,33 L61,36'},
+  {id:'f5',name:'Narrow', path:'M45,12 C55,12 62,26 62,45 C62,62 55,76 45,76 C35,76 28,62 28,45 C28,26 35,12 45,12Z',eyeX:[37,53],eyeY:41,browL:'M33,34 L40,32',browR:'M50,32 L57,34'},
+];
+var HAIRS = [
+  {id:'h1',name:'Cropped', draw:function(s,h){return s+'<path d="M22,44 C22,22 30,10 45,10 C60,10 68,22 68,44 C67,32 60,15 45,15 C30,15 23,32 22,44Z" fill="'+h+'"/>';}},
+  {id:'h2',name:'Long',    draw:function(s,h){return s+'<path d="M16,48 C16,18 27,5 45,5 C63,5 74,18 74,48 C70,26 62,9 45,9 C28,9 20,26 16,48Z M16,48 L10,92 Q14,94 17,88 L23,54Z M74,48 L80,92 Q76,94 73,88 L67,54Z" fill="'+h+'"/>';}},
+  {id:'h3',name:'Half-up', draw:function(s,h){return s+'<path d="M22,44 C22,20 30,8 45,8 C60,8 68,20 68,44 C65,22 56,11 45,11 C34,11 25,22 22,44Z M22,44 L18,72 Q21,74 23,70 L26,50Z M68,44 L72,72 Q69,74 67,70 L64,50Z" fill="'+h+'"/><path d="M35,22 Q45,16 55,22 L57,18 Q45,10 33,18Z" fill="'+h+'" opacity="0.7"/>';}},
+  {id:'h4',name:'Shaved',  draw:function(s,h){return s+'<path d="M22,44 C22,24 30,12 45,12 C60,12 68,24 68,44 C68,36 64,18 45,18 C26,18 22,36 22,44Z" fill="'+h+'" opacity="0.4"/>';}},
+  {id:'h5',name:'Warrior', draw:function(s,h){return s+'<path d="M22,44 C22,20 30,8 45,8 C60,8 68,20 68,44 C65,22 56,10 45,10 C34,10 25,22 22,44Z" fill="'+h+'"/><path d="M45,10 L43,2 M40,11 L36,4 M50,11 L54,4 M35,14 L30,8 M55,14 L60,8" stroke="'+h+'" stroke-width="2.5" stroke-linecap="round"/>';}},
+];
+var AFFINITIES = [
+  {id:'fire', label:'Fire', role:'Offensive'},{id:'dark', label:'Dark', role:'Offensive'},
+  {id:'earth',label:'Earth',role:'Defensive'},{id:'water',label:'Water',role:'Defensive'},
+  {id:'light',label:'Light',role:'Support'},  {id:'wind', label:'Wind', role:'Support'},
+];
+var RACE_STATS = {
+  human:{STR:6,AGI:6,INT:6,DEF:6,MAG:5,VIT:6},elf:{STR:4,AGI:9,INT:7,DEF:4,MAG:7,VIT:5},
+  dwarf:{STR:8,AGI:3,INT:5,DEF:9,MAG:4,VIT:8},orc:{STR:9,AGI:5,INT:3,DEF:7,MAG:3,VIT:9},
+  beastman:{STR:7,AGI:9,INT:4,DEF:5,MAG:4,VIT:7},cecaelia:{STR:6,AGI:5,INT:6,DEF:8,MAG:7,VIT:5},
+};
+var AFF_BONUS = {fire:{STR:1,MAG:2},dark:{MAG:2,INT:1},earth:{DEF:2,VIT:1},water:{DEF:1,VIT:2},light:{MAG:1,INT:2},wind:{AGI:2,INT:1}};
+var COMBOS = [
+  [['fire','light'],'Solar potential'],[['fire','dark'],'Volatile combination'],[['dark','wind'],'Rare, unresolved duality'],
+  [['earth','water'],'Stalwart defender'],[['light','wind'],'Exceptional support'],[['fire','earth'],'Grounded aggressor'],
+  [['fire','water'],'Volatile balance'],[['fire','wind'],'Whirlwind striker'],[['dark','earth'],'Unyielding force'],
+  [['dark','water'],'Crushing tide'],[['dark','light'],'The rarest duality'],[['earth','wind'],'Storm warden'],
+  [['earth','light'],'Steadfast guardian'],[['water','wind'],'Fluid combatant'],[['water','light'],'Restorative force'],
+];
+var RARITY = {
+  common:{label:'Common',color:'#9a8060',border:'#5a4830'},uncommon:{label:'Uncommon',color:'#40a060',border:'#206030'},
+  rare:{label:'Rare',color:'#4070cc',border:'#204080'},epic:{label:'Epic',color:'#8040cc',border:'#4a1880'},
+  legendary:{label:'Legendary',color:'#c89640',border:'#7a5a20'},
+};
+var ITEMS = {
+  iron_sword:    {id:'iron_sword',    icon:'⚔', name:'Iron Longsword',      type:'weapon',   rarity:'common',   desc:'Standard military issue.',                    stats:{STR:4,AGI:1},    slot:'weapon'},
+  frontier_blade:{id:'frontier_blade',icon:'🗡', name:'Frontier Blade',      type:'weapon',   rarity:'uncommon', desc:'Forged at the Fenjiren smithy.',               stats:{STR:6,AGI:2},    slot:'weapon'},
+  ashsteel_sword:{id:'ashsteel_sword',icon:'⚔', name:'Ashsteel Greatsword', type:'weapon',   rarity:'rare',     desc:'Forged from ore salvaged from demon mines.',   stats:{STR:9,AGI:-1,DEF:1},slot:'weapon'},
+  recurve_bow:   {id:'recurve_bow',   icon:'🏹',name:'Recurve Bow',          type:'weapon',   rarity:'common',   desc:'Elven-style, human-made. Accurate at range.',  stats:{AGI:5,INT:1},    slot:'weapon'},
+  shadow_dagger: {id:'shadow_dagger', icon:'🔪',name:'Shadow Dagger',        type:'weapon',   rarity:'epic',     desc:'The blade absorbs light.',                     stats:{AGI:6,MAG:3},    slot:'weapon'},
+  iron_shield:   {id:'iron_shield',   icon:'🛡',name:'Iron Shield',          type:'offhand',  rarity:'common',   desc:'Dented but solid.',                            stats:{DEF:5},          slot:'offhand'},
+  focus_orb:     {id:'focus_orb',     icon:'🔮',name:'Focus Orb',            type:'offhand',  rarity:'uncommon', desc:'Channels magic more efficiently.',             stats:{MAG:4,INT:2},    slot:'offhand'},
+  iron_helm:     {id:'iron_helm',     icon:'⛑', name:'Iron Helmet',          type:'helmet',   rarity:'common',   desc:'Heavy. Hot. Effective.',                       stats:{DEF:3,VIT:1},    slot:'helmet'},
+  scout_hood:    {id:'scout_hood',    icon:'🪖',name:'Scout Hood',           type:'helmet',   rarity:'uncommon', desc:'Light, wide brim keeps embers out of the eyes.',stats:{AGI:2,DEF:1},   slot:'helmet'},
+  leather_chest: {id:'leather_chest', icon:'🧥',name:'Padded Leather',       type:'chest',    rarity:'common',   desc:'Light, worn by scouts.',                       stats:{DEF:3,AGI:1},    slot:'chest'},
+  chain_chest:   {id:'chain_chest',   icon:'🧥',name:'Chainmail Hauberk',    type:'chest',    rarity:'uncommon', desc:'Heavier but reliable.',                        stats:{DEF:6,AGI:-1},   slot:'chest'},
+  vanguard_plate:{id:'vanguard_plate',icon:'🧥',name:'Vanguard Plate',       type:'chest',    rarity:'rare',     desc:'Heavy plate worn by the front line.',          stats:{DEF:9,VIT:2,AGI:-2},slot:'chest'},
+  leather_legs:  {id:'leather_legs',  icon:'👖',name:'Leather Greaves',      type:'legs',     rarity:'common',   desc:'Comfortable enough for a long march.',         stats:{DEF:2,AGI:1},    slot:'legs'},
+  iron_boots:    {id:'iron_boots',    icon:'👢',name:'Iron-capped Boots',    type:'boots',    rarity:'common',   desc:'Steel toe. Good for kicking things.',          stats:{DEF:2,STR:1},    slot:'boots'},
+  swift_boots:   {id:'swift_boots',   icon:'👟',name:'Swift Boots',          type:'boots',    rarity:'uncommon', desc:'Treated with wind-affinity reagent.',          stats:{AGI:3},          slot:'boots'},
+  iron_gloves:   {id:'iron_gloves',   icon:'🧤',name:'Iron Gauntlets',       type:'gloves',   rarity:'common',   desc:'Heavy but protective.',                        stats:{DEF:2,STR:1},    slot:'gloves'},
+  war_pendant:   {id:'war_pendant',   icon:'📿',name:'Pendant of the Fallen',type:'accessory',rarity:'rare',     desc:"Taken from a soldier who didn't come back.",   stats:{STR:2,VIT:3},    slot:'accessory'},
+  mana_pendant:  {id:'mana_pendant',  icon:'📿',name:'Mana-thread Pendant',  type:'accessory',rarity:'uncommon', desc:'Woven with wind-affinity thread.',             stats:{MAG:3,INT:2},    slot:'accessory'},
+  starter_bag:   {id:'starter_bag',   icon:'🎒',name:"Traveller's Satchel", type:'bag',      rarity:'common',   desc:'A worn satchel. 20 slots.',                    stats:{},bagSlots:20,   slot:'bag'},
+  soldier_pack:  {id:'soldier_pack',  icon:'🎒',name:"Soldier's Pack",      type:'bag',      rarity:'uncommon', desc:'Reinforced straps. 28 slots.',                 stats:{},bagSlots:28,   slot:'bag'},
+  ranger_pack:   {id:'ranger_pack',   icon:'🎒',name:"Ranger's Haversack",  type:'bag',      rarity:'rare',     desc:'Lightweight treated canvas. 36 slots.',        stats:{},bagSlots:36,   slot:'bag'},
+  war_satchel:   {id:'war_satchel',   icon:'🎒',name:'War Satchel',         type:'bag',      rarity:'epic',     desc:'Demon-bone clasps. Indestructible. 48 slots.',  stats:{},bagSlots:48,   slot:'bag'},
+  health_potion: {id:'health_potion', icon:'🧪',name:'Health Potion',       type:'consumable',rarity:'common',  desc:'Restores 40 HP.',                              stats:{},stackable:true,slot:null},
+  mana_draught:  {id:'mana_draught',  icon:'💧',name:'Mana Draught',        type:'consumable',rarity:'common',  desc:'Restores 30 MP.',                              stats:{},stackable:true,slot:null},
+  field_bandage: {id:'field_bandage', icon:'🩹',name:'Field Bandage',       type:'consumable',rarity:'common',  desc:'Stops bleed.',                                 stats:{},stackable:true,slot:null},
+  magic_stone:   {id:'magic_stone',   icon:'🪨',name:'Magic Stone',         type:'consumable',rarity:'uncommon',desc:'Amplifies next spell by 20%.',                  stats:{},stackable:true,slot:null},
+};
+var EQUIP_SLOTS = [
+  {key:'weapon',   label:'Weapon',   icon:'⚔', section:'combat'},
+  {key:'offhand',  label:'Off-hand', icon:'🛡',section:'combat'},
+  {key:'helmet',   label:'Helmet',   icon:'⛑', section:'armour'},
+  {key:'chest',    label:'Chest',    icon:'🧥',section:'armour'},
+  {key:'legs',     label:'Legs',     icon:'👖',section:'armour'},
+  {key:'boots',    label:'Boots',    icon:'👢',section:'armour'},
+  {key:'gloves',   label:'Gloves',   icon:'🧤',section:'armour'},
+  {key:'accessory',label:'Necklace', icon:'📿',section:'misc'},
+  {key:'bag',      label:'Bag',      icon:'🎒',section:'misc'},
+];
+var STAT_LABELS = {STR:'Strength',AGI:'Agility',INT:'Intellect',DEF:'Defense',MAG:'Magic',VIT:'Vitality'};
+var NPCS = [
+  {id:'varyn',icon:'🗡',name:'Varyn Ashcroft',race:'Human',role:'Sellsword',affinities:'Fire & Earth',desc:'A former imperial soldier. Quiet, methodical, distrustful of magic despite having two affinities himself.',stats:'STR 8 · DEF 7 · AGI 5',cost:80},
+  {id:'sela', icon:'🏹',name:'Sela of Dawnmere',race:'Elf',role:'Scout',affinities:'Wind & Light',desc:'Barely speaks. Moves like she was born in the dark. She watches exits like someone expecting pursuit.',stats:'AGI 9 · INT 7 · STR 4',cost:95},
+  {id:'brogan',icon:'🔨',name:'Brogan Ironfist',race:'Dwarf',role:'Vanguard',affinities:'Earth & Water',desc:'Third generation Fenjiren. His grandfather helped build the eastern wall. Has never considered leaving.',stats:'DEF 9 · VIT 8 · STR 8',cost:70},
+  {id:'nyx',  icon:'🌑',name:'Nyx',race:'Beastman',role:'Tracker',affinities:'Dark & Wind',desc:'Serpent lineage. Cold-blooded and precise. Does not give her full name to anyone she has not bled beside.',stats:'AGI 8 · INT 8 · STR 6',cost:110},
+];
+var QUESTS = [
+  {id:'q1',name:'Supply Line Cut',diff:'mid',desc:'A demon raiding party has been intercepting supply wagons on the eastern road. Eliminate them before the next shipment arrives.',reward:'180g + Supply Cache',diffLabel:'Moderate'},
+  {id:'q2',name:'The Missing Patrol',diff:'high',desc:'A scouting party of six went east four days ago. Command wants answers — survivors, remains, or proof of what took them.',reward:'320g + Commendation',diffLabel:'Dangerous'},
+  {id:'q3',name:'Ruined Watchtower',diff:'low',desc:'Reclaim and repair the watchtower 2 leagues south. Likely reoccupied by lesser creatures. Straightforward work.',reward:'90g',diffLabel:'Routine'},
+  {id:'q4',name:'Demon Lieutenant Bounty',diff:'dire',desc:'A demon officer coordinates raids along the frontier. Bring proof of its death. Risk is extreme.',reward:'600g + Rare Gear',diffLabel:'Dire'},
+  {id:'q5',name:'Refugee Escort',diff:'low',desc:'Forty-two civilians need safe passage to Fenjiren. The road is not entirely clear. Speed matters.',reward:'60g + Reputation',diffLabel:'Routine'},
+];
+var MARKET_ITEMS = [
+  {icon:'⚔',name:'Iron Longsword',desc:'+4 STR · Standard issue',price:60},
+  {icon:'🛡',name:'Reinforced Shield',desc:'+5 DEF · Dented but solid',price:50},
+  {icon:'🏹',name:'Recurve Bow',desc:'+4 AGI · Elven-style',price:75},
+  {icon:'🧥',name:'Padded Leather',desc:'+3 DEF · Light scout armour',price:45},
+  {icon:'🧪',name:'Health Potion',desc:'Restores 40 HP',price:25},
+  {icon:'💧',name:'Mana Draught',desc:'Restores 30 MP',price:30},
+  {icon:'🪨',name:'Magic Stone',desc:'Amplifies next spell 20%',price:55},
+  {icon:'🩹',name:'Field Bandage ×5',desc:'Stops bleed',price:15},
+];
+var BARRACKS_STATS = [
+  {name:'Garrison strength',val:'1,840 troops',status:'warn'},
+  {name:'Active patrols',val:'14 out',status:'good'},
+  {name:'Casualties (7 days)',val:'63',status:'danger'},
+  {name:'Demon incursions (7d)',val:'9',status:'danger'},
+  {name:'Wall integrity',val:'87%',status:'warn'},
+  {name:'Supply reserves',val:'22 days',status:'warn'},
+  {name:'Mages on duty',val:'12',status:'good'},
+];
+
+// ══════════════════════════════════════════════
+//  GAME STATE
+// ══════════════════════════════════════════════
+var char = {name:'',gender:null,skinTone:null,face:null,hair:null,race:null,affinities:[]};
+var state = {
+  gold:240, potions:3, activeChar:0, activeBag:'personal', selectedItem:null,
+  activeQuests:[],
+  gameHour:14, gameMin:20,
+  party:[null,null,null], // slots 2-4, player is always slot 1
+  sharedBag:[
+    {itemId:'health_potion',qty:8},{itemId:'mana_draught',qty:4},
+    {itemId:'field_bandage',qty:15},{itemId:'magic_stone',qty:3},
+    null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+  ],
+};
+// Player's personal party member object (built from char creation)
+var playerMember = null;
+
+// ══════════════════════════════════════════════
+//  TITLE — EMBER PARTICLES
+// ══════════════════════════════════════════════
+(function() {
+  var canvas = document.getElementById('title-embers');
+  var ctx = canvas.getContext('2d');
+  var embers = [];
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  function spawn() { return {x:Math.random()*canvas.width,y:canvas.height+5,vx:(Math.random()-0.5)*0.6,vy:-(Math.random()*1.2+0.4),life:1,decay:Math.random()*0.004+0.002,r:Math.random()*1.5+0.5,hue:Math.random()*30+10}; }
+  function tick() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(Math.random()<0.3) embers.push(spawn());
+    embers = embers.filter(function(e){return e.life>0;});
+    embers.forEach(function(e){
+      e.x+=e.vx+Math.sin(e.y*0.02)*0.3; e.y+=e.vy; e.life-=e.decay;
+      ctx.beginPath(); ctx.arc(e.x,e.y,e.r,0,Math.PI*2);
+      ctx.fillStyle='hsla('+e.hue+',90%,60%,'+(e.life*0.7)+')'; ctx.fill();
+    });
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+// ══════════════════════════════════════════════
+//  NEW GAME FLOW
+// ══════════════════════════════════════════════
+function startNewGame() { showScreen('create'); buildCharCreation(); }
+
+function enterGame() {
+  // Build player party member from char creation
+  playerMember = {
+    id:'player', name:char.name,
+    race: RACES.find(function(r){return r.id===char.race;}).name,
+    icon: RACES.find(function(r){return r.id===char.race;}).icon,
+    gender: char.gender,
+    equipped:{weapon:'iron_sword',offhand:'iron_shield',helmet:null,chest:'leather_chest',legs:'leather_legs',boots:'iron_boots',gloves:'iron_gloves',accessory:null,bag:'starter_bag'},
+    bag:[
+      {itemId:'frontier_blade',qty:1},{itemId:'scout_hood',qty:1},
+      {itemId:'chain_chest',qty:1},{itemId:'war_pendant',qty:1},
+      {itemId:'swift_boots',qty:1},
+      null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+    ],
+  };
+  showScreen('hub');
+  buildTopbar('hub');
+  buildTopbar('inv');
+  startClock();
+}
+
+// ══════════════════════════════════════════════
+//  SHARED TOPBAR
+// ══════════════════════════════════════════════
+function buildTopbar(screen) {
+  var id = screen === 'hub' ? 'hubTopbar' : 'invTopbar';
+  var el = document.getElementById(id);
+  var race = char.race ? RACES.find(function(r){return r.id===char.race;}) : null;
+  var raceIcon = race ? race.icon : '⚔';
+  var charName = char.name || 'Adventurer';
+  var partyHTML = '<div class="party-bar"><span class="party-label">Party</span>';
+  // Slot 1 = player
+  partyHTML += '<div class="party-slot leader" title="'+charName+'"><span style="font-size:16px;">'+raceIcon+'</span><div class="slot-badge">1</div></div>';
+  for(var i=0;i<3;i++) {
+    var m = state.party[i];
+    if(m) { partyHTML += '<div class="party-slot filled" title="'+m.name+'"><span style="font-size:16px;">'+m.icon+'</span><div class="slot-badge">'+(i+2)+'</div></div>'; }
+    else { partyHTML += '<div class="party-slot"><div class="slot-empty-dot"></div></div>'; }
+  }
+  partyHTML += '</div>';
+  var isHub = screen === 'hub';
+  el.innerHTML =
+    '<div class="topbar-left">' +
+      '<span class="topbar-town">Threshold of Mortality — The Dark Frontier</span>' +
+      '<div class="topbar-char">Fenjiren ' + (isHub?'':'— Inventory') + '</div>' +
+      '<div class="topbar-tag">The outpost that has never fallen. Not yet.</div>' +
+    '</div>' +
+    '<div class="topbar-right">' +
+      partyHTML +
+      '<div class="resource-bar">' +
+        '<div class="resource">🪙 <span class="resource-val" id="gold-'+screen+'">'+state.gold+'</span>g</div>' +
+        '<div class="resource">🧪 <span class="resource-val">'+state.potions+'</span></div>' +
+      '</div>' +
+      (isHub
+        ? '<button class="nav-btn" onclick="goInventory()">⚔ Inventory</button>'
+        : '<button class="nav-btn" onclick="goHub()">← Fenjiren</button>'
+      ) +
+    '</div>';
+}
+
+function goInventory() {
+  showScreen('inv');
+  buildTopbar('inv');
+  buildPartyTabsInv();
+  renderEquipPanel();
+  renderBag();
+  renderDetail();
+}
+
+function goHub() {
+  showScreen('hub');
+  buildTopbar('hub');
+}
+
+// ══════════════════════════════════════════════
+//  CLOCK
+// ══════════════════════════════════════════════
+function startClock() {
+  setInterval(function(){
+    state.gameMin+=1;
+    if(state.gameMin>=60){state.gameMin=0;state.gameHour=(state.gameHour+1)%24;}
+    var pct=(state.gameHour*60+state.gameMin)/(24*60)*100;
+    document.getElementById('timeCursor').style.left=pct+'%';
+    var h=String(state.gameHour).padStart(2,'0'),m=String(state.gameMin).padStart(2,'0');
+    document.getElementById('timeVal').textContent=h+':'+m;
+  },3000);
+}
+
+// ══════════════════════════════════════════════
+//  HUB SIDEBAR
+// ══════════════════════════════════════════════
+document.querySelectorAll('.location-card').forEach(function(card){
+  card.addEventListener('click',function(){
+    document.querySelectorAll('.location-card').forEach(function(c){c.classList.remove('active');});
+    card.classList.add('active');
+    renderSidebar(card.dataset.loc);
+  });
+});
+
+function renderSidebar(loc) {
+  var hdr = document.getElementById('sidebarHeader');
+  var body = document.getElementById('sidebarBody');
+  var titles = {tavern:{name:'The Ember & Ash',tag:'Tavern — Companions'},jobboard:{name:'The War Board',tag:'Job Board'},barracks:{name:'The Iron Barracks',tag:'Garrison Status'},market:{name:'Frontier Market',tag:'Weapons · Armour · Supplies'},gate:{name:'The Dark Gate',tag:'Frontline Deployment'}};
+  var info = titles[loc]||{name:'Fenjiren',tag:''};
+  hdr.innerHTML='<div class="sidebar-loc-name">'+info.name+'</div><div class="sidebar-loc-tag">'+info.tag+'</div>';
+  var html='';
+  if(loc==='tavern'){
+    html='<p style="font-size:13px;font-style:italic;color:var(--text-muted);margin-bottom:1rem;line-height:1.5;">The Ember & Ash is thick with smoke. A handful of capable-looking souls nurse their drinks.</p>';
+    NPCS.forEach(function(n){
+      var rec=state.party.some(function(m){return m&&m.id===n.id;});
+      html+='<div class="npc-card"><div class="npc-header"><span style="font-size:18px;">'+n.icon+'</span><div><div class="npc-name">'+n.name+'</div><div class="npc-race">'+n.race+' · '+n.role+' · '+n.affinities+'</div></div></div><div class="npc-desc">'+n.desc+'</div><div class="npc-stats-el">'+n.stats+'</div><button class="recruit-btn" onclick="recruitNPC(\''+n.id+'\')" '+(rec?'disabled':'')+'>'+( rec?'✓ In Party':'Recruit — '+n.cost+'g')+'</button></div>';
+    });
+  } else if(loc==='jobboard'){
+    var dc={low:'diff-low',mid:'diff-mid',high:'diff-high',dire:'diff-dire'};
+    html='<p style="font-size:13px;font-style:italic;color:var(--text-muted);margin-bottom:1rem;line-height:1.5;">The War Board is nailed three layers deep. Fresh contracts go up daily.</p>';
+    QUESTS.forEach(function(q){
+      var taken=state.activeQuests.includes(q.id);
+      html+='<div class="quest-card"><div class="quest-name">'+q.name+'</div><div class="quest-desc">'+q.desc+'</div><div class="quest-footer"><div class="quest-reward">⚙ '+q.reward+'</div><div class="quest-diff '+dc[q.diff]+'">'+q.diffLabel+'</div></div><button class="accept-btn" onclick="acceptQuest(\''+q.id+'\')" '+(taken?'disabled':'')+'>'+( taken?'✓ Accepted':'Accept Contract')+'</button></div>';
+    });
+  } else if(loc==='barracks'){
+    html='<p style="font-size:13px;font-style:italic;color:var(--text-muted);margin-bottom:1rem;line-height:1.5;">The barracks smell of oil and exhaustion.</p>';
+    BARRACKS_STATS.forEach(function(s){html+='<div class="barracks-stat"><span class="barracks-stat-name">'+s.name+'</span><span class="barracks-stat-val '+s.status+'">'+s.val+'</span></div>';});
+    html+='<div class="sidebar-divider"></div><p style="font-size:12px;font-style:italic;color:var(--text-dim);line-height:1.6;">"We\'ve held this gate for sixty-three years." — Commander Aldric Vane</p>';
+  } else if(loc==='market'){
+    html='<p style="font-size:13px;font-style:italic;color:var(--text-muted);margin-bottom:1rem;line-height:1.5;">Every vendor has one eye on the eastern wall.</p>';
+    MARKET_ITEMS.forEach(function(it){html+='<div class="market-item"><div class="item-icon-el">'+it.icon+'</div><div class="item-info"><div class="item-name-el">'+it.name+'</div><div class="item-desc-el">'+it.desc+'</div></div><div class="item-price-el">'+it.price+'g</div></div>';});
+  } else if(loc==='gate'){
+    var hasQuest=state.activeQuests.length>0;
+    var partySize=state.party.filter(Boolean).length+1;
+    html='<div class="gate-warning">Beyond this gate is demon-occupied territory. Command cannot guarantee extraction.</div>';
+    html+='<div class="barracks-stat"><span class="barracks-stat-name">Party size</span><span class="barracks-stat-val">'+partySize+' / 4</span></div>';
+    html+='<div class="barracks-stat"><span class="barracks-stat-name">Active contracts</span><span class="barracks-stat-val '+(hasQuest?'good':'danger')+'">'+state.activeQuests.length+'</span></div>';
+    html+='<div class="barracks-stat" style="margin-bottom:1rem;"><span class="barracks-stat-name">Gold</span><span class="barracks-stat-val">'+state.gold+'g</span></div>';
+    if(!hasQuest) html+='<p style="font-size:12px;font-style:italic;color:#7a3020;margin-bottom:0.75rem;">⚠ No active contracts. Visit the War Board first.</p>';
+    html+='<button class="gate-btn" onclick="showToast(\'Combat system coming next!\')" '+(hasQuest?'':'disabled')+'>Deploy to the Frontline</button>';
+    html+='<button class="gate-btn sec" onclick="showToast(\'Raid system coming in a future update.\')">Organise Raid</button>';
+  }
+  body.innerHTML=html;
+}
+
+function recruitNPC(id){
+  var npc=NPCS.find(function(n){return n.id===id;});
+  if(!npc) return;
+  if(state.party.some(function(m){return m&&m.id===id;})){showToast(npc.name+' is already in your party.');return;}
+  var empty=state.party.findIndex(function(x){return x===null;});
+  if(empty===-1){showToast('Party is full. Max 4 members.');return;}
+  if(state.gold<npc.cost){showToast('Not enough gold. Need '+npc.cost+'g.');return;}
+  state.gold-=npc.cost;
+  state.party[empty]={
+    id:npc.id,name:npc.name,race:npc.race,icon:npc.icon,gender:'unknown',
+    equipped:{weapon:null,offhand:null,helmet:null,chest:null,legs:null,boots:null,gloves:null,accessory:null,bag:'starter_bag'},
+    bag:Array(20).fill(null),
+  };
+  buildTopbar('hub'); buildTopbar('inv');
+  renderSidebar('tavern');
+  showToast(npc.name+' joined your party.');
+}
+
+function acceptQuest(id){
+  if(state.activeQuests.includes(id)) return;
+  state.activeQuests.push(id);
+  var q=QUESTS.find(function(x){return x.id===id;});
+  renderSidebar('jobboard');
+  showToast('Contract accepted: '+q.name);
+}
+
+// ══════════════════════════════════════════════
+//  INVENTORY HELPERS
+// ══════════════════════════════════════════════
+function getAllPartyMembers(){
+  var all=[playerMember];
+  state.party.forEach(function(m){if(m)all.push(m);});
+  return all;
+}
+function getActiveMember(){
+  var all=getAllPartyMembers();
+  return all[state.activeChar]||playerMember;
+}
+function getBagSize(member){
+  if(!member) return 20;
+  var bId=member.equipped&&member.equipped.bag;
+  var b=bId?ITEMS[bId]:null;
+  return b?b.bagSlots:20;
+}
+function getSharedStashSize(){ return (state.party.filter(Boolean).length+1)*10; }
+
+// ── Party tabs ──
+function buildPartyTabsInv(){
+  var all=getAllPartyMembers();
+  var container=document.getElementById('partyTabsInv');
+  container.innerHTML='';
+  all.forEach(function(m,i){
+    var tab=document.createElement('div');
+    tab.className='party-tab-inv'+(i===state.activeChar?' active':'');
+    tab.innerHTML='<div class="tab-icon-inv">'+m.icon+'</div><div class="tab-name-inv">'+m.name+'</div><div class="tab-race-inv">'+m.race+'</div>';
+    tab.addEventListener('click',function(){
+      state.activeChar=i; state.selectedItem=null;
+      buildPartyTabsInv(); renderEquipPanel(); renderBag(); renderDetail();
+    });
+    container.appendChild(tab);
+    // Add empty slot if less than 4 total
+  });
+  // Empty slots up to 4
+  for(var j=all.length;j<4;j++){
+    var tab=document.createElement('div');
+    tab.className='party-tab-inv empty';
+    tab.innerHTML='<div class="tab-icon-inv" style="opacity:0.3;">+</div><div class="tab-name-inv" style="color:var(--text-dim);">Empty</div><div class="tab-race-inv">\u2014</div>';
+    container.appendChild(tab);
+  }
+}
+
+// ── Equipment panel ──
+function renderEquipPanel(){
+  var panel=document.getElementById('equipPanel');
+  var member=getActiveMember();
+  if(!member){panel.innerHTML='';return;}
+  var html='',lastSec='';
+  EQUIP_SLOTS.forEach(function(sd){
+    if(sd.section!==lastSec){
+      var labels={combat:'Combat',armour:'Armour',misc:'Accessories & Bag'};
+      html+='<div class="equip-section-label">'+labels[sd.section]+'</div>';
+      lastSec=sd.section;
+    }
+    var itemId=member.equipped[sd.key];
+    var item=itemId?ITEMS[itemId]:null;
+    var rar=item?RARITY[item.rarity]:null;
+    var info=item?(item.type==='bag'?item.bagSlots+' slots':Object.entries(item.stats).slice(0,2).map(function(e){return e[0]+' '+(e[1]>0?'+':'')+e[1];}).join(' · ')):'';
+    html+='<div class="equip-slot'+(item?' has-item':'')+'" onclick="clickEquipSlot(\''+sd.key+'\')">';
+    if(item) html+='<div class="slot-rarity-bar" style="background:'+rar.color+'"></div>';
+    html+='<div class="slot-icon-wrap">'+(item?item.icon:sd.icon)+'</div><div>';
+    if(item){ html+='<div class="slot-item-name" style="color:'+rar.color+'">'+item.name+'</div><div class="slot-item-stats">'+info+'</div>'; }
+    else { html+='<div class="slot-label">'+sd.label+'</div>'; }
+    html+='</div></div>';
+  });
+  // Totals
+  html+='<div class="equip-section-label" style="margin-top:6px;">Total Bonus</div>';
+  var totals={STR:0,AGI:0,INT:0,DEF:0,MAG:0,VIT:0};
+  Object.values(member.equipped).forEach(function(id){
+    if(!id) return; var it=ITEMS[id]; if(!it) return;
+    Object.keys(it.stats).forEach(function(k){if(totals[k]!==undefined)totals[k]+=it.stats[k];});
+  });
+  Object.entries(totals).forEach(function(e){
+    var k=e[0],v=e[1]; if(v===0) return;
+    html+='<div style="display:flex;justify-content:space-between;padding:3px 2px;border-bottom:1px solid var(--border);">'
+      +'<span style="font-size:11px;color:var(--text-secondary);">'+(STAT_LABELS[k]||k)+'</span>'
+      +'<span style="font-family:Cinzel,serif;font-size:11px;color:'+(v>0?'var(--gold)':'var(--red-light)')+';">'+(v>0?'+':'')+v+'</span></div>';
+  });
+  panel.innerHTML=html;
+}
+
+function clickEquipSlot(slotKey){
+  var member=getActiveMember();
+  var itemId=member.equipped[slotKey];
+  if(itemId){ state.selectedItem={source:'equip',slot:slotKey,itemId:itemId}; renderEquipPanel(); renderDetail(); }
+  else {
+    if(state.selectedItem&&state.selectedItem.source==='bag'){
+      var it=ITEMS[state.selectedItem.item.itemId];
+      if(it&&it.slot===slotKey){equipItem(state.selectedItem.index,slotKey);return;}
+    }
+    state.selectedItem=null; renderDetail();
+  }
+}
+
+// ── Bag tabs ──
+function switchBag(which,el){
+  state.activeBag=which; state.selectedItem=null;
+  document.querySelectorAll('.bag-tab-inv').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  renderBag(); renderDetail();
+}
+
+// ── Bag grid ──
+function renderBag(){
+  var member=getActiveMember();
+  var isShared=state.activeBag==='shared';
+  var bagSize=isShared?getSharedStashSize():getBagSize(member);
+  var bag=isShared?state.sharedBag:(member?member.bag:[]);
+  while(bag.length<bagSize) bag.push(null);
+  var used=bag.slice(0,bagSize).filter(Boolean).length;
+  document.getElementById('bagInfo').textContent=used+' / '+bagSize+' slots';
+  var lbl=isShared?'Party Stash — '+(state.party.filter(Boolean).length+1)+' members × 10 slots':(member&&member.equipped&&member.equipped.bag&&ITEMS[member.equipped.bag]?ITEMS[member.equipped.bag].name:"Traveller's Satchel");
+  document.getElementById('bagLabel').textContent=lbl;
+  var html='';
+  for(var i=0;i<bagSize;i++){
+    var entry=bag[i]; var item=entry?ITEMS[entry.itemId]:null; var rar=item?RARITY[item.rarity]:null;
+    var isSel=state.selectedItem&&state.selectedItem.source!=='equip'&&state.selectedItem.index===i&&state.selectedItem.bag===state.activeBag;
+    html+='<div class="grid-cell'+(item?'':' empty')+(isSel?' selected':'')+'" onclick="clickCell('+i+')">';
+    if(item){html+='<div class="cell-rarity" style="background:'+rar.color+'"></div><div class="cell-icon-el">'+item.icon+'</div>';if(entry.qty>1)html+='<div class="cell-qty">'+entry.qty+'</div>';}
+    html+='</div>';
+  }
+  document.getElementById('bagGrid').innerHTML=html;
+}
+
+function clickCell(index){
+  var member=getActiveMember();
+  var bag=state.activeBag==='shared'?state.sharedBag:(member?member.bag:[]);
+  var entry=bag[index];
+  if(!entry){
+    if(state.selectedItem&&state.selectedItem.source!=='equip'&&state.selectedItem.bag===state.activeBag){swapBagItems(state.selectedItem.index,index);}
+    else{state.selectedItem=null;renderBag();renderDetail();}
+    return;
+  }
+  if(state.selectedItem&&state.selectedItem.source!=='equip'&&state.selectedItem.index===index&&state.selectedItem.bag===state.activeBag){state.selectedItem=null;renderBag();renderDetail();return;}
+  if(state.selectedItem&&state.selectedItem.source!=='equip'&&state.selectedItem.bag===state.activeBag){swapBagItems(state.selectedItem.index,index);return;}
+  state.selectedItem={source:'bag',index:index,bag:state.activeBag,item:entry};
+  renderBag(); renderDetail();
+}
+
+function swapBagItems(a,b){
+  var member=getActiveMember();
+  var bag=state.activeBag==='shared'?state.sharedBag:member.bag;
+  var tmp=bag[a];bag[a]=bag[b];bag[b]=tmp;
+  state.selectedItem=null; renderBag(); renderDetail();
+}
+
+function equipItem(bagIndex,slotKey){
+  var member=getActiveMember(); var bag=member.bag;
+  var entry=bag[bagIndex]; if(!entry) return;
+  var item=ITEMS[entry.itemId]; if(!item||item.slot!==slotKey){showToast('Cannot equip that here.');return;}
+  if(slotKey==='bag'){
+    var curId=member.equipped.bag; var cur=curId?ITEMS[curId]:null;
+    var newSz=item.bagSlots; var curSz=cur?cur.bagSlots:20;
+    if(newSz<curSz&&member.bag.slice(newSz,curSz).filter(Boolean).length>0){showToast('Move items from slots '+(newSz+1)+'\u2013'+curSz+' first.');return;}
+    if(curId) bag[bagIndex]={itemId:curId,qty:1}; else bag[bagIndex]=null;
+    member.equipped.bag=entry.itemId; state.selectedItem=null;
+    renderEquipPanel();renderBag();renderDetail();showToast('Equipped '+item.name+' \u2014 '+newSz+' slots.');return;
+  }
+  var curId2=member.equipped[slotKey];
+  if(curId2){var emp=bag.findIndex(function(x){return x===null;});if(emp===-1){showToast('Bag full.');return;}bag[emp]={itemId:curId2,qty:1};}
+  member.equipped[slotKey]=entry.itemId; bag[bagIndex]=null; state.selectedItem=null;
+  renderEquipPanel();renderBag();renderDetail();showToast('Equipped '+item.name+'.');
+}
+
+function unequipItem(slotKey){
+  var member=getActiveMember(); var itemId=member.equipped[slotKey]; if(!itemId) return;
+  var emp=member.bag.findIndex(function(x){return x===null;}); if(emp===-1){showToast('Bag full.');return;}
+  member.bag[emp]={itemId:itemId,qty:1}; member.equipped[slotKey]=null; state.selectedItem=null;
+  renderEquipPanel();renderBag();renderDetail();showToast(ITEMS[itemId].name+' moved to bag.');
+}
+
+function moveToStash(bagIndex){
+  var member=getActiveMember(); var entry=member.bag[bagIndex]; if(!entry) return;
+  var item=ITEMS[entry.itemId]; var sz=getSharedStashSize();
+  while(state.sharedBag.length<sz) state.sharedBag.push(null);
+  if(item.stackable){var ex=state.sharedBag.findIndex(function(x){return x&&x.itemId===entry.itemId&&x.qty<999;});if(ex!==-1){state.sharedBag[ex].qty+=entry.qty;member.bag[bagIndex]=null;state.selectedItem=null;renderBag();renderDetail();showToast(item.name+' \u2192 Party Stash.');return;}}
+  var emp=state.sharedBag.findIndex(function(x){return x===null;});if(emp===-1){showToast('Party Stash is full.');return;}
+  state.sharedBag[emp]={itemId:entry.itemId,qty:entry.qty};member.bag[bagIndex]=null;state.selectedItem=null;renderBag();renderDetail();showToast(item.name+' \u2192 Party Stash.');
+}
+
+function moveFromStash(bagIndex){
+  var member=getActiveMember(); var entry=state.sharedBag[bagIndex]; if(!entry) return;
+  var item=ITEMS[entry.itemId]; var sz=getBagSize(member);
+  while(member.bag.length<sz) member.bag.push(null);
+  if(item.stackable){var ex=member.bag.findIndex(function(x){return x&&x.itemId===entry.itemId&&x.qty<999;});if(ex!==-1){member.bag[ex].qty+=entry.qty;state.sharedBag[bagIndex]=null;state.selectedItem=null;renderBag();renderDetail();showToast(item.name+' \u2192 your bag.');return;}}
+  var emp=member.bag.findIndex(function(x){return x===null;});if(emp===-1){showToast('Your bag is full.');return;}
+  member.bag[emp]={itemId:entry.itemId,qty:entry.qty};state.sharedBag[bagIndex]=null;state.selectedItem=null;renderBag();renderDetail();showToast(item.name+' \u2192 your bag.');
+}
+
+function giveToMember(bagIndex,memberId){
+  var from=getActiveMember();
+  var all=getAllPartyMembers();
+  var to=all.find(function(m){return m.id===memberId;});
+  if(!to) return;
+  var entry=from.bag[bagIndex]; if(!entry) return;
+  var item=ITEMS[entry.itemId]; var sz=getBagSize(to);
+  while(to.bag.length<sz) to.bag.push(null);
+  if(item.stackable){var ex=to.bag.findIndex(function(x){return x&&x.itemId===entry.itemId&&x.qty<999;});if(ex!==-1){to.bag[ex].qty+=entry.qty;from.bag[bagIndex]=null;state.selectedItem=null;renderBag();renderDetail();showToast('Gave '+item.name+' to '+to.name+'.');return;}}
+  var emp=to.bag.findIndex(function(x){return x===null;});if(emp===-1){showToast(to.name+"'s bag is full.");return;}
+  to.bag[emp]={itemId:entry.itemId,qty:entry.qty};from.bag[bagIndex]=null;state.selectedItem=null;renderBag();renderDetail();showToast('Gave '+item.name+' to '+to.name+'.');
+}
+
+function dropItem(bagIndex){
+  var member=getActiveMember();
+  var bag=state.activeBag==='shared'?state.sharedBag:member.bag;
+  var entry=bag[bagIndex]; if(!entry) return;
+  var name=ITEMS[entry.itemId].name; bag[bagIndex]=null; state.selectedItem=null;
+  renderBag();renderDetail();showToast('Dropped '+name+'.');
+}
+
+// ── Detail panel ──
+function renderDetail(){
+  var body=document.getElementById('detailBody');
+  var sel=state.selectedItem;
+  if(!sel){body.innerHTML='<div class="detail-placeholder-inv"><div class="detail-placeholder-icon-el">⚔</div><div class="detail-placeholder-text-el">Select an item to inspect it.</div></div>';return;}
+  var item,itemId,isEquipped=false,equippedSlot=null,bagIndex=null;
+  if(sel.source==='equip'){itemId=sel.itemId;item=ITEMS[itemId];isEquipped=true;equippedSlot=sel.slot;}
+  else{itemId=sel.item.itemId;item=ITEMS[itemId];bagIndex=sel.index;}
+  if(!item){body.innerHTML='';return;}
+  var rar=RARITY[item.rarity]; var member=getActiveMember();
+  var statsHTML='';
+  if(item.type==='bag'){statsHTML='<div class="detail-stats-el"><div class="detail-stat-row"><span class="detail-stat-name">Bag slots</span><span class="detail-stat-val">'+item.bagSlots+'</span></div></div>';}
+  else if(Object.keys(item.stats).length>0){
+    statsHTML='<div class="detail-stats-el">';
+    Object.entries(item.stats).forEach(function(e){var k=e[0],v=e[1];statsHTML+='<div class="detail-stat-row"><span class="detail-stat-name">'+(STAT_LABELS[k]||k)+'</span><span class="detail-stat-val'+(v<0?' negative':'')+'">'+(v>0?'+':'')+v+'</span></div>';});
+    statsHTML+='</div>';
+  }
+  var compareHTML='';
+  if(item.slot&&!isEquipped&&item.type!=='bag'){
+    var curId=member&&member.equipped[item.slot];var cur=curId?ITEMS[curId]:null;
+    if(cur&&cur.stats){
+      var allK=Array.from(new Set(Object.keys(item.stats).concat(Object.keys(cur.stats))));
+      var diffs={};allK.forEach(function(k){var d=(item.stats[k]||0)-(cur.stats[k]||0);if(d!==0)diffs[k]=d;});
+      if(Object.keys(diffs).length>0){var ds=Object.entries(diffs).map(function(e){return(STAT_LABELS[e[0]]||e[0])+' <span style="color:'+(e[1]>0?'#60a050':'#cc4020')+'">'+(e[1]>0?'+':'')+e[1]+'</span>';}).join(' · ');compareHTML='<div class="detail-compare">vs <em>'+cur.name+'</em>: '+ds+'</div>';}
+      else{compareHTML='<div class="detail-compare">Similar stats to <em>'+cur.name+'</em>.</div>';}
+    }
+  }
+  var actHTML='<div class="detail-actions">';
+  if(isEquipped){actHTML+='<button class="action-btn" onclick="unequipItem(\''+equippedSlot+'\')">Move to Bag</button>';}
+  else{
+    if(item.slot&&state.activeBag!=='shared'){var sl=item.slot.charAt(0).toUpperCase()+item.slot.slice(1);actHTML+='<button class="action-btn primary" onclick="equipItem('+bagIndex+',\''+item.slot+'\')">Equip \u2192 '+sl+'</button>';}
+    if(state.activeBag==='personal'&&item.type!=='bag'){actHTML+='<button class="action-btn" onclick="moveToStash('+bagIndex+')">\u2192 Party Stash</button>';}
+    if(state.activeBag==='shared'){actHTML+='<button class="action-btn" onclick="moveFromStash('+bagIndex+')">\u2192 My Bag</button>';}
+    if(state.activeBag==='personal'){
+      getAllPartyMembers().forEach(function(m,i){if(i!==state.activeChar)actHTML+='<button class="action-btn" onclick="giveToMember('+bagIndex+',\''+m.id+'\')">Give to '+m.name+'</button>';});
+    }
+    actHTML+='<button class="action-btn danger" onclick="dropItem('+bagIndex+')">Drop Item</button>';
+  }
+  actHTML+='</div>';
+  var typeLabel=item.type.charAt(0).toUpperCase()+item.type.slice(1);
+  var slotLabel=item.slot?' · '+item.slot.charAt(0).toUpperCase()+item.slot.slice(1)+' slot':'';
+  body.innerHTML='<span class="detail-icon-el">'+item.icon+'</span><div class="detail-name-el">'+item.name+'</div><div class="detail-type-el">'+typeLabel+slotLabel+'</div><div class="detail-rarity-el" style="color:'+rar.color+';border-color:'+rar.border+';background:'+rar.border+'22;">'+rar.label+'</div><div class="detail-desc-el">'+item.desc+'</div>'+statsHTML+compareHTML+actHTML;
+}
+
+// ══════════════════════════════════════════════
+//  CHARACTER CREATION
+// ══════════════════════════════════════════════
+function buildCharCreation(){
+  // Gender
+  var gRow=document.getElementById('genderRow'); gRow.innerHTML='';
+  [{id:'male',icon:'♂',label:'Male'},{id:'female',icon:'♀',label:'Female'}].forEach(function(g){
+    var btn=document.createElement('div'); btn.className='gender-btn'; btn.dataset.gender=g.id;
+    btn.innerHTML='<span class="g-icon">'+g.icon+'</span><div class="g-label">'+g.label+'</div>';
+    btn.addEventListener('click',function(){char.gender=g.id;document.querySelectorAll('.gender-btn').forEach(function(b){b.classList.toggle('selected',b===btn);});renderAvatar();updateBeginBtn();});
+    gRow.appendChild(btn);
+  });
+  // Tones
+  var tRow=document.getElementById('toneRow'); tRow.innerHTML='';
+  TONES.forEach(function(t){
+    var sw=document.createElement('div'); sw.className='tone-swatch'; sw.dataset.id=t.id; sw.style.background=t.hex; sw.title=t.name;
+    sw.addEventListener('click',function(){char.skinTone=t.id;document.querySelectorAll('.tone-swatch').forEach(function(s){s.classList.toggle('selected',s.dataset.id===t.id);});renderAvatar();updateBeginBtn();});
+    tRow.appendChild(sw);
+  });
+  // Faces
+  var fRow=document.getElementById('faceRow'); fRow.innerHTML='';
+  FACES.forEach(function(f){
+    var tile=document.createElement('div'); tile.className='style-tile'; tile.dataset.id=f.id; tile.title=f.name;
+    tile.innerHTML='<svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg"><path d="'+f.path+'" fill="#4a3418" stroke="#7a5a28" stroke-width="1.5"/></svg><div class="tile-label">'+f.name+'</div>';
+    tile.addEventListener('click',function(){char.face=f.id;document.querySelectorAll('#faceRow .style-tile').forEach(function(t){t.classList.toggle('selected',t.dataset.id===f.id);});renderAvatar();updateBeginBtn();});
+    fRow.appendChild(tile);
+  });
+  // Hairs
+  var hRow=document.getElementById('hairRow'); hRow.innerHTML='';
+  HAIRS.forEach(function(h){
+    var tile=document.createElement('div'); tile.className='style-tile'; tile.dataset.id=h.id; tile.title=h.name;
+    var fp='M45,14 C60,14 68,27 68,45 C68,62 60,74 45,74 C30,74 22,62 22,45 C22,27 30,14 45,14Z';
+    var hairSVG=h.draw('','#2a1608');
+    tile.innerHTML='<svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg"><circle cx="45" cy="45" r="45" fill="#0f0d08"/>'+hairSVG+'<path d="'+fp+'" fill="#4a3020"/><ellipse cx="36" cy="43" rx="3" ry="2.5" fill="#1a0e06"/><ellipse cx="54" cy="43" rx="3" ry="2.5" fill="#1a0e06"/><path d="M30,36 L38,34" stroke="#2a1808" stroke-width="2" stroke-linecap="round"/><path d="M52,34 L60,36" stroke="#2a1808" stroke-width="2" stroke-linecap="round"/><path d="M37,56 L53,56" stroke="#2a1808" stroke-width="1.5" stroke-linecap="round"/></svg><div class="tile-label">'+h.name+'</div>';
+    tile.addEventListener('click',function(){char.hair=h.id;document.querySelectorAll('#hairRow .style-tile').forEach(function(t){t.classList.toggle('selected',t.dataset.id===h.id);});renderAvatar();updateBeginBtn();});
+    hRow.appendChild(tile);
+  });
+  // Races
+  var rGrid=document.getElementById('raceGrid'); rGrid.innerHTML='';
+  RACES.forEach(function(r){
+    var card=document.createElement('div'); card.className='race-card'; card.dataset.id=r.id;
+    card.innerHTML='<span class="race-icon-el">'+r.icon+'</span><div class="race-name-el">'+r.name+'</div>';
+    card.addEventListener('click',function(){char.race=r.id;document.querySelectorAll('.race-card').forEach(function(c){c.classList.toggle('selected',c.dataset.id===r.id);});showRaceInfo(r);renderAvatar();updateStats();updateBeginBtn();});
+    card.addEventListener('mouseenter',function(){if(char.race!==r.id)showRaceInfo(r);});
+    card.addEventListener('mouseleave',function(){var sr=RACES.find(function(x){return x.id===char.race;});if(sr)showRaceInfo(sr);else document.getElementById('raceInfoBox').innerHTML='<p class="race-info-desc">Hover or select a race to learn about them.</p>';});
+    rGrid.appendChild(card);
+  });
+  // Affinities
+  var aGrid=document.getElementById('affinityGrid'); aGrid.innerHTML='';
+  AFFINITIES.forEach(function(a){
+    var btn=document.createElement('div'); btn.className='aff-btn aff-'+a.id; btn.dataset.aff=a.id;
+    btn.innerHTML='<div class="aff-gem"></div><div class="aff-label">'+a.label+'</div>';
+    btn.addEventListener('click',function(){
+      if(char.affinities.includes(a.id)) char.affinities=char.affinities.filter(function(x){return x!==a.id;});
+      else if(char.affinities.length<2) char.affinities.push(a.id);
+      renderAffinities(); updateStats(); updateBeginBtn();
+    });
+    aGrid.appendChild(btn);
+  });
+  // Stats
+  var sGrid=document.getElementById('statGrid'); sGrid.innerHTML='';
+  var statKeys=['STR','AGI','INT','DEF','MAG','VIT'];
+  statKeys.forEach(function(k){
+    var row=document.createElement('div'); row.className='stat-row-cc';
+    row.innerHTML='<div class="stat-name-cc">'+(STAT_LABELS[k]||k)+'</div><div class="stat-bar-bg"><div class="stat-bar-fill" id="bar-'+k+'" style="width:50%"></div></div><div class="stat-val-cc" id="val-'+k+'">5</div>';
+    sGrid.appendChild(row);
+  });
+  document.getElementById('nameInput').addEventListener('input',updateBeginBtn);
+  updateStats(); renderAffinities();
+}
+
+function showRaceInfo(r){ document.getElementById('raceInfoBox').innerHTML='<div class="race-info-name">'+r.name+' \u2014 '+r.tag+'</div><p class="race-info-desc">'+r.desc+'</p>'; }
+
+function shadeHex(hex,amt){ var n=parseInt(hex.slice(1),16);var r=Math.max(0,Math.min(255,(n>>16)+amt));var g=Math.max(0,Math.min(255,((n>>8)&0xff)+amt));var b=Math.max(0,Math.min(255,(n&0xff)+amt));return '#'+[r,g,b].map(function(x){return x.toString(16).padStart(2,'0');}).join(''); }
+
+function renderAvatar(){
+  var tone=TONES.find(function(t){return t.id===char.skinTone;});
+  var face=FACES.find(function(f){return f.id===char.face;});
+  var hairO=HAIRS.find(function(h){return h.id===char.hair;});
+  var race=RACES.find(function(r){return r.id===char.race;});
+  var skin=tone?tone.hex:'#8B6040'; var hairCol='#1a0e06';
+  var fp=face?face.path:'M45,14 C60,14 68,27 68,45 C68,62 60,74 45,74 C30,74 22,62 22,45 C22,27 30,14 45,14Z';
+  var exL=face?face.eyeX[0]:34; var exR=face?face.eyeX[1]:56; var eyY=face?face.eyeY:43;
+  var bL=face?face.browL:'M30,36 L38,34'; var bR=face?face.browR:'M52,34 L60,36';
+  var skD=tone?shadeHex(tone.hex,-40):'#5a3820';
+  var svg='<circle cx="45" cy="45" r="45" fill="#0f0d08"/>';
+  if(hairO) svg=hairO.draw(svg,hairCol);
+  svg+='<path d="'+fp+'" fill="'+skin+'"/>';
+  svg+='<path d="'+bL+'" stroke="'+skD+'" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="'+bR+'" stroke="'+skD+'" stroke-width="2.2" stroke-linecap="round" fill="none"/>';
+  svg+='<ellipse cx="'+exL+'" cy="'+eyY+'" rx="3.8" ry="3" fill="#1a0e06"/><ellipse cx="'+exR+'" cy="'+eyY+'" rx="3.8" ry="3" fill="#1a0e06"/>';
+  svg+='<ellipse cx="'+exL+'" cy="'+eyY+'" rx="2" ry="1.5" fill="#3a2810"/><ellipse cx="'+exR+'" cy="'+eyY+'" rx="2" ry="1.5" fill="#3a2810"/>';
+  svg+='<path d="M'+(exL+2)+','+(eyY+12)+' L'+(exR-2)+','+(eyY+12)+'" stroke="'+skD+'" stroke-width="1.8" stroke-linecap="round" fill="none"/>';
+  if(race) svg+='<text x="76" y="18" text-anchor="middle" font-size="13" font-family="serif">'+race.icon+'</text>';
+  document.getElementById('avatarSVG').innerHTML=svg;
+  document.getElementById('avatarFrame').classList.toggle('ready',!!(tone&&face&&hairO&&race));
+  var parts=[]; if(race)parts.push(race.name); if(char.gender)parts.push(char.gender==='male'?'Male':'Female'); if(tone)parts.push(tone.name); if(face)parts.push(face.name); if(hairO)parts.push(hairO.name);
+  var st=document.getElementById('avatarStatus'); st.textContent=parts.length?parts.join(' · '):'Build your character'; st.style.color=parts.length>=5?'#8a6a3a':'#3a2810';
+}
+
+function updateStats(){
+  var base=char.race?Object.assign({},RACE_STATS[char.race]):{STR:5,AGI:5,INT:5,DEF:5,MAG:5,VIT:5};
+  char.affinities.forEach(function(a){var b=AFF_BONUS[a]||{};Object.keys(b).forEach(function(k){base[k]=Math.min(10,(base[k]||0)+b[k]);});});
+  ['STR','AGI','INT','DEF','MAG','VIT'].forEach(function(k){
+    var v=base[k]||0; var bar=document.getElementById('bar-'+k); var val=document.getElementById('val-'+k);
+    if(bar) bar.style.width=(v*10)+'%';
+    if(val){val.textContent=v;val.className='stat-val-cc'+(v>=8?' high':'');}
+  });
+}
+
+function getCombo(){
+  if(char.affinities.length<2) return '';
+  var s=new Set(char.affinities);
+  for(var i=0;i<COMBOS.length;i++){if(COMBOS[i][0].every(function(p){return s.has(p);})) return '\u2192 '+COMBOS[i][1];}
+  return '';
+}
+
+function renderAffinities(){
+  var count=char.affinities.length;
+  document.querySelectorAll('.aff-btn').forEach(function(btn){
+    var id=btn.dataset.aff;
+    btn.classList.toggle('selected',char.affinities.includes(id));
+    btn.classList.toggle('locked',count>=2&&!char.affinities.includes(id));
+  });
+  document.getElementById('pip1').classList.toggle('on',count>=1);
+  document.getElementById('pip2').classList.toggle('on',count>=2);
+  var txt=document.getElementById('affText'); var cmb=document.getElementById('affCombo');
+  if(count===0){txt.textContent='Choose 2 affinities';cmb.textContent='';}
+  else if(count===1){var a=AFFINITIES.find(function(x){return x.id===char.affinities[0];});txt.textContent=a.label+' ('+a.role+') \u2014 choose 1 more';cmb.textContent='';}
+  else{var ns=char.affinities.map(function(id){return AFFINITIES.find(function(x){return x.id===id;}).label;});txt.textContent=ns[0]+' & '+ns[1];cmb.textContent=getCombo();}
+}
+
+function updateBeginBtn(){
+  char.name=document.getElementById('nameInput').value.trim();
+  var ready=char.name&&char.gender&&char.skinTone&&char.face&&char.hair&&char.race&&char.affinities.length===2;
+  document.getElementById('beginBtn').disabled=!ready;
+  if(ready){
+    var race=RACES.find(function(r){return r.id===char.race;}); var face=FACES.find(function(f){return f.id===char.face;}); var hair=HAIRS.find(function(h){return h.id===char.hair;}); var tone=TONES.find(function(t){return t.id===char.skinTone;}); var affs=char.affinities.map(function(a){return AFFINITIES.find(function(x){return x.id===a;}).label;}); var combo=getCombo();
+    document.getElementById('summaryContent').innerHTML='<div class="summary-line">Name: <strong>'+char.name+'</strong> &nbsp;·&nbsp; Gender: <strong>'+(char.gender==='male'?'Male':'Female')+'</strong></div><div class="summary-line">Race: <strong>'+race.name+'</strong> \u2014 '+race.tag+'</div><div class="summary-line">Appearance: <strong>'+tone.name+' · '+face.name+' face · '+hair.name+' hair</strong></div><div class="summary-line">Affinities: <strong>'+affs[0]+' &amp; '+affs[1]+'</strong>'+(combo?' <em style="color:#6a5028;font-size:12px;">'+combo+'</em>':'')+'</div>';
+    document.getElementById('summaryBox').classList.add('show');
+    document.getElementById('beginHint').textContent='Your adventure awaits in Fenjiren';
+  } else {
+    document.getElementById('summaryBox').classList.remove('show');
+    var missing=[]; if(!char.name)missing.push('name'); if(!char.gender)missing.push('gender'); if(!char.skinTone)missing.push('skin tone'); if(!char.face)missing.push('face'); if(!char.hair)missing.push('hair'); if(!char.race)missing.push('race'); if(char.affinities.length===0)missing.push('2 affinities'); else if(char.affinities.length<2)missing.push('1 more affinity');
+    document.getElementById('beginHint').textContent='Still needed: '+missing.join(', ');
+  }
+}
+</script>
+</body>
+</html>
