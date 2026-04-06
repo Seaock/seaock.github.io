@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Threshold of Mortality</title>
+  <meta name="description" content="Threshold of Mortality — an early build of the Ytecat RPG. Character creation, Fenjiren hub and inventory. Work in progress.">
+  <meta property="og:title" content="Threshold of Mortality">
+  <meta property="og:description" content="An early build of the Ytecat RPG. Work in progress — but playable.">
+  <meta property="og:url" content="https://www.4our.it/tm">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #080604;
+      --card:   #100e08;
+      --border: #2a1e0e;
+      --gold:   #c89640;
+      --gold-dim: #7a5a20;
+      --text:   #f0d898;
+      --muted:  #6a5030;
+      --dim:    #3a2a14;
+      --red:    #8a2010;
+      --font-title: 'Cinzel', serif;
+      --font-body:  'Crimson Pro', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 100%, #2a0e04 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 20% 30%, #0d0a14 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 80% 20%, #0a100e 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.7;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(8,6,4,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-title);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-logo:hover { color: var(--text); }
+
+    .nav-back {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--gold); }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 0 80px;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.1s;
+    }
+
+    .hero-title {
+      font-family: var(--font-title);
+      font-size: clamp(32px, 7vw, 64px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+
+    .hero-sub {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.3s;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 0 auto 36px;
+      max-width: 300px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.35s;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+    }
+
+    .divider-gem {
+      width: 7px;
+      height: 7px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    .hero-tagline {
+      font-style: italic;
+      font-size: clamp(15px, 2vw, 18px);
+      color: #7a5a28;
+      max-width: 500px;
+      line-height: 1.75;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.4s;
+    }
+
+    /* ── DISCLAIMER ── */
+    .disclaimer {
+      background: #0c0804;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--red);
+      padding: 20px 28px;
+      margin-bottom: 40px;
+      text-align: left;
+      max-width: 560px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.5s;
+    }
+
+    .disclaimer-head {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 10px;
+    }
+
+    .disclaimer p {
+      font-size: 14px;
+      color: #6a5030;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    /* ── WHAT'S IN IT ── */
+    .available {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--gold-dim);
+      padding: 24px 28px;
+      margin-bottom: 44px;
+      text-align: left;
+      max-width: 560px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.55s;
+    }
+
+    .available-head {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 16px;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .feature-list li {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      align-items: baseline;
+      gap: 0 16px;
+      font-size: 14px;
+      color: #7a6040;
+      line-height: 1.5;
+    }
+
+    .feature-list li .feat-label {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .feature-list li .feat-label::before {
+      content: "◆";
+      color: var(--gold-dim);
+      font-size: 8px;
+      flex-shrink: 0;
+    }
+
+    .feature-list li strong {
+      font-family: var(--font-title);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: #9a7840;
+      font-weight: 400;
+      text-transform: uppercase;
+    }
+
+    .feat-desc { color: #7a6040; font-size: 14px; }
+
+    /* ── PLAY BUTTON ── */
+    .play-btn {
+      font-family: var(--font-title);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      border: none;
+      padding: 16px 52px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.2s;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.65s;
+    }
+
+    .play-btn:hover {
+      background: #e0aa50;
+      transform: translateY(-2px);
+    }
+
+    .play-note {
+      font-size: 12px;
+      font-style: italic;
+      color: var(--dim);
+      margin-top: 14px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.7s;
+    }
+
+    /* ── YTECAT LINK ── */
+    .ytecat-link {
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.8s;
+    }
+
+    .ytecat-link p {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .ytecat-link a {
+      font-family: var(--font-title);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .ytecat-link a:hover { color: var(--gold); border-color: var(--gold); }
+
+    footer {
+      padding: 32px 0 48px;
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      .disclaimer, .available { padding: 18px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/ytecat" class="nav-logo">Ytecat</a>
+  <a href="/" class="nav-back">&#8592; 4our.it</a>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+
+    <p class="hero-eyebrow">Set in the world of Ytecat</p>
+    <h1 class="hero-title">Threshold of<br>Mortality</h1>
+    <p class="hero-sub">Early Build &nbsp;&bull;&nbsp; Work in Progress</p>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-gem"></div>
+      <div class="divider-line"></div>
+    </div>
+
+    <p class="hero-tagline">
+      A browser-based RPG set in the world of Ytecat. Built in HTML,
+      one file at a time. This is not the finished product &mdash;
+      but it is real, and it is playable.
+    </p>
+
+    <div class="disclaimer">
+      <div class="disclaimer-head">&#9888; Before You Play</div>
+      <p>
+        This is an early development build. What you see here is not representative
+        of the final game &mdash; it is a work in progress shared for curiosity and feedback.
+        Features are incomplete, content is placeholder, and things will break.
+        Relax, explore, and don&rsquo;t @ me about the missing bits.
+      </p>
+    </div>
+
+    <div class="available">
+      <div class="available-head">What&rsquo;s Currently Playable</div>
+      <ul class="feature-list">
+        <li><span class="feat-label"><strong>Character Creation</strong></span><span class="feat-desc">&mdash; name, race, appearance, magic affinities and starting stats</span></li>
+        <li><span class="feat-label"><strong>Fenjiren</strong></span><span class="feat-desc">&mdash; the first hub town, with locations to explore</span></li>
+        <li><span class="feat-label"><strong>Inventory</strong></span><span class="feat-desc">&mdash; item management and character equipment screen</span></li>
+      </ul>
+    </div>
+
+    <a href="/tm/threshold-of-mortality.html" class="play-btn">Enter the World</a>
+    <p class="play-note">Runs entirely in your browser &mdash; no download required</p>
+
+    <div class="ytecat-link">
+      <p>Based on the dark fantasy series by Rob Florendo</p>
+      <a href="/ytecat">Read Ytecat &rarr;</a>
+    </div>
+
+  </div>
+
+  <footer>
+    Threshold of Mortality &nbsp;&mdash;&nbsp; Rob Florendo &nbsp;&mdash;&nbsp; 4our.it
+  </footer>
+</div>
+
+</body>
+</html>
