@@ -358,7 +358,7 @@
     .do-card.it:hover   .do-card-link { color: var(--accent); gap: 12px; }
     .do-card.book:hover .do-card-link { color: #a855f7; gap: 12px; }
 
-    .currently-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .currently-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 
     .now-card {
       background: var(--card);
@@ -433,7 +433,7 @@
       .hero-photo { width: 160px; height: 160px; }
       .about-grid { grid-template-columns: 1fr; }
       .do-grid { grid-template-columns: 1fr; }
-      .currently-grid { grid-template-columns: 1fr; }
+      .currently-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -551,16 +551,21 @@
     <div class="currently-grid">
       <a href="/ytecat" class="now-card">
         <div class="now-label">Writing</div>
-        <div class="now-value">Ytecat &mdash; Season 1</div>
-        <div class="now-sub">Season 1 Complete &rarr;</div>
+        <div class="now-value">Ytecat &mdash; Season 2</div>
+        <div class="now-sub">Chapter 1 of ??? &rarr;</div>
         <div class="progress-bar">
-          <div class="progress-fill" style="--pct: 100%"></div>
+          <div class="progress-fill" style="--pct: 1%"></div>
         </div>
       </a>
       <a href="/cv" class="now-card">
         <div class="now-label">Day Job</div>
         <div class="now-value">Service Delivery Lead</div>
         <div class="now-sub">Conekt Australia &middot; MSP build &rarr;</div>
+      </a>
+      <a href="/tm" class="now-card">
+        <div class="now-label">In Development</div>
+        <div class="now-value">Threshold of Mortality</div>
+        <div class="now-sub">Ytecat RPG &middot; Browser &rarr;</div>
       </a>
       <a href="/greyravens" class="now-card">
         <div class="now-label">On the Hobby Desk</div>
